@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ALVARENO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FFFFFF;
+    --surface: #F6F6F4;
+    --ink: #1B1D19;
+    --muted: #6B6E64;
+    --line: #E4E4DF;
+    --brand: #1F3D2E;
+    --brand-solid-hover: #2A4F3B;
+    --accent: #C97A2B;
+    --danger-badge: #B23A2E;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--ink); }
+  a { color: inherit; text-decoration: none; }
+  button, input, select, textarea { font-family: 'Inter', sans-serif; }
+
+  .utility-bar { background: var(--brand); color: #EFEFE9; font-size: 13px; text-align: center; padding: 7px 12px; }
+
+  header { background: var(--bg); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 30; }
+  .header-top { max-width: 1200px; margin: 0 auto; padding: 18px 24px 0; display: flex; align-items: center; gap: 24px; }
+  .logo { display: flex; align-items: center; gap: 9px; font-weight: 700; font-size: 19px; letter-spacing: -0.01em; color: var(--brand); cursor: pointer; flex-shrink: 0; }
+  .logo svg { width: 24px; height: 24px; }
+
+  .header-actions { margin-left: auto; display: flex; align-items: center; gap: 22px; font-size: 14px; color: var(--ink); }
+  .header-actions .action { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+  .header-actions svg { width: 20px; height: 20px; }
+  .cart-count { background: var(--brand); color: white; font-size: 11px; font-weight: 600; border-radius: 999px; padding: 1px 6px; }
+
+  .search-row { max-width: 1200px; margin: 16px auto 0; padding: 0 24px; }
+  .search-box { display: flex; align-items: center; gap: 10px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 13px 16px; }
+  .search-box:focus-within { border-color: var(--brand); }
+  .search-box svg { width: 19px; height: 19px; color: var(--muted); flex-shrink: 0; }
+  .search-box input { flex: 1; border: none; background: transparent; outline: none; font-size: 15px; color: var(--ink); }
+  .search-box input::placeholder { color: var(--muted); }
+
+  nav.category-row { max-width: 1200px; margin: 0 auto; padding: 14px 24px 16px; display: flex; gap: 10px; font-size: 14px; flex-wrap: wrap; }
+  .cat-btn { border: 1px solid var(--line); background: var(--bg); padding: 7px 14px; border-radius: 999px; cursor: pointer; color: var(--ink); }
+  .cat-btn:hover { border-color: var(--brand); }
+  .cat-btn.active { background: var(--brand); border-color: var(--brand); color: white; }
+
+  .hero { background: var(--surface); padding: 30px 24px; }
+  .hero-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+  .hero-inner h1 { font-size: 22px; font-weight: 700; margin: 0 0 4px; }
+  .hero-inner p { margin: 0; color: var(--muted); font-size: 14px; }
+
+  .section { max-width: 1200px; margin: 0 auto; padding: 40px 24px; }
+  .section-title { font-size: 21px; font-weight: 700; margin: 0 0 22px; }
+  .empty-note { color: var(--muted); font-size: 14px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 26px; }
+  .card { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; cursor: pointer; transition: border-color 0.15s ease; background: var(--bg); }
+  .card:hover { border-color: var(--brand); }
+  .card .img-wrap { aspect-ratio: 1/1; background: var(--surface); position: relative; }
+  .card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .badge { position: absolute; top: 10px; left: 10px; background: var(--danger-badge); color: white; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 4px; }
+  .badge.stock-low { background: var(--accent); }
+  .badge.stock-out { background: var(--muted); }
+  .card-body { padding: 14px; }
+  .card-body h3 { font-size: 14.5px; font-weight: 500; margin: 0 0 5px; line-height: 1.3; }
+  .cat-tag { font-size: 11.5px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 4px; }
+  .rating { font-size: 12.5px; color: var(--muted); margin-bottom: 8px; }
+  .rating .stars { color: var(--accent); }
+  .price-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 12px; }
+  .price { font-size: 17px; font-weight: 700; }
+  .price-old { font-size: 13px; color: var(--muted); text-decoration: line-through; }
+  .add-btn { width: 100%; padding: 9px; background: var(--brand); color: white; border: none; border-radius: 6px; font-size: 13.5px; font-weight: 600; cursor: pointer; }
+  .add-btn:hover { background: var(--brand-solid-hover); }
+  .add-btn:disabled { background: var(--line); color: var(--muted); cursor: not-allowed; }
+
+  .trust-strip { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--surface); }
+  .trust-inner { max-width: 1200px; margin: 0 auto; padding: 26px 24px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+  .trust-item { display: flex; align-items: center; gap: 12px; font-size: 13.5px; }
+  .trust-item svg { width: 26px; height: 26px; color: var(--brand); flex-shrink: 0; }
+  .trust-item strong { display: block; font-size: 14px; }
+  .trust-item span { color: var(--muted); }
+
+  footer { background: var(--ink); color: #C9CAC3; padding: 44px 24px 24px; font-size: 13.5px; }
+  .footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 32px; }
+  .footer-inner h4 { color: white; font-size: 14px; margin: 0 0 12px; }
+  .footer-inner a { display: block; color: #A9AAA2; margin-bottom: 8px; cursor: pointer; }
+  .footer-inner a:hover { color: white; }
+  .footer-bottom { max-width: 1200px; margin: 30px auto 0; padding-top: 20px; border-top: 1px solid #33352F; display: flex; justify-content: space-between; color: #7E8078; flex-wrap: wrap; gap: 10px; }
+
+  .detail-view, .admin-view { display: none; }
+  .detail-view.active, .admin-view.active { display: block; }
+  .home-view.hidden { display: none; }
+
+  .back-link { max-width: 1200px; margin: 0 auto; padding: 20px 24px 0; font-size: 13.5px; color: var(--muted); cursor: pointer; }
+  .back-link:hover { color: var(--ink); }
+
+  .detail-grid { max-width: 1200px; margin: 0 auto; padding: 24px 24px 80px; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+  .gallery-main { aspect-ratio: 1/1; background: var(--surface); border-radius: 10px; overflow: hidden; border: 1px solid var(--line); }
+  .gallery-main img { width: 100%; height: 100%; object-fit: cover; }
+  .gallery-thumbs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 10px; }
+  .gallery-thumbs div { aspect-ratio: 1; background: var(--surface); border-radius: 8px; overflow: hidden; border: 1px solid var(--line); }
+  .gallery-thumbs img { width: 100%; height: 100%; object-fit: cover; }
+
+  .detail-info h1 { font-size: 25px; font-weight: 700; margin: 0 0 8px; }
+  .stock-note { font-size: 13.5px; margin-top: 4px; }
+  .stock-note.ok { color: var(--brand); }
+  .stock-note.low { color: var(--accent); }
+  .stock-note.out { color: var(--muted); }
+  .detail-price-row { display: flex; align-items: baseline; gap: 12px; margin: 18px 0; }
+  .detail-price { font-size: 26px; font-weight: 700; }
+  .detail-desc { color: #4C4E47; font-size: 14.5px; line-height: 1.65; max-width: 440px; }
+
+  .variants { margin-top: 26px; }
+  .variants legend { font-size: 13px; color: var(--muted); margin-bottom: 9px; }
+  .variant-options { display: flex; flex-wrap: wrap; gap: 8px; }
+  .variant-options label { border: 1px solid var(--line); border-radius: 6px; padding: 8px 16px; font-size: 14px; cursor: pointer; }
+  .variant-options input { display: none; }
+  .variant-options label:has(input:checked) { border-color: var(--brand); color: var(--brand); background: #EEF3EF; }
+
+  .actions { display: flex; gap: 12px; margin-top: 28px; }
+  .btn-outline, .btn-solid { flex: 1; padding: 13px 20px; font-size: 14.5px; font-weight: 600; border-radius: 7px; cursor: pointer; }
+  .btn-outline { border: 1px solid var(--ink); background: transparent; color: var(--ink); }
+  .btn-outline:hover { background: var(--surface); }
+  .btn-solid { border: none; background: var(--brand); color: white; }
+  .btn-solid:hover { background: var(--brand-solid-hover); }
+  .btn-solid:disabled { background: var(--line); color: var(--muted); cursor: not-allowed; }
+
+  .section-block { border-top: 1px solid var(--line); padding-top: 22px; margin-top: 34px; }
+  .section-block h2 { font-size: 16px; font-weight: 700; margin: 0 0 10px; }
+
+  .review { margin-bottom: 18px; }
+  .review-head { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+  .review-head .stars { color: var(--accent); }
+  .review-head .author { color: var(--muted); font-weight: 500; }
+  .review p { color: #4C4E47; font-size: 14px; line-height: 1.6; margin: 4px 0 0; max-width: 440px; }
+
+  .review-form { max-width: 440px; margin-top: 18px; padding: 16px; background: var(--surface); border-radius: 8px; }
+  .review-form label { display: block; font-size: 12.5px; color: var(--muted); margin-bottom: 5px; }
+  .review-form input, .review-form select, .review-form textarea {
+    width: 100%; padding: 9px 11px; border: 1px solid var(--line); border-radius: 6px; font-size: 14px; margin-bottom: 12px; background: white;
+  }
+  .review-form textarea { resize: vertical; min-height: 60px; }
+  .review-form button { padding: 10px 18px; background: var(--brand); color: white; border: none; border-radius: 6px; font-size: 13.5px; font-weight: 600; cursor: pointer; }
+  .review-form button:hover { background: var(--brand-solid-hover); }
+
+  .admin-login { max-width: 380px; margin: 90px auto; padding: 0 24px; }
+  .admin-login h1 { font-size: 21px; margin: 0 0 6px; }
+  .admin-login p { color: var(--muted); font-size: 14px; margin: 0 0 28px; }
+  .admin-login label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+  .admin-login input { width: 100%; padding: 11px 13px; border: 1px solid var(--line); border-radius: 7px; font-size: 14px; margin-bottom: 18px; }
+  .admin-login input:focus { outline: none; border-color: var(--brand); }
+  .admin-login button { width: 100%; padding: 12px; background: var(--brand); color: white; border: none; border-radius: 7px; font-size: 14.5px; font-weight: 600; cursor: pointer; }
+
+  .checkout-view { display: none; }
+  .checkout-view.active { display: block; }
+  .checkout-wrap { max-width: 640px; margin: 0 auto; padding: 32px 24px 80px; }
+  .checkout-wrap h1 { font-size: 22px; margin: 0 0 6px; }
+  .checkout-wrap .checkout-sub { color: var(--muted); font-size: 14px; margin: 0 0 28px; }
+  .checkout-summary { display: flex; align-items: center; gap: 14px; padding: 14px; background: var(--surface); border-radius: 8px; margin-bottom: 28px; }
+  .checkout-summary img { width: 56px; height: 56px; object-fit: cover; border-radius: 6px; }
+  .checkout-summary .name { font-weight: 600; font-size: 14.5px; }
+  .checkout-summary .price { margin-left: auto; font-weight: 700; font-size: 15px; }
+  .checkout-fieldgroup { margin-bottom: 26px; }
+  .checkout-fieldgroup h2 { font-size: 15px; margin: 0 0 14px; }
+  .checkout-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .checkout-grid .full { grid-column: 1 / -1; }
+  .checkout-grid label { display: block; font-size: 12.5px; color: var(--muted); margin-bottom: 5px; }
+  .checkout-grid input { width: 100%; padding: 10px 12px; border: 1px solid var(--line); border-radius: 6px; font-size: 14px; }
+  .checkout-grid input:focus { outline: none; border-color: var(--brand); }
+  .payment-toggle { display: flex; gap: 10px; margin-bottom: 16px; }
+  .payment-toggle label { flex: 1; border: 1px solid var(--line); border-radius: 7px; padding: 10px 14px; font-size: 13.5px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+  .payment-toggle input { margin: 0; }
+  .payment-toggle label:has(input:checked) { border-color: var(--brand); background: #EEF3EF; }
+  .checkout-note { font-size: 12.5px; color: var(--muted); margin-top: 6px; }
+  .checkout-submit { width: 100%; padding: 14px; background: var(--brand); color: white; border: none; border-radius: 7px; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 8px; }
+  .checkout-submit:hover { background: var(--brand-solid-hover); }
+  .order-confirm { text-align: center; padding: 60px 24px; }
+  .order-confirm h1 { font-size: 22px; margin: 0 0 10px; }
+  .order-confirm p { color: var(--muted); font-size: 14.5px; }
+  .order-confirm button { margin-top: 24px; padding: 11px 22px; background: var(--brand); color: white; border: none; border-radius: 7px; font-size: 14px; font-weight: 600; cursor: pointer; }
+
+  .admin-dash { max-width: 1100px; margin: 0 auto; padding: 32px 24px 80px; }
+  .admin-dash-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; }
+  .admin-dash-header h1 { font-size: 22px; margin: 0; }
+  .admin-logout { font-size: 13.5px; color: var(--muted); cursor: pointer; }
+  .admin-logout:hover { color: var(--ink); }
+
+  .admin-panel { border: 1px solid var(--line); border-radius: 10px; padding: 22px; margin-bottom: 28px; }
+  .admin-panel h2 { font-size: 16px; margin: 0 0 16px; }
+  .admin-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .admin-form-grid .full { grid-column: 1 / -1; }
+  .admin-form-grid label { display: block; font-size: 12.5px; color: var(--muted); margin-bottom: 5px; }
+  .admin-form-grid input, .admin-form-grid select, .admin-form-grid textarea {
+    width: 100%; padding: 9px 11px; border: 1px solid var(--line); border-radius: 6px; font-size: 14px;
+  }
+  .admin-form-grid textarea { min-height: 60px; resize: vertical; }
+  .admin-submit { margin-top: 16px; padding: 10px 20px; background: var(--brand); color: white; border: none; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; }
+  .admin-submit:hover { background: var(--brand-solid-hover); }
+
+  table.admin-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  table.admin-table th { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--line); color: var(--muted); font-weight: 500; font-size: 12.5px; text-transform: uppercase; letter-spacing: 0.02em; }
+  table.admin-table td { padding: 10px 8px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+  table.admin-table img { width: 40px; height: 40px; object-fit: cover; border-radius: 5px; }
+  .stock-input { width: 70px; padding: 6px 8px; border: 1px solid var(--line); border-radius: 5px; font-size: 13.5px; }
+  .delete-btn { background: none; border: 1px solid var(--danger-badge); color: var(--danger-badge); padding: 6px 12px; border-radius: 5px; font-size: 12.5px; cursor: pointer; }
+  .delete-btn:hover { background: var(--danger-badge); color: white; }
+
+  @media (max-width: 760px) {
+    .detail-grid { grid-template-columns: 1fr; }
+    .admin-form-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="utility-bar">Kostenloser Versand ab 60&nbsp;€ · Direkt von ALVARENO produziert und verkauft</div>
+
+<header id="header">
+  <div class="header-top">
+    <div class="logo" onclick="showHome()">
+      <svg viewBox="0 0 64 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M32 4 L54 52 H45.5 L32 21.5 L18.5 52 H10 L32 4 Z" fill="currentColor"/>
+        <path d="M14 44.5 C 24 30, 40 30, 50 38" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+      </svg>
+      ALVARENO
+    </div>
+    <div class="header-actions">
+      <div class="action" onclick="showAdmin()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="8" r="3.5"/><path d="M4.5 20c1.5-4 5-6 7.5-6s6 2 7.5 6"/></svg>
+        <span>Admin</span>
+      </div>
+      <div class="action">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+        <span>Warenkorb</span>
+        <span class="cart-count">0</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="search-row">
+    <div class="search-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="search-input" type="search" placeholder="Produkte durchsuchen — z. B. Reisetasche, Wollmantel, Gürtel" oninput="handleSearch(this.value)" />
+    </div>
+  </div>
+
+  <nav class="category-row" id="category-row"></nav>
+</header>
+
+<div id="home-view" class="home-view">
+  <div class="hero">
+    <div class="hero-inner">
+      <div>
+        <h1 id="hero-title">Produkte von ALVARENO — direkt von uns entwickelt und produziert</h1>
+        <p>Keine Zwischenhändler. Jedes Produkt in diesem Shop stammt ausschließlich von ALVARENO selbst.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title" id="grid-title">Unsere Produkte</h2>
+    <div class="grid" id="product-grid"></div>
+  </div>
+
+  <div class="trust-strip">
+    <div class="trust-inner">
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 7h13v10H3z"/><path d="M16 10h3l2 3v4h-5"/><circle cx="7.5" cy="18.5" r="1.5"/><circle cx="17.5" cy="18.5" r="1.5"/></svg>
+        <div><strong>Kostenloser Versand</strong><span>ab 60&nbsp;€ Bestellwert</span></div>
+      </div>
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6l-8-3Z"/></svg>
+        <div><strong>Sichere Zahlung</strong><span>SSL-verschlüsselt</span></div>
+      </div>
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 12a9 9 0 1 0 9-9"/><path d="M3 4v5h5"/></svg>
+        <div><strong>30 Tage Rückgabe</strong><span>Unkompliziert & kostenlos</span></div>
+      </div>
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10Z"/></svg>
+        <div><strong>Direkter Kontakt</strong><span>Kein Zwischenhändler</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="detail-view" id="detail-view">
+  <div class="back-link" onclick="showHome()">← Zurück zur Übersicht</div>
+  <div class="detail-grid" id="detail-content"></div>
+</section>
+
+<section class="checkout-view" id="checkout-view">
+  <div class="back-link" id="checkout-back" onclick="showDetail(pendingOrder.slug)">← Zurück zum Produkt</div>
+  <div class="checkout-wrap" id="checkout-form-wrap"></div>
+  <div class="checkout-wrap" id="checkout-confirm-wrap" style="display:none;"></div>
+</section>
+
+<section class="admin-view" id="admin-view">
+  <div class="admin-login" id="admin-login-block">
+    <h1>Admin-Login</h1>
+    <p>Nur für ALVARENO — Produkte verwalten, Lagerbestand pflegen.</p>
+    <label for="admin-email">E-Mail</label>
+    <input id="admin-email" type="email" placeholder="name@alvareno.de" />
+    <label for="admin-pass">Passwort</label>
+    <input id="admin-pass" type="password" placeholder="••••••••" />
+    <button onclick="showAdminDashboard()">Anmelden</button>
+  </div>
+
+  <div class="admin-dash" id="admin-dash-block" style="display:none;">
+    <div class="admin-dash-header">
+      <h1>Produktverwaltung</h1>
+      <span class="admin-logout" onclick="showHome()">Zum Shop</span>
+    </div>
+
+    <div class="admin-panel">
+      <h2>Neues Produkt erstellen</h2>
+      <div class="admin-form-grid">
+        <div>
+          <label>Produktname</label>
+          <input id="new-name" type="text" placeholder="z. B. Lederrucksack" />
+        </div>
+        <div>
+          <label>Kategorie</label>
+          <select id="new-category">
+            <option value="taschen">Taschen</option>
+            <option value="bekleidung">Bekleidung</option>
+            <option value="accessoires">Accessoires</option>
+          </select>
+        </div>
+        <div>
+          <label>Preis (€)</label>
+          <input id="new-price" type="number" min="0" step="1" placeholder="129" />
+        </div>
+        <div>
+          <label>Lagerbestand</label>
+          <input id="new-stock" type="number" min="0" step="1" placeholder="10" />
+        </div>
+        <div class="full">
+          <label>Bild-URL</label>
+          <input id="new-image" type="text" placeholder="https://..." />
+        </div>
+        <div class="full">
+          <label>Kurzbeschreibung</label>
+          <textarea id="new-desc" placeholder="Ein Satz, der auf der Produktkarte erscheint"></textarea>
+        </div>
+      </div>
+      <button class="admin-submit" onclick="createProduct()">Produkt erstellen</button>
+    </div>
+
+    <div class="admin-panel">
+      <h2>Alle Produkte</h2>
+      <table class="admin-table">
+        <thead>
+          <tr><th>Bild</th><th>Name</th><th>Kategorie</th><th>Preis</th><th>Lagerbestand</th><th></th></tr>
+        </thead>
+        <tbody id="admin-product-table"></tbody>
+      </table>
+    </div>
+
+    <div class="admin-panel">
+      <h2>Bestellungen</h2>
+      <table class="admin-table">
+        <thead>
+          <tr><th>Datum</th><th>Kunde</th><th>Adresse</th><th>Produkt</th><th>Betrag</th><th>Zahlung</th></tr>
+        </thead>
+        <tbody id="admin-orders-table"></tbody>
+      </table>
+      <p class="checkout-note" id="admin-orders-empty" style="display:none;">Noch keine Bestellungen.</p>
+    </div>
+  </div>
+</section>
+
+<footer id="site-footer">
+  <div class="footer-inner">
+    <div>
+      <h4>ALVARENO</h4>
+      <a>Über uns</a>
+      <a>Kontakt</a>
+      <a onclick="showAdmin()">Admin-Login</a>
+    </div>
+    <div>
+      <h4>Kundenservice</h4>
+      <a>Versand & Lieferung</a>
+      <a>Rückgabe</a>
+      <a>Größentabelle</a>
+    </div>
+    <div>
+      <h4>Rechtliches</h4>
+      <a>Impressum</a>
+      <a>Datenschutz</a>
+      <a>AGB</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 ALVARENO</span>
+    <span>Alle Produkte werden von ALVARENO selbst entwickelt und produziert</span>
+  </div>
+</footer>
+
+<script>
+  const CATEGORIES = [
+    { id: 'all', label: 'Alle Produkte' },
+    { id: 'taschen', label: 'Taschen' },
+    { id: 'bekleidung', label: 'Bekleidung' },
+    { id: 'accessoires', label: 'Accessoires' }
+  ];
+
+  let products = [
+    {
+      id: 1, slug: "reisetasche-canvas", name: "Reisetasche Canvas", category: "taschen",
+      price: 189, oldPrice: null, stock: 12, rating: 4.8, reviewCount: 2,
+      shortDescription: "Handgefertigte Reisetasche aus gewachstem Canvas.",
+      description: "Die ALVARENO Reisetasche wird aus schwerem, gewachstem Canvas gefertigt und mit pflanzlich gegerbtem Leder verarbeitet. Entwickelt und produziert von ALVARENO, für jahrelangen täglichen Einsatz.",
+      images: ["https://picsum.photos/seed/alvareno-bag-1/700/700","https://picsum.photos/seed/alvareno-bag-2/300/300","https://picsum.photos/seed/alvareno-bag-3/300/300"],
+      variants: ["Schwarz", "Olive", "Cognac"],
+      reviews: [
+        { author: "M. Brandt", rating: 5, text: "Verarbeitung ist außergewöhnlich gut, spürt man sofort." },
+        { author: "J. Keller", rating: 4, text: "Sehr schönes Material, Riemen dürfte minimal länger sein." }
+      ]
+    },
+    {
+      id: 2, slug: "wollmantel-camel", name: "Wollmantel Camel", category: "bekleidung",
+      price: 340, oldPrice: 390, stock: 4, rating: 4.9, reviewCount: 1,
+      shortDescription: "Zweireihiger Mantel aus reiner Schurwolle.",
+      description: "Klassischer Schnitt, gefertigt aus 100% Schurwolle in einer kleinen Manufaktur. Teil der aktuellen ALVARENO Kollektion.",
+      images: ["https://picsum.photos/seed/alvareno-coat-1/700/700","https://picsum.photos/seed/alvareno-coat-2/300/300","https://picsum.photos/seed/alvareno-coat-3/300/300"],
+      variants: ["36", "38", "40", "42"],
+      reviews: [{ author: "S. Vogt", rating: 5, text: "Fällt wie erwartet, sehr hochwertiger Stoff." }]
+    },
+    {
+      id: 3, slug: "lederguertel-schmal", name: "Ledergürtel schmal", category: "accessoires",
+      price: 79, oldPrice: null, stock: 0, rating: 4.6, reviewCount: 1,
+      shortDescription: "Schmaler Gürtel aus pflanzlich gegerbtem Leder.",
+      description: "Reduziertes Design, robuste Schnalle aus gebürstetem Messing. Wird ausschließlich von ALVARENO selbst produziert.",
+      images: ["https://picsum.photos/seed/alvareno-belt-1/700/700","https://picsum.photos/seed/alvareno-belt-2/300/300","https://picsum.photos/seed/alvareno-belt-3/300/300"],
+      variants: ["Schwarz", "Braun"],
+      reviews: [{ author: "T. Nowak", rating: 4, text: "Gutes Leder, nach ein paar Wochen sehr angenehm getragen." }]
+    },
+    {
+      id: 4, slug: "wollschal-anthrazit", name: "Wollschal Anthrazit", category: "accessoires",
+      price: 59, oldPrice: null, stock: 20, rating: 4.7, reviewCount: 1,
+      shortDescription: "Schwerer Schal aus italienischer Merinowolle.",
+      description: "Warm, atmungsaktiv und langlebig — gewebt in Italien, konfektioniert und vertrieben von ALVARENO.",
+      images: ["https://picsum.photos/seed/alvareno-scarf-1/700/700","https://picsum.photos/seed/alvareno-scarf-2/300/300"],
+      variants: ["Anthrazit", "Camel", "Marine"],
+      reviews: [{ author: "L. Hoffmann", rating: 5, text: "Sehr weich, hält auch bei Wind richtig warm." }]
+    }
+  ];
+
+  let currentCategory = 'all';
+  let searchTerm = '';
+  let nextId = 5;
+  let nextOrderId = 1;
+  let orders = [];
+  let pendingOrder = { slug: 'reisetasche-canvas' };
+
+  function fmtPrice(p) { return p.toLocaleString('de-DE', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }); }
+  function stars(n) { return "★".repeat(Math.round(n)) + "☆".repeat(5 - Math.round(n)); }
+  function catLabel(id) { return (CATEGORIES.find(c => c.id === id) || {}).label || id; }
+  function slugify(s) {
+    return s.toLowerCase().trim()
+      .replace(/[äöü]/g, m => ({ä:'ae',ö:'oe',ü:'ue'}[m]))
+      .replace(/ß/g, 'ss')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)/g, '') || 'produkt';
+  }
+
+  function renderCategoryRow() {
+    document.getElementById('category-row').innerHTML = CATEGORIES.map(c => `
+      <button class="cat-btn ${currentCategory === c.id ? 'active' : ''}" onclick="filterCategory('${c.id}')">${c.label}</button>
+    `).join('');
+  }
+
+  function filterCategory(id) {
+    currentCategory = id;
+    renderCategoryRow();
+    renderGrid();
+  }
+
+  function handleSearch(value) {
+    searchTerm = value.trim().toLowerCase();
+    renderGrid();
+  }
+
+  function getFilteredProducts() {
+    return products.filter(p => {
+      const matchesCategory = currentCategory === 'all' || p.category === currentCategory;
+      const matchesSearch = !searchTerm ||
+        p.name.toLowerCase().includes(searchTerm) ||
+        p.shortDescription.toLowerCase().includes(searchTerm);
+      return matchesCategory && matchesSearch;
+    });
+  }
+
+  function stockBadge(p) {
+    if (p.stock <= 0) return '<span class="badge stock-out">Ausverkauft</span>';
+    if (p.stock <= 5) return `<span class="badge stock-low">Nur noch ${p.stock}</span>`;
+    if (p.oldPrice) return '<span class="badge">Reduziert</span>';
+    return '';
+  }
+
+  function renderGrid() {
+    const list = getFilteredProducts();
+    document.getElementById('grid-title').textContent = currentCategory === 'all' ? 'Unsere Produkte' : catLabel(currentCategory);
+    const grid = document.getElementById('product-grid');
+    if (list.length === 0) {
+      grid.innerHTML = '';
+      grid.insertAdjacentHTML('afterend', '');
+      document.getElementById('product-grid').innerHTML = '<p class="empty-note">Keine Produkte gefunden.</p>';
+      return;
+    }
+    grid.innerHTML = list.map(p => `
+      <div class="card" onclick="showDetail('${p.slug}')">
+        <div class="img-wrap">
+          ${stockBadge(p)}
+          <img src="${p.images[0]}" alt="${p.name}" />
+        </div>
+        <div class="card-body">
+          <div class="cat-tag">${catLabel(p.category)}</div>
+          <h3>${p.name}</h3>
+          <div class="rating"><span class="stars">${stars(p.rating)}</span> ${p.rating.toFixed(1)} (${p.reviewCount})</div>
+          <div class="price-row">
+            <span class="price">${fmtPrice(p.price)}</span>
+            ${p.oldPrice ? `<span class="price-old">${fmtPrice(p.oldPrice)}</span>` : ''}
+          </div>
+          <button class="add-btn" ${p.stock <= 0 ? 'disabled' : ''} onclick="event.stopPropagation()">${p.stock <= 0 ? 'Ausverkauft' : 'In den Warenkorb'}</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function stockNote(p) {
+    if (p.stock <= 0) return '<div class="stock-note out">Aktuell nicht auf Lager</div>';
+    if (p.stock <= 5) return `<div class="stock-note low">Nur noch ${p.stock} Stück auf Lager</div>`;
+    return '<div class="stock-note ok">Auf Lager</div>';
+  }
+
+  function renderDetail(p) {
+    document.getElementById('detail-content').innerHTML = `
+      <div>
+        <div class="gallery-main"><img src="${p.images[0]}" alt="${p.name}" /></div>
+        <div class="gallery-thumbs">
+          ${p.images.slice(1).map(src => `<div><img src="${src}" alt="" /></div>`).join('')}
+        </div>
+      </div>
+      <div class="detail-info">
+        <div class="cat-tag">${catLabel(p.category)}</div>
+        <h1>${p.name}</h1>
+        <div class="rating"><span class="stars">${stars(p.rating)}</span> ${p.rating.toFixed(1)} · ${p.reviewCount} Bewertungen</div>
+        <div class="detail-price-row">
+          <span class="detail-price">${fmtPrice(p.price)}</span>
+          ${p.oldPrice ? `<span class="price-old">${fmtPrice(p.oldPrice)}</span>` : ''}
+        </div>
+        ${stockNote(p)}
+        <p class="detail-desc">${p.shortDescription}</p>
+
+        <fieldset class="variants">
+          <legend>Variante</legend>
+          <div class="variant-options">
+            ${p.variants.map((v, i) => `<label><input type="radio" name="variant" ${i === 0 ? 'checked' : ''} />${v}</label>`).join('')}
+          </div>
+        </fieldset>
+
+        <div class="actions">
+          <button class="btn-outline" ${p.stock <= 0 ? 'disabled' : ''}>In den Warenkorb</button>
+          <button class="btn-solid" ${p.stock <= 0 ? 'disabled' : ''} onclick="showCheckout('${p.slug}')">Jetzt kaufen</button>
+        </div>
+
+        <div class="section-block">
+          <h2>Produktdetails</h2>
+          <p class="detail-desc">${p.description}</p>
+        </div>
+
+        <div class="section-block">
+          <h2>Kundenbewertungen</h2>
+          <div id="review-list">
+            ${p.reviews.map(r => `
+              <div class="review">
+                <div class="review-head"><span class="stars">${stars(r.rating)}</span><span class="author">${r.author}</span></div>
+                <p>${r.text}</p>
+              </div>
+            `).join('')}
+          </div>
+
+          <div class="review-form">
+            <label>Name</label>
+            <input id="review-author" type="text" placeholder="Dein Name" />
+            <label>Bewertung</label>
+            <select id="review-rating">
+              <option value="5">5 Sterne – Sehr gut</option>
+              <option value="4">4 Sterne – Gut</option>
+              <option value="3">3 Sterne – Okay</option>
+              <option value="2">2 Sterne – Nicht so gut</option>
+              <option value="1">1 Stern – Schlecht</option>
+            </select>
+            <label>Deine Bewertung</label>
+            <textarea id="review-text" placeholder="Wie gefällt dir das Produkt?"></textarea>
+            <button onclick="submitReview('${p.slug}')">Bewertung abschicken</button>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function submitReview(slug) {
+    const p = products.find(x => x.slug === slug);
+    const author = document.getElementById('review-author').value.trim() || 'Anonym';
+    const rating = parseInt(document.getElementById('review-rating').value, 10);
+    const text = document.getElementById('review-text').value.trim();
+    if (!text) { alert('Bitte einen kurzen Text zur Bewertung angeben.'); return; }
+    p.reviews.push({ author, rating, text });
+    const total = p.reviews.reduce((sum, r) => sum + r.rating, 0);
+    p.rating = total / p.reviews.length;
+    p.reviewCount = p.reviews.length;
+    renderDetail(p);
+  }
+
+  function showCheckout(slug) {
+    pendingOrder = { slug };
+    const p = products.find(x => x.slug === slug);
+    document.getElementById('home-view').style.display = 'none';
+    document.getElementById('detail-view').classList.remove('active');
+    document.getElementById('admin-view').classList.remove('active');
+    document.getElementById('checkout-view').classList.add('active');
+    document.getElementById('site-footer').style.display = 'none';
+    document.getElementById('checkout-confirm-wrap').style.display = 'none';
+    document.getElementById('checkout-form-wrap').style.display = 'block';
+    document.getElementById('checkout-back').style.display = 'block';
+
+    document.getElementById('checkout-form-wrap').innerHTML = `
+      <h1>Zur Kasse</h1>
+      <p class="checkout-sub">Fast geschafft — noch Lieferadresse und Zahlung.</p>
+
+      <div class="checkout-summary">
+        <img src="${p.images[0]}" alt="${p.name}" />
+        <span class="name">${p.name}</span>
+        <span class="price">${fmtPrice(p.price)}</span>
+      </div>
+
+      <div class="checkout-fieldgroup">
+        <h2>Kontakt & Lieferadresse</h2>
+        <div class="checkout-grid">
+          <div><label>Vorname</label><input id="co-first" type="text" /></div>
+          <div><label>Nachname</label><input id="co-last" type="text" /></div>
+          <div class="full"><label>E-Mail</label><input id="co-email" type="email" /></div>
+          <div class="full"><label>Straße & Hausnummer</label><input id="co-street" type="text" /></div>
+          <div><label>PLZ</label><input id="co-zip" type="text" /></div>
+          <div><label>Ort</label><input id="co-city" type="text" /></div>
+        </div>
+      </div>
+
+      <div class="checkout-fieldgroup">
+        <h2>Zahlungsart</h2>
+        <div class="payment-toggle">
+          <label><input type="radio" name="pay-method" value="card" checked onchange="togglePaymentFields()" /> Kreditkarte</label>
+          <label><input type="radio" name="pay-method" value="sepa" onchange="togglePaymentFields()" /> SEPA-Lastschrift (IBAN)</label>
+        </div>
+
+        <div id="pay-card-fields" class="checkout-grid">
+          <div class="full"><label>Name auf der Karte</label><input id="co-card-name" type="text" /></div>
+          <div class="full"><label>Kartennummer</label><input id="co-card-number" type="text" inputmode="numeric" placeholder="1234 5678 9012 3456" /></div>
+          <div><label>Gültig bis (MM/JJ)</label><input id="co-card-expiry" type="text" placeholder="MM/JJ" /></div>
+          <div><label>CVC</label><input id="co-card-cvc" type="text" inputmode="numeric" placeholder="123" /></div>
+        </div>
+
+        <div id="pay-sepa-fields" class="checkout-grid" style="display:none;">
+          <div class="full"><label>Kontoinhaber</label><input id="co-iban-name" type="text" /></div>
+          <div class="full"><label>IBAN</label><input id="co-iban" type="text" placeholder="DE00 0000 0000 0000 0000 00" /></div>
+        </div>
+        <p class="checkout-note">Dies ist eine Demo-Kasse ohne echte Zahlungsabwicklung. In einer echten Umgebung würden Karten-/IBAN-Daten nie direkt vom eigenen Server verarbeitet, sondern über einen zertifizierten Zahlungsdienstleister (z. B. Stripe, PayPal, Mollie).</p>
+      </div>
+
+      <button class="checkout-submit" onclick="submitOrder()">Zahlungspflichtig bestellen</button>
+    `;
+  }
+
+  function togglePaymentFields() {
+    const method = document.querySelector('input[name="pay-method"]:checked').value;
+    document.getElementById('pay-card-fields').style.display = method === 'card' ? 'grid' : 'none';
+    document.getElementById('pay-sepa-fields').style.display = method === 'sepa' ? 'grid' : 'none';
+  }
+
+  function submitOrder() {
+    const p = products.find(x => x.slug === pendingOrder.slug);
+    const first = document.getElementById('co-first').value.trim();
+    const last = document.getElementById('co-last').value.trim();
+    const email = document.getElementById('co-email').value.trim();
+    const street = document.getElementById('co-street').value.trim();
+    const zip = document.getElementById('co-zip').value.trim();
+    const city = document.getElementById('co-city').value.trim();
+    const method = document.querySelector('input[name="pay-method"]:checked').value;
+
+    if (!first || !last || !email || !street || !zip || !city) {
+      alert('Bitte alle Kontakt- und Adressfelder ausfüllen.');
+      return;
+    }
+
+    let paymentLabel;
+    if (method === 'card') {
+      const number = document.getElementById('co-card-number').value.replace(/\s+/g, '');
+      if (number.length < 12) { alert('Bitte eine gültige Kartennummer eingeben.'); return; }
+      paymentLabel = 'Kreditkarte •••• ' + number.slice(-4);
+    } else {
+      const iban = document.getElementById('co-iban').value.replace(/\s+/g, '');
+      if (iban.length < 8) { alert('Bitte eine gültige IBAN eingeben.'); return; }
+      paymentLabel = 'SEPA •••• ' + iban.slice(-4);
+    }
+
+    if (p.stock > 0) p.stock -= 1;
+
+    orders.push({
+      id: nextOrderId++,
+      date: new Date().toLocaleDateString('de-DE'),
+      customer: `${first} ${last}`,
+      email,
+      address: `${street}, ${zip} ${city}`,
+      productName: p.name,
+      amount: p.price,
+      payment: paymentLabel
+    });
+
+    document.getElementById('checkout-form-wrap').style.display = 'none';
+    document.getElementById('checkout-back').style.display = 'none';
+    const confirmWrap = document.getElementById('checkout-confirm-wrap');
+    confirmWrap.style.display = 'block';
+    confirmWrap.innerHTML = `
+      <div class="order-confirm">
+        <h1>Bestellung aufgegeben</h1>
+        <p>Danke, ${first}! Deine Bestellung über ${p.name} (${fmtPrice(p.price)}) ist eingegangen.</p>
+        <button onclick="showHome()">Zurück zum Shop</button>
+      </div>
+    `;
+  }
+
+  function renderOrdersTable() {
+    const tbody = document.getElementById('admin-orders-table');
+    const empty = document.getElementById('admin-orders-empty');
+    if (orders.length === 0) {
+      tbody.innerHTML = '';
+      empty.style.display = 'block';
+      return;
+    }
+    empty.style.display = 'none';
+    tbody.innerHTML = orders.map(o => `
+      <tr>
+        <td>${o.date}</td>
+        <td>${o.customer}<br><span class="checkout-note">${o.email}</span></td>
+        <td>${o.address}</td>
+        <td>${o.productName}</td>
+        <td>${fmtPrice(o.amount)}</td>
+        <td>${o.payment}</td>
+      </tr>
+    `).join('');
+  }
+
+  function showHome() {
+    document.getElementById('home-view').classList.remove('hidden');
+    document.getElementById('home-view').style.display = 'block';
+    document.getElementById('detail-view').classList.remove('active');
+    document.getElementById('checkout-view').classList.remove('active');
+    document.getElementById('admin-view').classList.remove('active');
+    document.getElementById('site-footer').style.display = 'block';
+    renderGrid();
+  }
+  function showDetail(slug) {
+    renderDetail(products.find(x => x.slug === slug));
+    document.getElementById('home-view').style.display = 'none';
+    document.getElementById('checkout-view').classList.remove('active');
+    document.getElementById('admin-view').classList.remove('active');
+    document.getElementById('detail-view').classList.add('active');
+    document.getElementById('site-footer').style.display = 'block';
+  }
+  function showAdmin() {
+    document.getElementById('home-view').style.display = 'none';
+    document.getElementById('detail-view').classList.remove('active');
+    document.getElementById('checkout-view').classList.remove('active');
+    document.getElementById('admin-view').classList.add('active');
+    document.getElementById('site-footer').style.display = 'none';
+    document.getElementById('admin-login-block').style.display = 'block';
+    document.getElementById('admin-dash-block').style.display = 'none';
+  }
+  function showAdminDashboard() {
+    document.getElementById('admin-login-block').style.display = 'none';
+    document.getElementById('admin-dash-block').style.display = 'block';
+    renderAdminTable();
+    renderOrdersTable();
+  }
+
+  function renderAdminTable() {
+    document.getElementById('admin-product-table').innerHTML = products.map(p => `
+      <tr>
+        <td><img src="${p.images[0]}" alt="" /></td>
+        <td>${p.name}</td>
+        <td>${catLabel(p.category)}</td>
+        <td>${fmtPrice(p.price)}</td>
+        <td><input class="stock-input" type="number" min="0" value="${p.stock}" onchange="updateStock(${p.id}, this.value)" /></td>
+        <td><button class="delete-btn" onclick="deleteProduct(${p.id})">Löschen</button></td>
+      </tr>
+    `).join('');
+  }
+
+  function updateStock(id, value) {
+    const p = products.find(x => x.id === id);
+    p.stock = Math.max(0, parseInt(value, 10) || 0);
+  }
+
+  function deleteProduct(id) {
+    const p = products.find(x => x.id === id);
+    if (!confirm(`"${p.name}" wirklich löschen?`)) return;
+    products = products.filter(x => x.id !== id);
+    renderAdminTable();
+  }
+
+  function createProduct() {
+    const name = document.getElementById('new-name').value.trim();
+    const category = document.getElementById('new-category').value;
+    const price = parseFloat(document.getElementById('new-price').value);
+    const stock = parseInt(document.getElementById('new-stock').value, 10);
+    const image = document.getElementById('new-image').value.trim() || 'https://picsum.photos/seed/alvareno-new/700/700';
+    const desc = document.getElementById('new-desc').value.trim();
+
+    if (!name || isNaN(price) || isNaN(stock)) {
+      alert('Bitte Name, Preis und Lagerbestand ausfüllen.');
+      return;
+    }
+
+    products.push({
+      id: nextId++,
+      slug: slugify(name) + '-' + Date.now(),
+      name, category, price, oldPrice: null, stock,
+      rating: 0, reviewCount: 0,
+      shortDescription: desc || name,
+      description: desc || name,
+      images: [image],
+      variants: [],
+      reviews: []
+    });
+
+    document.getElementById('new-name').value = '';
+    document.getElementById('new-price').value = '';
+    document.getElementById('new-stock').value = '';
+    document.getElementById('new-image').value = '';
+    document.getElementById('new-desc').value = '';
+
+    renderAdminTable();
+  }
+
+  renderCategoryRow();
+  renderGrid();
+  showHome();
+</script>
+
+</body>
+</html>
