@@ -8,15 +8,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #FFFFFF;
-    --surface: #F6F6F4;
-    --ink: #1B1D19;
-    --muted: #6B6E64;
-    --line: #E4E4DF;
-    --brand: #1F3D2E;
-    --brand-solid-hover: #2A4F3B;
-    --accent: #C97A2B;
-    --danger-badge: #B23A2E;
+    --bg: #FFFFFF; --surface: #F6F6F4; --ink: #1B1D19; --muted: #6B6E64; --line: #E4E4DF;
+    --brand: #1F3D2E; --brand-solid-hover: #2A4F3B; --accent: #C97A2B; --danger-badge: #B23A2E;
+    --demo-bg: #FFF6E6; --demo-border: #E8C77A;
   }
   * { box-sizing: border-box; }
   body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--ink); }
@@ -29,9 +23,8 @@
   .header-top { max-width: 1200px; margin: 0 auto; padding: 18px 24px 0; display: flex; align-items: center; gap: 24px; }
   .logo { display: flex; align-items: center; gap: 9px; font-weight: 700; font-size: 19px; letter-spacing: -0.01em; color: var(--brand); cursor: pointer; flex-shrink: 0; }
   .logo svg { width: 24px; height: 24px; }
-
   .header-actions { margin-left: auto; display: flex; align-items: center; gap: 22px; font-size: 14px; color: var(--ink); }
-  .header-actions .action { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+  .header-actions .action { display: flex; align-items: center; gap: 6px; cursor: pointer; position: relative; white-space: nowrap; }
   .header-actions svg { width: 20px; height: 20px; }
   .cart-count { background: var(--brand); color: white; font-size: 11px; font-weight: 600; border-radius: 999px; padding: 1px 6px; }
 
@@ -89,8 +82,8 @@
   .footer-inner a:hover { color: white; }
   .footer-bottom { max-width: 1200px; margin: 30px auto 0; padding-top: 20px; border-top: 1px solid #33352F; display: flex; justify-content: space-between; color: #7E8078; flex-wrap: wrap; gap: 10px; }
 
-  .detail-view, .admin-view { display: none; }
-  .detail-view.active, .admin-view.active { display: block; }
+  .detail-view, .admin-view, .checkout-view, .cart-view, .auth-view { display: none; }
+  .detail-view.active, .admin-view.active, .checkout-view.active, .cart-view.active, .auth-view.active { display: block; }
   .home-view.hidden { display: none; }
 
   .back-link { max-width: 1200px; margin: 0 auto; padding: 20px 24px 0; font-size: 13.5px; color: var(--muted); cursor: pointer; }
@@ -125,7 +118,7 @@
   .btn-outline:hover { background: var(--surface); }
   .btn-solid { border: none; background: var(--brand); color: white; }
   .btn-solid:hover { background: var(--brand-solid-hover); }
-  .btn-solid:disabled { background: var(--line); color: var(--muted); cursor: not-allowed; }
+  .btn-solid:disabled, .btn-outline:disabled { background: var(--line); color: var(--muted); cursor: not-allowed; border-color: var(--line); }
 
   .section-block { border-top: 1px solid var(--line); padding-top: 22px; margin-top: 34px; }
   .section-block h2 { font-size: 16px; font-weight: 700; margin: 0 0 10px; }
@@ -138,30 +131,39 @@
 
   .review-form { max-width: 440px; margin-top: 18px; padding: 16px; background: var(--surface); border-radius: 8px; }
   .review-form label { display: block; font-size: 12.5px; color: var(--muted); margin-bottom: 5px; }
-  .review-form input, .review-form select, .review-form textarea {
-    width: 100%; padding: 9px 11px; border: 1px solid var(--line); border-radius: 6px; font-size: 14px; margin-bottom: 12px; background: white;
-  }
+  .review-form input, .review-form select, .review-form textarea { width: 100%; padding: 9px 11px; border: 1px solid var(--line); border-radius: 6px; font-size: 14px; margin-bottom: 12px; background: white; }
   .review-form textarea { resize: vertical; min-height: 60px; }
   .review-form button { padding: 10px 18px; background: var(--brand); color: white; border: none; border-radius: 6px; font-size: 13.5px; font-weight: 600; cursor: pointer; }
   .review-form button:hover { background: var(--brand-solid-hover); }
+  .review-locked { max-width: 440px; margin-top: 18px; padding: 16px; background: var(--surface); border-radius: 8px; font-size: 13.5px; color: var(--muted); }
+  .review-locked a { color: var(--brand); text-decoration: underline; cursor: pointer; }
 
-  .admin-login { max-width: 380px; margin: 90px auto; padding: 0 24px; }
-  .admin-login h1 { font-size: 21px; margin: 0 0 6px; }
-  .admin-login p { color: var(--muted); font-size: 14px; margin: 0 0 28px; }
-  .admin-login label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 6px; }
-  .admin-login input { width: 100%; padding: 11px 13px; border: 1px solid var(--line); border-radius: 7px; font-size: 14px; margin-bottom: 18px; }
-  .admin-login input:focus { outline: none; border-color: var(--brand); }
-  .admin-login button { width: 100%; padding: 12px; background: var(--brand); color: white; border: none; border-radius: 7px; font-size: 14.5px; font-weight: 600; cursor: pointer; }
+  /* Cart */
+  .cart-wrap { max-width: 760px; margin: 0 auto; padding: 32px 24px 80px; }
+  .cart-wrap h1 { font-size: 22px; margin: 0 0 24px; }
+  .cart-row { display: flex; align-items: center; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+  .cart-row img { width: 68px; height: 68px; object-fit: cover; border-radius: 7px; background: var(--surface); }
+  .cart-row .info { flex: 1; }
+  .cart-row .info .name { font-weight: 600; font-size: 14.5px; }
+  .cart-row .info .unit-price { color: var(--muted); font-size: 13px; margin-top: 3px; }
+  .cart-qty { display: flex; align-items: center; gap: 8px; }
+  .cart-qty button { width: 26px; height: 26px; border: 1px solid var(--line); background: white; border-radius: 5px; cursor: pointer; font-size: 14px; }
+  .cart-qty span { min-width: 18px; text-align: center; font-size: 14px; }
+  .cart-row .line-total { width: 80px; text-align: right; font-weight: 700; font-size: 14.5px; }
+  .cart-remove { color: var(--danger-badge); font-size: 12.5px; cursor: pointer; margin-left: 14px; }
+  .cart-total-row { display: flex; justify-content: space-between; align-items: center; padding: 22px 0 6px; font-size: 17px; font-weight: 700; }
+  .cart-empty { color: var(--muted); font-size: 14.5px; padding: 20px 0; }
 
-  .checkout-view { display: none; }
-  .checkout-view.active { display: block; }
+  /* Checkout */
   .checkout-wrap { max-width: 640px; margin: 0 auto; padding: 32px 24px 80px; }
   .checkout-wrap h1 { font-size: 22px; margin: 0 0 6px; }
   .checkout-wrap .checkout-sub { color: var(--muted); font-size: 14px; margin: 0 0 28px; }
-  .checkout-summary { display: flex; align-items: center; gap: 14px; padding: 14px; background: var(--surface); border-radius: 8px; margin-bottom: 28px; }
-  .checkout-summary img { width: 56px; height: 56px; object-fit: cover; border-radius: 6px; }
-  .checkout-summary .name { font-weight: 600; font-size: 14.5px; }
-  .checkout-summary .price { margin-left: auto; font-weight: 700; font-size: 15px; }
+  .checkout-summary-row { display: flex; align-items: center; gap: 14px; padding: 10px 14px; background: var(--surface); border-radius: 8px; margin-bottom: 10px; }
+  .checkout-summary-row img { width: 48px; height: 48px; object-fit: cover; border-radius: 6px; }
+  .checkout-summary-row .name { font-weight: 600; font-size: 14px; }
+  .checkout-summary-row .qty { color: var(--muted); font-size: 13px; margin-left: 6px; }
+  .checkout-summary-row .price { margin-left: auto; font-weight: 700; font-size: 14.5px; }
+  .checkout-total { display: flex; justify-content: space-between; font-weight: 700; font-size: 16px; padding: 14px 14px 0; margin-bottom: 24px; }
   .checkout-fieldgroup { margin-bottom: 26px; }
   .checkout-fieldgroup h2 { font-size: 15px; margin: 0 0 14px; }
   .checkout-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
@@ -169,8 +171,8 @@
   .checkout-grid label { display: block; font-size: 12.5px; color: var(--muted); margin-bottom: 5px; }
   .checkout-grid input { width: 100%; padding: 10px 12px; border: 1px solid var(--line); border-radius: 6px; font-size: 14px; }
   .checkout-grid input:focus { outline: none; border-color: var(--brand); }
-  .payment-toggle { display: flex; gap: 10px; margin-bottom: 16px; }
-  .payment-toggle label { flex: 1; border: 1px solid var(--line); border-radius: 7px; padding: 10px 14px; font-size: 13.5px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+  .payment-toggle { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+  .payment-toggle label { flex: 1; min-width: 140px; border: 1px solid var(--line); border-radius: 7px; padding: 10px 14px; font-size: 13.5px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
   .payment-toggle input { margin: 0; }
   .payment-toggle label:has(input:checked) { border-color: var(--brand); background: #EEF3EF; }
   .checkout-note { font-size: 12.5px; color: var(--muted); margin-top: 6px; }
@@ -181,6 +183,36 @@
   .order-confirm p { color: var(--muted); font-size: 14.5px; }
   .order-confirm button { margin-top: 24px; padding: 11px 22px; background: var(--brand); color: white; border: none; border-radius: 7px; font-size: 14px; font-weight: 600; cursor: pointer; }
 
+  /* Auth (Kundenkonto) */
+  .auth-wrap { max-width: 420px; margin: 60px auto; padding: 0 24px; }
+  .auth-wrap h1 { font-size: 21px; margin: 0 0 6px; }
+  .auth-wrap .auth-sub { color: var(--muted); font-size: 14px; margin: 0 0 24px; }
+  .auth-wrap label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+  .auth-wrap input, .auth-wrap select { width: 100%; padding: 11px 13px; border: 1px solid var(--line); border-radius: 7px; font-size: 14px; margin-bottom: 16px; }
+  .auth-wrap input:focus { outline: none; border-color: var(--brand); }
+  .auth-wrap button.primary { width: 100%; padding: 12px; background: var(--brand); color: white; border: none; border-radius: 7px; font-size: 14.5px; font-weight: 600; cursor: pointer; }
+  .auth-switch { text-align: center; font-size: 13.5px; color: var(--muted); margin-top: 18px; }
+  .auth-switch a { color: var(--brand); cursor: pointer; text-decoration: underline; }
+  .auth-error { color: var(--danger-badge); font-size: 13px; margin: -8px 0 14px; display: none; }
+  .verify-toggle { display: flex; gap: 10px; margin-bottom: 16px; }
+  .verify-toggle label { flex: 1; border: 1px solid var(--line); border-radius: 7px; padding: 9px 12px; font-size: 13.5px; cursor: pointer; text-align: center; }
+  .verify-toggle input { display: none; }
+  .verify-toggle label:has(input:checked) { border-color: var(--brand); background: #EEF3EF; color: var(--brand); }
+  .demo-code-box { background: var(--demo-bg); border: 1px solid var(--demo-border); border-radius: 8px; padding: 14px; font-size: 13.5px; margin-bottom: 18px; line-height: 1.5; }
+  .demo-code-box strong { font-size: 20px; letter-spacing: 0.1em; display: block; margin-top: 4px; }
+  .resend-link { font-size: 13px; color: var(--muted); text-align: center; margin-top: 12px; }
+  .resend-link a { color: var(--brand); cursor: pointer; text-decoration: underline; }
+
+  /* Admin */
+  .admin-login { max-width: 380px; margin: 90px auto; padding: 0 24px; }
+  .admin-login h1 { font-size: 21px; margin: 0 0 6px; }
+  .admin-login p { color: var(--muted); font-size: 14px; margin: 0 0 22px; }
+  .admin-login label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+  .admin-login input { width: 100%; padding: 11px 13px; border: 1px solid var(--line); border-radius: 7px; font-size: 14px; margin-bottom: 18px; }
+  .admin-login input:focus { outline: none; border-color: var(--brand); }
+  .admin-login button { width: 100%; padding: 12px; background: var(--brand); color: white; border: none; border-radius: 7px; font-size: 14.5px; font-weight: 600; cursor: pointer; }
+  .admin-error { color: var(--danger-badge); font-size: 13px; margin: -10px 0 16px; display: none; }
+
   .admin-dash { max-width: 1100px; margin: 0 auto; padding: 32px 24px 80px; }
   .admin-dash-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; }
   .admin-dash-header h1 { font-size: 22px; margin: 0; }
@@ -188,34 +220,46 @@
   .admin-logout:hover { color: var(--ink); }
 
   .admin-panel { border: 1px solid var(--line); border-radius: 10px; padding: 22px; margin-bottom: 28px; }
-  .admin-panel h2 { font-size: 16px; margin: 0 0 16px; }
+  .admin-panel h2 { font-size: 16px; margin: 0 0 16px; display: flex; align-items: center; justify-content: space-between; }
   .admin-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
   .admin-form-grid .full { grid-column: 1 / -1; }
   .admin-form-grid label { display: block; font-size: 12.5px; color: var(--muted); margin-bottom: 5px; }
-  .admin-form-grid input, .admin-form-grid select, .admin-form-grid textarea {
-    width: 100%; padding: 9px 11px; border: 1px solid var(--line); border-radius: 6px; font-size: 14px;
-  }
+  .admin-form-grid input, .admin-form-grid select, .admin-form-grid textarea { width: 100%; padding: 9px 11px; border: 1px solid var(--line); border-radius: 6px; font-size: 14px; }
   .admin-form-grid textarea { min-height: 60px; resize: vertical; }
   .admin-submit { margin-top: 16px; padding: 10px 20px; background: var(--brand); color: white; border: none; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; }
   .admin-submit:hover { background: var(--brand-solid-hover); }
+  .admin-cancel { margin-top: 16px; margin-left: 10px; padding: 10px 20px; background: none; border: 1px solid var(--line); border-radius: 6px; font-size: 14px; cursor: pointer; }
 
   table.admin-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
   table.admin-table th { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--line); color: var(--muted); font-weight: 500; font-size: 12.5px; text-transform: uppercase; letter-spacing: 0.02em; }
   table.admin-table td { padding: 10px 8px; border-bottom: 1px solid var(--line); vertical-align: middle; }
   table.admin-table img { width: 40px; height: 40px; object-fit: cover; border-radius: 5px; }
   .stock-input { width: 70px; padding: 6px 8px; border: 1px solid var(--line); border-radius: 5px; font-size: 13.5px; }
-  .delete-btn { background: none; border: 1px solid var(--danger-badge); color: var(--danger-badge); padding: 6px 12px; border-radius: 5px; font-size: 12.5px; cursor: pointer; }
+  .table-input { width: 100%; padding: 6px 8px; border: 1px solid var(--line); border-radius: 5px; font-size: 13px; }
+  .status-select { padding: 6px 8px; border: 1px solid var(--line); border-radius: 5px; font-size: 13px; }
+  .row-actions { display: flex; gap: 8px; }
+  .delete-btn, .edit-btn { border: 1px solid var(--line); background: none; padding: 6px 12px; border-radius: 5px; font-size: 12.5px; cursor: pointer; }
+  .delete-btn { border-color: var(--danger-badge); color: var(--danger-badge); }
   .delete-btn:hover { background: var(--danger-badge); color: white; }
+  .edit-btn:hover { border-color: var(--brand); color: var(--brand); }
+  .verified-pill { font-size: 11.5px; font-weight: 600; padding: 3px 8px; border-radius: 999px; }
+  .verified-pill.yes { background: #E3F1E8; color: var(--brand); }
+  .verified-pill.no { background: #F5E6E3; color: var(--danger-badge); }
+
+  .cat-manage-row { display: flex; align-items: center; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+  .cat-add-row { display: flex; gap: 10px; margin-top: 14px; }
+  .cat-add-row input { flex: 1; padding: 9px 11px; border: 1px solid var(--line); border-radius: 6px; font-size: 14px; }
+  .cat-add-row button { padding: 9px 16px; background: var(--brand); color: white; border: none; border-radius: 6px; font-size: 13.5px; font-weight: 600; cursor: pointer; }
 
   @media (max-width: 760px) {
     .detail-grid { grid-template-columns: 1fr; }
-    .admin-form-grid { grid-template-columns: 1fr; }
+    .admin-form-grid, .checkout-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
 <body>
 
-<div class="utility-bar">Kostenloser Versand ab 60&nbsp;€</div>
+<div class="utility-bar">Kostenloser Versand ab 60&nbsp;€ · Direkt von ALVARENO produziert und verkauft</div>
 
 <header id="header">
   <div class="header-top">
@@ -227,14 +271,18 @@
       ALVARENO
     </div>
     <div class="header-actions">
-      <div class="action" onclick="showAdmin()">
+      <div class="action" id="account-action" onclick="showAuth('login')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="8" r="3.5"/><path d="M4.5 20c1.5-4 5-6 7.5-6s6 2 7.5 6"/></svg>
+        <span id="account-label">Anmelden</span>
+      </div>
+      <div class="action" onclick="showAdmin()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09A1.7 1.7 0 0 0 9 19.36a1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.64 15a1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.64 9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.64c.6-.25 1-.84 1-1.55V3a2 2 0 1 1 4 0v.09c0 .71.4 1.3 1 1.55.66.27 1.42.13 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06c-.47.45-.61 1.21-.34 1.87.25.6.84 1 1.55 1H21a2 2 0 1 1 0 4h-.09c-.71 0-1.3.4-1.55 1Z"/></svg>
         <span>Admin</span>
       </div>
-      <div class="action">
+      <div class="action" onclick="showCart()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
         <span>Warenkorb</span>
-        <span class="cart-count">0</span>
+        <span class="cart-count" id="cart-count">0</span>
       </div>
     </div>
   </div>
@@ -253,17 +301,15 @@
   <div class="hero">
     <div class="hero-inner">
       <div>
-        <h1 id="hero-title">Produkte von ALVARENO — direkt von uns entwickelt und produziert</h1>
+        <h1>Produkte von ALVARENO — direkt von uns entwickelt und produziert</h1>
         <p>Keine Zwischenhändler. Jedes Produkt in diesem Shop stammt ausschließlich von ALVARENO selbst.</p>
       </div>
     </div>
   </div>
-
   <div class="section">
     <h2 class="section-title" id="grid-title">Unsere Produkte</h2>
     <div class="grid" id="product-grid"></div>
   </div>
-
   <div class="trust-strip">
     <div class="trust-inner">
       <div class="trust-item">
@@ -291,83 +337,88 @@
   <div class="detail-grid" id="detail-content"></div>
 </section>
 
+<section class="cart-view" id="cart-view">
+  <div class="back-link" onclick="showHome()">← Weiter einkaufen</div>
+  <div class="cart-wrap" id="cart-wrap"></div>
+</section>
+
 <section class="checkout-view" id="checkout-view">
-  <div class="back-link" id="checkout-back" onclick="showDetail(pendingOrder.slug)">← Zurück zum Produkt</div>
+  <div class="back-link" id="checkout-back" onclick="showCart()">← Zurück zum Warenkorb</div>
   <div class="checkout-wrap" id="checkout-form-wrap"></div>
   <div class="checkout-wrap" id="checkout-confirm-wrap" style="display:none;"></div>
+</section>
+
+<!-- Kundenkonto: Login / Registrierung / Verifizierung -->
+<section class="auth-view" id="auth-view">
+  <div class="back-link" onclick="showHome()">← Zurück zum Shop</div>
+  <div class="auth-wrap" id="auth-wrap"></div>
 </section>
 
 <section class="admin-view" id="admin-view">
   <div class="admin-login" id="admin-login-block">
     <h1>Admin-Login</h1>
-    <p>Nur für ALVARENO — Produkte verwalten, Lagerbestand pflegen.</p>
+    <p>Nur für ALVARENO — Produkte, Kategorien, Nutzer & Bestellungen verwalten.</p>
+    <p class="admin-error" id="admin-error">E-Mail oder Passwort falsch.</p>
     <label for="admin-email">E-Mail</label>
     <input id="admin-email" type="email" placeholder="name@alvareno.de" />
     <label for="admin-pass">Passwort</label>
     <input id="admin-pass" type="password" placeholder="••••••••" />
-    <button onclick="showAdminDashboard()">Anmelden</button>
+    <button onclick="attemptAdminLogin()">Anmelden</button>
   </div>
 
   <div class="admin-dash" id="admin-dash-block" style="display:none;">
     <div class="admin-dash-header">
-      <h1>Produktverwaltung</h1>
+      <h1>Adminbereich</h1>
       <span class="admin-logout" onclick="showHome()">Zum Shop</span>
     </div>
 
     <div class="admin-panel">
-      <h2>Neues Produkt erstellen</h2>
+      <h2 id="product-form-title">Neues Produkt erstellen</h2>
       <div class="admin-form-grid">
-        <div>
-          <label>Produktname</label>
-          <input id="new-name" type="text" placeholder="z. B. Lederrucksack" />
-        </div>
-        <div>
-          <label>Kategorie</label>
-          <select id="new-category">
-            <option value="taschen">Taschen</option>
-            <option value="bekleidung">Bekleidung</option>
-            <option value="accessoires">Accessoires</option>
-          </select>
-        </div>
-        <div>
-          <label>Preis (€)</label>
-          <input id="new-price" type="number" min="0" step="1" placeholder="129" />
-        </div>
-        <div>
-          <label>Lagerbestand</label>
-          <input id="new-stock" type="number" min="0" step="1" placeholder="10" />
-        </div>
-        <div class="full">
-          <label>Bild-URL</label>
-          <input id="new-image" type="text" placeholder="https://..." />
-        </div>
-        <div class="full">
-          <label>Kurzbeschreibung</label>
-          <textarea id="new-desc" placeholder="Ein Satz, der auf der Produktkarte erscheint"></textarea>
-        </div>
+        <div><label>Produktname</label><input id="new-name" type="text" placeholder="z. B. Lederrucksack" /></div>
+        <div><label>Kategorie</label><select id="new-category"></select></div>
+        <div><label>Preis (€)</label><input id="new-price" type="number" min="0" step="1" placeholder="129" /></div>
+        <div><label>Lagerbestand</label><input id="new-stock" type="number" min="0" step="1" placeholder="10" /></div>
+        <div class="full"><label>Bild-URLs (kommagetrennt, erstes Bild = Hauptbild)</label><input id="new-image" type="text" placeholder="https://bild1.jpg, https://bild2.jpg" /></div>
+        <div class="full"><label>Kurzbeschreibung</label><textarea id="new-desc" placeholder="Ein Satz, der auf der Produktkarte erscheint"></textarea></div>
       </div>
-      <button class="admin-submit" onclick="createProduct()">Produkt erstellen</button>
+      <button class="admin-submit" id="product-form-submit" onclick="saveProduct()">Produkt erstellen</button>
+      <button class="admin-cancel" id="product-form-cancel" style="display:none;" onclick="cancelEditProduct()">Abbrechen</button>
+    </div>
+
+    <div class="admin-panel">
+      <h2>Kategorien</h2>
+      <div id="category-manage-list"></div>
+      <div class="cat-add-row">
+        <input id="new-cat-name" type="text" placeholder="Neue Kategorie, z. B. Schuhe" />
+        <button onclick="addCategory()">Hinzufügen</button>
+      </div>
     </div>
 
     <div class="admin-panel">
       <h2>Alle Produkte</h2>
       <table class="admin-table">
-        <thead>
-          <tr><th>Bild</th><th>Name</th><th>Kategorie</th><th>Preis</th><th>Lagerbestand</th><th></th></tr>
-        </thead>
+        <thead><tr><th>Bild</th><th>Name</th><th>Kategorie</th><th>Preis</th><th>Lagerbestand</th><th></th></tr></thead>
         <tbody id="admin-product-table"></tbody>
       </table>
     </div>
 
     <div class="admin-panel">
+      <h2>Nutzer</h2>
+      <table class="admin-table">
+        <thead><tr><th>Name</th><th>E-Mail</th><th>Telefon</th><th>Verifiziert</th><th></th></tr></thead>
+        <tbody id="admin-users-table"></tbody>
+      </table>
+      <p class="checkout-note" id="admin-users-empty" style="display:none;">Noch keine registrierten Nutzer.</p>
+    </div>
+
+    <div class="admin-panel">
       <h2>Bestellungen</h2>
       <table class="admin-table">
-        <thead>
-          <tr><th>Datum</th><th>Kunde</th><th>Adresse</th><th>Produkt</th><th>Betrag</th><th>Zahlung</th></tr>
-        </thead>
+        <thead><tr><th>Datum</th><th>Kunde</th><th>Adresse</th><th>Produkte</th><th>Betrag</th><th>Zahlung</th><th>Status</th></tr></thead>
         <tbody id="admin-orders-table"></tbody>
       </table>
-      <p class="checkout-note" id="admin-orders-empty" style="display:none;">Keine Bestellungen.</p>
+      <p class="checkout-note" id="admin-orders-empty" style="display:none;">Noch keine Bestellungen.</p>
     </div>
   </div>
 </section>
@@ -400,8 +451,12 @@
 </footer>
 
 <script>
-  const CATEGORIES = [
-    { id: 'all', label: 'Alle Produkte' },
+  // ---- Admin-Zugangsdaten: hier im Code eintragen/ändern ----
+  const ADMIN_EMAIL = "admin@alvareno.de";
+  const ADMIN_PASSWORD = "alvareno2026";
+  // -------------------------------------------------------------
+
+  let categories = [
     { id: 'taschen', label: 'Taschen' },
     { id: 'bekleidung', label: 'Bekleidung' },
     { id: 'accessoires', label: 'Accessoires' }
@@ -412,7 +467,7 @@
       id: 1, slug: "reisetasche-canvas", name: "Reisetasche Canvas", category: "taschen",
       price: 189, oldPrice: null, stock: 12, rating: 4.8, reviewCount: 2,
       shortDescription: "Handgefertigte Reisetasche aus gewachstem Canvas.",
-      description: "Die ALVARENO Reisetasche wird aus schwerem, gewachstem Canvas gefertigt und mit pflanzlich gegerbtem Leder verarbeitet. Entwickelt und produziert von ALVARENO, für jahrelangen täglichen Einsatz.",
+      description: "Die ALVARENO Reisetasche wird aus schwerem, gewachstem Canvas gefertigt und mit pflanzlich gegerbtem Leder verarbeitet.",
       images: ["https://picsum.photos/seed/alvareno-bag-1/700/700","https://picsum.photos/seed/alvareno-bag-2/300/300","https://picsum.photos/seed/alvareno-bag-3/300/300"],
       variants: ["Schwarz", "Olive", "Cognac"],
       reviews: [
@@ -424,8 +479,8 @@
       id: 2, slug: "wollmantel-camel", name: "Wollmantel Camel", category: "bekleidung",
       price: 340, oldPrice: 390, stock: 4, rating: 4.9, reviewCount: 1,
       shortDescription: "Zweireihiger Mantel aus reiner Schurwolle.",
-      description: "Klassischer Schnitt, gefertigt aus 100% Schurwolle in einer kleinen Manufaktur. Teil der aktuellen ALVARENO Kollektion.",
-      images: ["https://picsum.photos/seed/alvareno-coat-1/700/700","https://picsum.photos/seed/alvareno-coat-2/300/300","https://picsum.photos/seed/alvareno-coat-3/300/300"],
+      description: "Klassischer Schnitt, gefertigt aus 100% Schurwolle in einer kleinen Manufaktur.",
+      images: ["https://picsum.photos/seed/alvareno-coat-1/700/700","https://picsum.photos/seed/alvareno-coat-2/300/300"],
       variants: ["36", "38", "40", "42"],
       reviews: [{ author: "S. Vogt", rating: 5, text: "Fällt wie erwartet, sehr hochwertiger Stoff." }]
     },
@@ -433,8 +488,8 @@
       id: 3, slug: "lederguertel-schmal", name: "Ledergürtel schmal", category: "accessoires",
       price: 79, oldPrice: null, stock: 0, rating: 4.6, reviewCount: 1,
       shortDescription: "Schmaler Gürtel aus pflanzlich gegerbtem Leder.",
-      description: "Reduziertes Design, robuste Schnalle aus gebürstetem Messing. Wird ausschließlich von ALVARENO selbst produziert.",
-      images: ["https://picsum.photos/seed/alvareno-belt-1/700/700","https://picsum.photos/seed/alvareno-belt-2/300/300","https://picsum.photos/seed/alvareno-belt-3/300/300"],
+      description: "Reduziertes Design, robuste Schnalle aus gebürstetem Messing.",
+      images: ["https://picsum.photos/seed/alvareno-belt-1/700/700","https://picsum.photos/seed/alvareno-belt-2/300/300"],
       variants: ["Schwarz", "Braun"],
       reviews: [{ author: "T. Nowak", rating: 4, text: "Gutes Leder, nach ein paar Wochen sehr angenehm getragen." }]
     },
@@ -454,42 +509,46 @@
   let nextId = 5;
   let nextOrderId = 1;
   let orders = [];
-  let pendingOrder = { slug: 'reisetasche-canvas' };
+  let cart = []; // [{slug, qty}]
+  let checkoutItems = [];
+  let editingProductId = null;
+  let isAdminLoggedIn = false;
+
+  // ---- Kundenkonten ----
+  let users = [];           // {id, firstName, lastName, email, phone, password, verified}
+  let nextUserId = 1;
+  let currentUser = null;   // eingeloggter, verifizierter Nutzer
+  let pendingUser = null;   // Nutzer, der gerade den Code eingeben muss
+  let pendingCode = null;
+  let pendingChannel = 'email';
+  let afterAuthAction = null; // Funktion, die nach erfolgreichem Login/Verifizierung ausgeführt wird
 
   function fmtPrice(p) { return p.toLocaleString('de-DE', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }); }
   function stars(n) { return "★".repeat(Math.round(n)) + "☆".repeat(5 - Math.round(n)); }
-  function catLabel(id) { return (CATEGORIES.find(c => c.id === id) || {}).label || id; }
+  function catLabel(id) { const c = categories.find(c => c.id === id); return c ? c.label : id; }
   function slugify(s) {
     return s.toLowerCase().trim()
       .replace(/[äöü]/g, m => ({ä:'ae',ö:'oe',ü:'ue'}[m]))
       .replace(/ß/g, 'ss')
       .replace(/[^a-z0-9]+/g, '-')
-      .replace(/(^-|-$)/g, '') || 'produkt';
+      .replace(/(^-|-$)/g, '') || 'kategorie';
   }
+  function genCode() { return String(Math.floor(100000 + Math.random() * 900000)); }
 
+  /* ---------------- Navigation / Kategorien ---------------- */
   function renderCategoryRow() {
-    document.getElementById('category-row').innerHTML = CATEGORIES.map(c => `
+    const all = [{ id: 'all', label: 'Alle Produkte' }, ...categories];
+    document.getElementById('category-row').innerHTML = all.map(c => `
       <button class="cat-btn ${currentCategory === c.id ? 'active' : ''}" onclick="filterCategory('${c.id}')">${c.label}</button>
     `).join('');
   }
-
-  function filterCategory(id) {
-    currentCategory = id;
-    renderCategoryRow();
-    renderGrid();
-  }
-
-  function handleSearch(value) {
-    searchTerm = value.trim().toLowerCase();
-    renderGrid();
-  }
+  function filterCategory(id) { currentCategory = id; renderCategoryRow(); renderGrid(); }
+  function handleSearch(value) { searchTerm = value.trim().toLowerCase(); renderGrid(); }
 
   function getFilteredProducts() {
     return products.filter(p => {
       const matchesCategory = currentCategory === 'all' || p.category === currentCategory;
-      const matchesSearch = !searchTerm ||
-        p.name.toLowerCase().includes(searchTerm) ||
-        p.shortDescription.toLowerCase().includes(searchTerm);
+      const matchesSearch = !searchTerm || p.name.toLowerCase().includes(searchTerm) || p.shortDescription.toLowerCase().includes(searchTerm);
       return matchesCategory && matchesSearch;
     });
   }
@@ -505,12 +564,7 @@
     const list = getFilteredProducts();
     document.getElementById('grid-title').textContent = currentCategory === 'all' ? 'Unsere Produkte' : catLabel(currentCategory);
     const grid = document.getElementById('product-grid');
-    if (list.length === 0) {
-      grid.innerHTML = '';
-      grid.insertAdjacentHTML('afterend', '');
-      document.getElementById('product-grid').innerHTML = '<p class="empty-note">Keine Produkte gefunden.</p>';
-      return;
-    }
+    if (list.length === 0) { grid.innerHTML = '<p class="empty-note">Keine Produkte gefunden.</p>'; return; }
     grid.innerHTML = list.map(p => `
       <div class="card" onclick="showDetail('${p.slug}')">
         <div class="img-wrap">
@@ -525,12 +579,13 @@
             <span class="price">${fmtPrice(p.price)}</span>
             ${p.oldPrice ? `<span class="price-old">${fmtPrice(p.oldPrice)}</span>` : ''}
           </div>
-          <button class="add-btn" ${p.stock <= 0 ? 'disabled' : ''} onclick="event.stopPropagation()">${p.stock <= 0 ? 'Ausverkauft' : 'In den Warenkorb'}</button>
+          <button class="add-btn" ${p.stock <= 0 ? 'disabled' : ''} onclick="event.stopPropagation(); addToCart('${p.slug}')">${p.stock <= 0 ? 'Ausverkauft' : 'In den Warenkorb'}</button>
         </div>
       </div>
     `).join('');
   }
 
+  /* ---------------- Produktdetail ---------------- */
   function stockNote(p) {
     if (p.stock <= 0) return '<div class="stock-note out">Aktuell nicht auf Lager</div>';
     if (p.stock <= 5) return `<div class="stock-note low">Nur noch ${p.stock} Stück auf Lager</div>`;
@@ -538,12 +593,28 @@
   }
 
   function renderDetail(p) {
+    const reviewSection = (currentUser && currentUser.verified) ? `
+      <div class="review-form">
+        <label>Bewertung</label>
+        <select id="review-rating">
+          <option value="5">5 Sterne – Sehr gut</option>
+          <option value="4">4 Sterne – Gut</option>
+          <option value="3">3 Sterne – Okay</option>
+          <option value="2">2 Sterne – Nicht so gut</option>
+          <option value="1">1 Stern – Schlecht</option>
+        </select>
+        <label>Deine Bewertung</label>
+        <textarea id="review-text" placeholder="Wie gefällt dir das Produkt?"></textarea>
+        <button onclick="submitReview('${p.slug}')">Bewertung abschicken</button>
+      </div>
+    ` : `
+      <div class="review-locked">Nur angemeldete und verifizierte Kunden können Bewertungen schreiben. <a onclick="showAuth('login')">Jetzt anmelden</a> oder <a onclick="showAuth('register')">Konto erstellen</a>.</div>
+    `;
+
     document.getElementById('detail-content').innerHTML = `
       <div>
         <div class="gallery-main"><img src="${p.images[0]}" alt="${p.name}" /></div>
-        <div class="gallery-thumbs">
-          ${p.images.slice(1).map(src => `<div><img src="${src}" alt="" /></div>`).join('')}
-        </div>
+        <div class="gallery-thumbs">${p.images.slice(1).map(src => `<div><img src="${src}" alt="" /></div>`).join('')}</div>
       </div>
       <div class="detail-info">
         <div class="cat-tag">${catLabel(p.category)}</div>
@@ -555,24 +626,18 @@
         </div>
         ${stockNote(p)}
         <p class="detail-desc">${p.shortDescription}</p>
-
         <fieldset class="variants">
           <legend>Variante</legend>
-          <div class="variant-options">
-            ${p.variants.map((v, i) => `<label><input type="radio" name="variant" ${i === 0 ? 'checked' : ''} />${v}</label>`).join('')}
-          </div>
+          <div class="variant-options">${p.variants.map((v, i) => `<label><input type="radio" name="variant" ${i === 0 ? 'checked' : ''} />${v}</label>`).join('')}</div>
         </fieldset>
-
         <div class="actions">
-          <button class="btn-outline" ${p.stock <= 0 ? 'disabled' : ''}>In den Warenkorb</button>
-          <button class="btn-solid" ${p.stock <= 0 ? 'disabled' : ''} onclick="showCheckout('${p.slug}')">Jetzt kaufen</button>
+          <button class="btn-outline" ${p.stock <= 0 ? 'disabled' : ''} onclick="addToCart('${p.slug}')">In den Warenkorb</button>
+          <button class="btn-solid" ${p.stock <= 0 ? 'disabled' : ''} onclick="buyNow('${p.slug}')">Jetzt kaufen</button>
         </div>
-
         <div class="section-block">
           <h2>Produktdetails</h2>
           <p class="detail-desc">${p.description}</p>
         </div>
-
         <div class="section-block">
           <h2>Kundenbewertungen</h2>
           <div id="review-list">
@@ -583,68 +648,135 @@
               </div>
             `).join('')}
           </div>
-
-          <div class="review-form">
-            <label>Name</label>
-            <input id="review-author" type="text" placeholder="Dein Name" />
-            <label>Bewertung</label>
-            <select id="review-rating">
-              <option value="5">5 Sterne – Sehr gut</option>
-              <option value="4">4 Sterne – Gut</option>
-              <option value="3">3 Sterne – Okay</option>
-              <option value="2">2 Sterne – Nicht so gut</option>
-              <option value="1">1 Stern – Schlecht</option>
-            </select>
-            <label>Deine Bewertung</label>
-            <textarea id="review-text" placeholder="Wie gefällt dir das Produkt?"></textarea>
-            <button onclick="submitReview('${p.slug}')">Bewertung abschicken</button>
-          </div>
+          ${reviewSection}
         </div>
       </div>
     `;
   }
 
   function submitReview(slug) {
+    if (!currentUser || !currentUser.verified) { showAuth('login'); return; }
     const p = products.find(x => x.slug === slug);
-    const author = document.getElementById('review-author').value.trim() || 'Anonym';
     const rating = parseInt(document.getElementById('review-rating').value, 10);
     const text = document.getElementById('review-text').value.trim();
     if (!text) { alert('Bitte einen kurzen Text zur Bewertung angeben.'); return; }
-    p.reviews.push({ author, rating, text });
-    const total = p.reviews.reduce((sum, r) => sum + r.rating, 0);
-    p.rating = total / p.reviews.length;
+    p.reviews.push({ author: currentUser.firstName + ' ' + currentUser.lastName.charAt(0) + '.', rating, text });
+    p.rating = p.reviews.reduce((s, r) => s + r.rating, 0) / p.reviews.length;
     p.reviewCount = p.reviews.length;
     renderDetail(p);
   }
 
-  function showCheckout(slug) {
-    pendingOrder = { slug };
-    const p = products.find(x => x.slug === slug);
-    document.getElementById('home-view').style.display = 'none';
-    document.getElementById('detail-view').classList.remove('active');
-    document.getElementById('admin-view').classList.remove('active');
-    document.getElementById('checkout-view').classList.add('active');
-    document.getElementById('site-footer').style.display = 'none';
+  /* ---------------- Warenkorb ---------------- */
+  function cartCount() { return cart.reduce((s, i) => s + i.qty, 0); }
+  function updateCartBadge() { document.getElementById('cart-count').textContent = cartCount(); }
+
+  function addToCart(slug) {
+    if (!currentUser || !currentUser.verified) { afterAuthAction = () => addToCart(slug); showAuth('login'); return; }
+    const existing = cart.find(i => i.slug === slug);
+    if (existing) existing.qty += 1; else cart.push({ slug, qty: 1 });
+    updateCartBadge();
+  }
+
+  function changeCartQty(slug, delta) {
+    const item = cart.find(i => i.slug === slug);
+    if (!item) return;
+    item.qty += delta;
+    if (item.qty <= 0) cart = cart.filter(i => i.slug !== slug);
+    updateCartBadge();
+    renderCart();
+  }
+
+  function removeFromCart(slug) {
+    cart = cart.filter(i => i.slug !== slug);
+    updateCartBadge();
+    renderCart();
+  }
+
+  function renderCart() {
+    const wrap = document.getElementById('cart-wrap');
+    if (cart.length === 0) {
+      wrap.innerHTML = '<h1>Warenkorb</h1><p class="cart-empty">Dein Warenkorb ist leer.</p>';
+      return;
+    }
+    let total = 0;
+    const rows = cart.map(item => {
+      const p = products.find(x => x.slug === item.slug);
+      if (!p) return '';
+      const lineTotal = p.price * item.qty;
+      total += lineTotal;
+      return `
+        <div class="cart-row">
+          <img src="${p.images[0]}" alt="${p.name}" />
+          <div class="info">
+            <div class="name">${p.name}</div>
+            <div class="unit-price">${fmtPrice(p.price)} / Stück</div>
+          </div>
+          <div class="cart-qty">
+            <button onclick="changeCartQty('${p.slug}', -1)">−</button>
+            <span>${item.qty}</span>
+            <button onclick="changeCartQty('${p.slug}', 1)">+</button>
+          </div>
+          <div class="line-total">${fmtPrice(lineTotal)}</div>
+          <span class="cart-remove" onclick="removeFromCart('${p.slug}')">Entfernen</span>
+        </div>
+      `;
+    }).join('');
+    wrap.innerHTML = `
+      <h1>Warenkorb</h1>
+      ${rows}
+      <div class="cart-total-row"><span>Gesamt</span><span>${fmtPrice(total)}</span></div>
+      <button class="checkout-submit" onclick="checkoutFromCart()">Zur Kasse</button>
+    `;
+  }
+
+  function showCart() { setActiveView('cart-view'); renderCart(); }
+
+  /* ---------------- Kasse ---------------- */
+  function buyNow(slug) {
+    if (!currentUser || !currentUser.verified) { afterAuthAction = () => buyNow(slug); showAuth('login'); return; }
+    checkoutItems = [{ slug, qty: 1 }];
+    startCheckout(false);
+  }
+  function checkoutFromCart() {
+    if (!currentUser || !currentUser.verified) { afterAuthAction = () => checkoutFromCart(); showAuth('login'); return; }
+    if (cart.length === 0) return;
+    checkoutItems = cart.map(i => ({ ...i }));
+    startCheckout(true);
+  }
+
+  function startCheckout(fromCart) {
+    setActiveView('checkout-view');
+    document.getElementById('checkout-back').onclick = fromCart ? showCart : showHome;
     document.getElementById('checkout-confirm-wrap').style.display = 'none';
     document.getElementById('checkout-form-wrap').style.display = 'block';
     document.getElementById('checkout-back').style.display = 'block';
 
+    let total = 0;
+    const rows = checkoutItems.map(item => {
+      const p = products.find(x => x.slug === item.slug);
+      const lineTotal = p.price * item.qty;
+      total += lineTotal;
+      return `
+        <div class="checkout-summary-row">
+          <img src="${p.images[0]}" alt="${p.name}" />
+          <span class="name">${p.name}</span><span class="qty">× ${item.qty}</span>
+          <span class="price">${fmtPrice(lineTotal)}</span>
+        </div>
+      `;
+    }).join('');
+
     document.getElementById('checkout-form-wrap').innerHTML = `
       <h1>Zur Kasse</h1>
       <p class="checkout-sub">Fast geschafft — noch Lieferadresse und Zahlung.</p>
-
-      <div class="checkout-summary">
-        <img src="${p.images[0]}" alt="${p.name}" />
-        <span class="name">${p.name}</span>
-        <span class="price">${fmtPrice(p.price)}</span>
-      </div>
+      ${rows}
+      <div class="checkout-total"><span>Gesamt</span><span>${fmtPrice(total)}</span></div>
 
       <div class="checkout-fieldgroup">
         <h2>Kontakt & Lieferadresse</h2>
         <div class="checkout-grid">
-          <div><label>Vorname</label><input id="co-first" type="text" /></div>
-          <div><label>Nachname</label><input id="co-last" type="text" /></div>
-          <div class="full"><label>E-Mail</label><input id="co-email" type="email" /></div>
+          <div><label>Vorname</label><input id="co-first" type="text" value="${currentUser ? currentUser.firstName : ''}" /></div>
+          <div><label>Nachname</label><input id="co-last" type="text" value="${currentUser ? currentUser.lastName : ''}" /></div>
+          <div class="full"><label>E-Mail</label><input id="co-email" type="email" value="${currentUser ? currentUser.email : ''}" /></div>
           <div class="full"><label>Straße & Hausnummer</label><input id="co-street" type="text" /></div>
           <div><label>PLZ</label><input id="co-zip" type="text" /></div>
           <div><label>Ort</label><input id="co-city" type="text" /></div>
@@ -655,24 +787,28 @@
         <h2>Zahlungsart</h2>
         <div class="payment-toggle">
           <label><input type="radio" name="pay-method" value="card" checked onchange="togglePaymentFields()" /> Kreditkarte</label>
-          <label><input type="radio" name="pay-method" value="sepa" onchange="togglePaymentFields()" /> SEPA-Lastschrift (IBAN)</label>
+          <label><input type="radio" name="pay-method" value="sepa" onchange="togglePaymentFields()" /> SEPA-Lastschrift</label>
+          <label><input type="radio" name="pay-method" value="paypal" onchange="togglePaymentFields()" /> PayPal</label>
         </div>
-
+        <div class="payment-toggle">
+          <label><input type="radio" name="pay-method" value="klarna" onchange="togglePaymentFields()" /> Klarna (Rechnung/Raten)</label>
+          <label><input type="radio" name="pay-method" value="applegoogle" onchange="togglePaymentFields()" /> Apple Pay / Google Pay</label>
+        </div>
         <div id="pay-card-fields" class="checkout-grid">
           <div class="full"><label>Name auf der Karte</label><input id="co-card-name" type="text" /></div>
           <div class="full"><label>Kartennummer</label><input id="co-card-number" type="text" inputmode="numeric" placeholder="1234 5678 9012 3456" /></div>
           <div><label>Gültig bis (MM/JJ)</label><input id="co-card-expiry" type="text" placeholder="MM/JJ" /></div>
           <div><label>CVC</label><input id="co-card-cvc" type="text" inputmode="numeric" placeholder="123" /></div>
         </div>
-
         <div id="pay-sepa-fields" class="checkout-grid" style="display:none;">
           <div class="full"><label>Kontoinhaber</label><input id="co-iban-name" type="text" /></div>
           <div class="full"><label>IBAN</label><input id="co-iban" type="text" placeholder="DE00 0000 0000 0000 0000 00" /></div>
         </div>
-        <p class="checkout-note">Dies ist eine Demo-Kasse ohne echte Zahlungsabwicklung. In einer echten Umgebung würden Karten-/IBAN-Daten nie direkt vom eigenen Server verarbeitet, sondern über einen zertifizierten Zahlungsdienstleister (z. B. Stripe, PayPal, Mollie).</p>
+        <div id="pay-redirect-note" class="checkout-note" style="display:none;">Beim Klick auf „Zahlungspflichtig bestellen" würdest du hier zum jeweiligen Anbieter weitergeleitet, um dort einzuloggen und zu bestätigen.</div>
+        <p class="checkout-note">Demo-Kasse ohne echte Zahlungsabwicklung. Es werden nur die letzten 4 Ziffern gespeichert — nie die vollständige Karten-/IBAN-Nummer.</p>
       </div>
 
-      <button class="checkout-submit" onclick="submitOrder()">Zahlungspflichtig bestellen</button>
+      <button class="checkout-submit" onclick="submitOrder(${fromCart})">Zahlungspflichtig bestellen</button>
     `;
   }
 
@@ -680,10 +816,10 @@
     const method = document.querySelector('input[name="pay-method"]:checked').value;
     document.getElementById('pay-card-fields').style.display = method === 'card' ? 'grid' : 'none';
     document.getElementById('pay-sepa-fields').style.display = method === 'sepa' ? 'grid' : 'none';
+    document.getElementById('pay-redirect-note').style.display = (method === 'paypal' || method === 'klarna' || method === 'applegoogle') ? 'block' : 'none';
   }
 
-  function submitOrder() {
-    const p = products.find(x => x.slug === pendingOrder.slug);
+  function submitOrder(fromCart) {
     const first = document.getElementById('co-first').value.trim();
     const last = document.getElementById('co-last').value.trim();
     const email = document.getElementById('co-email').value.trim();
@@ -692,23 +828,33 @@
     const city = document.getElementById('co-city').value.trim();
     const method = document.querySelector('input[name="pay-method"]:checked').value;
 
-    if (!first || !last || !email || !street || !zip || !city) {
-      alert('Bitte alle Kontakt- und Adressfelder ausfüllen.');
-      return;
-    }
+    if (!first || !last || !email || !street || !zip || !city) { alert('Bitte alle Kontakt- und Adressfelder ausfüllen.'); return; }
 
     let paymentLabel;
     if (method === 'card') {
       const number = document.getElementById('co-card-number').value.replace(/\s+/g, '');
       if (number.length < 12) { alert('Bitte eine gültige Kartennummer eingeben.'); return; }
       paymentLabel = 'Kreditkarte •••• ' + number.slice(-4);
-    } else {
+    } else if (method === 'sepa') {
       const iban = document.getElementById('co-iban').value.replace(/\s+/g, '');
       if (iban.length < 8) { alert('Bitte eine gültige IBAN eingeben.'); return; }
       paymentLabel = 'SEPA •••• ' + iban.slice(-4);
+    } else if (method === 'paypal') {
+      paymentLabel = 'PayPal';
+    } else if (method === 'klarna') {
+      paymentLabel = 'Klarna';
+    } else {
+      paymentLabel = 'Apple Pay / Google Pay';
     }
 
-    if (p.stock > 0) p.stock -= 1;
+    let total = 0;
+    const productNames = [];
+    checkoutItems.forEach(item => {
+      const p = products.find(x => x.slug === item.slug);
+      if (p.stock > 0) p.stock = Math.max(0, p.stock - item.qty);
+      total += p.price * item.qty;
+      productNames.push(`${p.name} ×${item.qty}`);
+    });
 
     orders.push({
       id: nextOrderId++,
@@ -716,10 +862,13 @@
       customer: `${first} ${last}`,
       email,
       address: `${street}, ${zip} ${city}`,
-      productName: p.name,
-      amount: p.price,
-      payment: paymentLabel
+      productSummary: productNames.join(', '),
+      amount: total,
+      payment: paymentLabel,
+      status: 'pending'
     });
+
+    if (fromCart) { cart = []; updateCartBadge(); }
 
     document.getElementById('checkout-form-wrap').style.display = 'none';
     document.getElementById('checkout-back').style.display = 'none';
@@ -728,64 +877,214 @@
     confirmWrap.innerHTML = `
       <div class="order-confirm">
         <h1>Bestellung aufgegeben</h1>
-        <p>Danke, ${first}! Deine Bestellung über ${p.name} (${fmtPrice(p.price)}) ist eingegangen.</p>
+        <p>Danke, ${first}! Deine Bestellung über ${fmtPrice(total)} ist eingegangen.</p>
         <button onclick="showHome()">Zurück zum Shop</button>
       </div>
     `;
   }
 
-  function renderOrdersTable() {
-    const tbody = document.getElementById('admin-orders-table');
-    const empty = document.getElementById('admin-orders-empty');
-    if (orders.length === 0) {
-      tbody.innerHTML = '';
-      empty.style.display = 'block';
-      return;
-    }
-    empty.style.display = 'none';
-    tbody.innerHTML = orders.map(o => `
-      <tr>
-        <td>${o.date}</td>
-        <td>${o.customer}<br><span class="checkout-note">${o.email}</span></td>
-        <td>${o.address}</td>
-        <td>${o.productName}</td>
-        <td>${fmtPrice(o.amount)}</td>
-        <td>${o.payment}</td>
-      </tr>
-    `).join('');
+  /* ---------------- Kundenkonto: Login / Registrierung / Verifizierung ---------------- */
+  function showAuth(mode) {
+    setActiveView('auth-view');
+    if (mode === 'login') renderLoginForm();
+    else if (mode === 'register') renderRegisterForm();
+    else if (mode === 'verify') renderVerifyForm();
   }
 
-  function showHome() {
-    document.getElementById('home-view').classList.remove('hidden');
-    document.getElementById('home-view').style.display = 'block';
-    document.getElementById('detail-view').classList.remove('active');
-    document.getElementById('checkout-view').classList.remove('active');
-    document.getElementById('admin-view').classList.remove('active');
-    document.getElementById('site-footer').style.display = 'block';
-    renderGrid();
+  function renderLoginForm() {
+    document.getElementById('auth-wrap').innerHTML = `
+      <h1>Anmelden</h1>
+      <p class="auth-sub">Melde dich an, um einzukaufen und Bewertungen zu schreiben.</p>
+      <p class="auth-error" id="auth-error">E-Mail oder Passwort falsch.</p>
+      <label>E-Mail</label>
+      <input id="login-email" type="email" />
+      <label>Passwort</label>
+      <input id="login-password" type="password" />
+      <button class="primary" onclick="attemptLogin()">Anmelden</button>
+      <div class="auth-switch">Noch kein Konto? <a onclick="showAuth('register')">Jetzt registrieren</a></div>
+    `;
   }
-  function showDetail(slug) {
-    renderDetail(products.find(x => x.slug === slug));
-    document.getElementById('home-view').style.display = 'none';
-    document.getElementById('checkout-view').classList.remove('active');
-    document.getElementById('admin-view').classList.remove('active');
-    document.getElementById('detail-view').classList.add('active');
-    document.getElementById('site-footer').style.display = 'block';
+
+  function attemptLogin() {
+    const email = document.getElementById('login-email').value.trim().toLowerCase();
+    const password = document.getElementById('login-password').value;
+    const user = users.find(u => u.email.toLowerCase() === email && u.password === password);
+    if (!user) { document.getElementById('auth-error').style.display = 'block'; return; }
+    if (!user.verified) {
+      pendingUser = user;
+      pendingChannel = 'email';
+      pendingCode = genCode();
+      showAuth('verify');
+      return;
+    }
+    currentUser = user;
+    updateAccountLabel();
+    const action = afterAuthAction; afterAuthAction = null;
+    if (action) action(); else showHome();
   }
-  function showAdmin() {
-    document.getElementById('home-view').style.display = 'none';
-    document.getElementById('detail-view').classList.remove('active');
-    document.getElementById('checkout-view').classList.remove('active');
-    document.getElementById('admin-view').classList.add('active');
-    document.getElementById('site-footer').style.display = 'none';
-    document.getElementById('admin-login-block').style.display = 'block';
-    document.getElementById('admin-dash-block').style.display = 'none';
+
+  function renderRegisterForm() {
+    document.getElementById('auth-wrap').innerHTML = `
+      <h1>Konto erstellen</h1>
+      <p class="auth-sub">Wird für den Einkauf und für Bewertungen benötigt.</p>
+      <p class="auth-error" id="auth-error">Bitte alle Felder korrekt ausfüllen.</p>
+      <label>Vorname</label>
+      <input id="reg-first" type="text" />
+      <label>Nachname</label>
+      <input id="reg-last" type="text" />
+      <label>E-Mail</label>
+      <input id="reg-email" type="email" />
+      <label>Telefonnummer</label>
+      <input id="reg-phone" type="tel" placeholder="+49 151 23456789" />
+      <label>Passwort</label>
+      <input id="reg-password" type="password" />
+      <label>Verifizierung per</label>
+      <div class="verify-toggle">
+        <label><input type="radio" name="verify-channel" value="email" checked /> E-Mail</label>
+        <label><input type="radio" name="verify-channel" value="phone" /> SMS</label>
+      </div>
+      <button class="primary" onclick="attemptRegister()">Registrieren & Code anfordern</button>
+      <div class="auth-switch">Schon ein Konto? <a onclick="showAuth('login')">Anmelden</a></div>
+    `;
   }
+
+  function attemptRegister() {
+    const firstName = document.getElementById('reg-first').value.trim();
+    const lastName = document.getElementById('reg-last').value.trim();
+    const email = document.getElementById('reg-email').value.trim();
+    const phone = document.getElementById('reg-phone').value.trim();
+    const password = document.getElementById('reg-password').value;
+    const channel = document.querySelector('input[name="verify-channel"]:checked').value;
+
+    if (!firstName || !lastName || !email || !phone || password.length < 4) {
+      document.getElementById('auth-error').textContent = 'Bitte alle Felder ausfüllen (Passwort mind. 4 Zeichen).';
+      document.getElementById('auth-error').style.display = 'block';
+      return;
+    }
+    if (users.some(u => u.email.toLowerCase() === email.toLowerCase())) {
+      document.getElementById('auth-error').textContent = 'Für diese E-Mail existiert bereits ein Konto.';
+      document.getElementById('auth-error').style.display = 'block';
+      return;
+    }
+
+    const user = { id: nextUserId++, firstName, lastName, email, phone, password, verified: false };
+    users.push(user);
+    pendingUser = user;
+    pendingChannel = channel;
+    pendingCode = genCode();
+    showAuth('verify');
+  }
+
+  function renderVerifyForm() {
+    const target = pendingChannel === 'phone' ? pendingUser.phone : pendingUser.email;
+    const channelLabel = pendingChannel === 'phone' ? 'SMS' : 'E-Mail';
+    document.getElementById('auth-wrap').innerHTML = `
+      <h1>Code bestätigen</h1>
+      <p class="auth-sub">Wir haben (in einer echten Umgebung) einen 6-stelligen Code per ${channelLabel} an ${target} geschickt.</p>
+      <div class="demo-code-box">
+        Demo-Modus: Da hier kein echter ${channelLabel}-Versand angebunden ist, steht dein Code direkt hier:
+        <strong>${pendingCode}</strong>
+      </div>
+      <p class="auth-error" id="auth-error">Code stimmt nicht.</p>
+      <label>Code eingeben</label>
+      <input id="verify-code-input" type="text" inputmode="numeric" maxlength="6" placeholder="000000" />
+      <button class="primary" onclick="confirmVerifyCode()">Bestätigen</button>
+      <div class="resend-link">Keinen Code erhalten? <a onclick="resendCode()">Erneut senden</a></div>
+    `;
+  }
+
+  function resendCode() { pendingCode = genCode(); renderVerifyForm(); }
+
+  function confirmVerifyCode() {
+    const entered = document.getElementById('verify-code-input').value.trim();
+    if (entered !== pendingCode) { document.getElementById('auth-error').style.display = 'block'; return; }
+    pendingUser.verified = true;
+    currentUser = pendingUser;
+    pendingUser = null;
+    pendingCode = null;
+    updateAccountLabel();
+    if (isAdminLoggedIn) renderUsersTable();
+    const action = afterAuthAction; afterAuthAction = null;
+    if (action) action(); else showHome();
+  }
+
+  function logoutUser() {
+    currentUser = null;
+    updateAccountLabel();
+    showHome();
+  }
+
+  function updateAccountLabel() {
+    const action = document.getElementById('account-action');
+    const label = document.getElementById('account-label');
+    if (currentUser) {
+      label.textContent = currentUser.firstName;
+      action.onclick = logoutUser;
+    } else {
+      label.textContent = 'Anmelden';
+      action.onclick = () => showAuth('login');
+    }
+  }
+
+  /* ---------------- Admin ---------------- */
+  function attemptAdminLogin() {
+    const email = document.getElementById('admin-email').value.trim();
+    const pass = document.getElementById('admin-pass').value;
+    if (email === ADMIN_EMAIL && pass === ADMIN_PASSWORD) {
+      isAdminLoggedIn = true;
+      document.getElementById('admin-error').style.display = 'none';
+      showAdminDashboard();
+    } else {
+      document.getElementById('admin-error').style.display = 'block';
+    }
+  }
+
   function showAdminDashboard() {
     document.getElementById('admin-login-block').style.display = 'none';
     document.getElementById('admin-dash-block').style.display = 'block';
+    renderCategorySelect();
+    renderCategoryManageList();
     renderAdminTable();
+    renderUsersTable();
     renderOrdersTable();
+  }
+
+  function renderCategorySelect() {
+    document.getElementById('new-category').innerHTML = categories.map(c => `<option value="${c.id}">${c.label}</option>`).join('');
+  }
+
+  function renderCategoryManageList() {
+    document.getElementById('category-manage-list').innerHTML = categories.map(c => `
+      <div class="cat-manage-row">
+        <span>${c.label}</span>
+        <button class="delete-btn" onclick="deleteCategory('${c.id}')">Löschen</button>
+      </div>
+    `).join('') || '<p class="checkout-note">Noch keine Kategorien.</p>';
+  }
+
+  function addCategory() {
+    const input = document.getElementById('new-cat-name');
+    const name = input.value.trim();
+    if (!name) return;
+    const id = slugify(name);
+    if (categories.some(c => c.id === id)) { alert('Diese Kategorie gibt es schon.'); return; }
+    categories.push({ id, label: name });
+    input.value = '';
+    renderCategoryManageList();
+    renderCategorySelect();
+    renderCategoryRow();
+  }
+
+  function deleteCategory(id) {
+    if (products.some(p => p.category === id)) {
+      alert('Diese Kategorie wird noch von Produkten verwendet. Bitte zuerst die Produkte umkategorisieren oder löschen.');
+      return;
+    }
+    categories = categories.filter(c => c.id !== id);
+    if (currentCategory === id) currentCategory = 'all';
+    renderCategoryManageList();
+    renderCategorySelect();
+    renderCategoryRow();
   }
 
   function renderAdminTable() {
@@ -796,7 +1095,10 @@
         <td>${catLabel(p.category)}</td>
         <td>${fmtPrice(p.price)}</td>
         <td><input class="stock-input" type="number" min="0" value="${p.stock}" onchange="updateStock(${p.id}, this.value)" /></td>
-        <td><button class="delete-btn" onclick="deleteProduct(${p.id})">Löschen</button></td>
+        <td class="row-actions">
+          <button class="edit-btn" onclick="editProduct(${p.id})">Bearbeiten</button>
+          <button class="delete-btn" onclick="deleteProduct(${p.id})">Löschen</button>
+        </td>
       </tr>
     `).join('');
   }
@@ -810,45 +1112,166 @@
     const p = products.find(x => x.id === id);
     if (!confirm(`"${p.name}" wirklich löschen?`)) return;
     products = products.filter(x => x.id !== id);
+    if (editingProductId === id) cancelEditProduct();
     renderAdminTable();
   }
 
-  function createProduct() {
-    const name = document.getElementById('new-name').value.trim();
-    const category = document.getElementById('new-category').value;
-    const price = parseFloat(document.getElementById('new-price').value);
-    const stock = parseInt(document.getElementById('new-stock').value, 10);
-    const image = document.getElementById('new-image').value.trim() || 'https://picsum.photos/seed/alvareno-new/700/700';
-    const desc = document.getElementById('new-desc').value.trim();
+  function editProduct(id) {
+    const p = products.find(x => x.id === id);
+    editingProductId = id;
+    document.getElementById('product-form-title').textContent = 'Produkt bearbeiten: ' + p.name;
+    document.getElementById('new-name').value = p.name;
+    document.getElementById('new-category').value = p.category;
+    document.getElementById('new-price').value = p.price;
+    document.getElementById('new-stock').value = p.stock;
+    document.getElementById('new-image').value = p.images.join(', ');
+    document.getElementById('new-desc').value = p.shortDescription;
+    document.getElementById('product-form-submit').textContent = 'Änderungen speichern';
+    document.getElementById('product-form-cancel').style.display = 'inline-block';
+    document.getElementById('product-form-title').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
 
-    if (!name || isNaN(price) || isNaN(stock)) {
-      alert('Bitte Name, Preis und Lagerbestand ausfüllen.');
-      return;
-    }
-
-    products.push({
-      id: nextId++,
-      slug: slugify(name) + '-' + Date.now(),
-      name, category, price, oldPrice: null, stock,
-      rating: 0, reviewCount: 0,
-      shortDescription: desc || name,
-      description: desc || name,
-      images: [image],
-      variants: [],
-      reviews: []
-    });
-
+  function cancelEditProduct() {
+    editingProductId = null;
+    document.getElementById('product-form-title').textContent = 'Neues Produkt erstellen';
     document.getElementById('new-name').value = '';
     document.getElementById('new-price').value = '';
     document.getElementById('new-stock').value = '';
     document.getElementById('new-image').value = '';
     document.getElementById('new-desc').value = '';
+    document.getElementById('product-form-submit').textContent = 'Produkt erstellen';
+    document.getElementById('product-form-cancel').style.display = 'none';
+  }
+
+  function saveProduct() {
+    const name = document.getElementById('new-name').value.trim();
+    const category = document.getElementById('new-category').value;
+    const price = parseFloat(document.getElementById('new-price').value);
+    const stock = parseInt(document.getElementById('new-stock').value, 10);
+    const imagesRaw = document.getElementById('new-image').value.trim();
+    const images = imagesRaw ? imagesRaw.split(',').map(s => s.trim()).filter(Boolean) : ['https://picsum.photos/seed/alvareno-new/700/700'];
+    const desc = document.getElementById('new-desc').value.trim();
+
+    if (!name || isNaN(price) || isNaN(stock)) { alert('Bitte Name, Preis und Lagerbestand ausfüllen.'); return; }
+
+    if (editingProductId) {
+      const p = products.find(x => x.id === editingProductId);
+      p.name = name; p.category = category; p.price = price; p.stock = stock;
+      p.images = images; p.shortDescription = desc || p.shortDescription;
+      cancelEditProduct();
+    } else {
+      products.push({
+        id: nextId++,
+        slug: slugify(name) + '-' + Date.now(),
+        name, category, price, oldPrice: null, stock,
+        rating: 0, reviewCount: 0,
+        shortDescription: desc || name,
+        description: desc || name,
+        images, variants: [], reviews: []
+      });
+    }
 
     renderAdminTable();
+    renderGrid();
+  }
+
+  function renderUsersTable() {
+    const tbody = document.getElementById('admin-users-table');
+    const empty = document.getElementById('admin-users-empty');
+    if (users.length === 0) { tbody.innerHTML = ''; empty.style.display = 'block'; return; }
+    empty.style.display = 'none';
+    tbody.innerHTML = users.map(u => `
+      <tr>
+        <td>
+          <input class="table-input" style="width:70px;display:inline-block;" value="${u.firstName}" onchange="updateUserField(${u.id}, 'firstName', this.value)" />
+          <input class="table-input" style="width:70px;display:inline-block;" value="${u.lastName}" onchange="updateUserField(${u.id}, 'lastName', this.value)" />
+        </td>
+        <td><input class="table-input" value="${u.email}" onchange="updateUserField(${u.id}, 'email', this.value)" /></td>
+        <td><input class="table-input" value="${u.phone}" onchange="updateUserField(${u.id}, 'phone', this.value)" /></td>
+        <td>
+          <span class="verified-pill ${u.verified ? 'yes' : 'no'}">${u.verified ? 'Ja' : 'Nein'}</span>
+          <button class="edit-btn" style="margin-top:6px;" onclick="toggleUserVerified(${u.id})">${u.verified ? 'Zurücksetzen' : 'Verifizieren'}</button>
+        </td>
+        <td><button class="delete-btn" onclick="deleteUser(${u.id})">Löschen</button></td>
+      </tr>
+    `).join('');
+  }
+
+  function updateUserField(id, field, value) {
+    const u = users.find(x => x.id === id);
+    u[field] = value.trim();
+    if (currentUser && currentUser.id === id) { currentUser = u; updateAccountLabel(); }
+  }
+
+  function toggleUserVerified(id) {
+    const u = users.find(x => x.id === id);
+    u.verified = !u.verified;
+    renderUsersTable();
+  }
+
+  function deleteUser(id) {
+    const u = users.find(x => x.id === id);
+    if (!confirm(`Nutzer "${u.firstName} ${u.lastName}" wirklich löschen?`)) return;
+    users = users.filter(x => x.id !== id);
+    if (currentUser && currentUser.id === id) { currentUser = null; updateAccountLabel(); }
+    renderUsersTable();
+  }
+
+  function renderOrdersTable() {
+    const tbody = document.getElementById('admin-orders-table');
+    const empty = document.getElementById('admin-orders-empty');
+    if (orders.length === 0) { tbody.innerHTML = ''; empty.style.display = 'block'; return; }
+    empty.style.display = 'none';
+    tbody.innerHTML = orders.map(o => `
+      <tr>
+        <td>${o.date}</td>
+        <td>${o.customer}<br><span class="checkout-note">${o.email}</span></td>
+        <td>${o.address}</td>
+        <td>${o.productSummary}</td>
+        <td>${fmtPrice(o.amount)}</td>
+        <td>${o.payment}</td>
+        <td>
+          <select class="status-select" onchange="updateOrderStatus(${o.id}, this.value)">
+            <option value="pending" ${o.status === 'pending' ? 'selected' : ''}>Offen</option>
+            <option value="paid" ${o.status === 'paid' ? 'selected' : ''}>Bezahlt</option>
+            <option value="shipped" ${o.status === 'shipped' ? 'selected' : ''}>Versendet</option>
+            <option value="cancelled" ${o.status === 'cancelled' ? 'selected' : ''}>Storniert</option>
+          </select>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  function updateOrderStatus(id, status) {
+    const o = orders.find(x => x.id === id);
+    o.status = status;
+  }
+
+  /* ---------------- Ansichten wechseln ---------------- */
+  function setActiveView(id) {
+    document.getElementById('home-view').style.display = 'none';
+    document.getElementById('detail-view').classList.remove('active');
+    document.getElementById('cart-view').classList.remove('active');
+    document.getElementById('checkout-view').classList.remove('active');
+    document.getElementById('auth-view').classList.remove('active');
+    document.getElementById('admin-view').classList.remove('active');
+    document.getElementById('site-footer').style.display = (id === 'admin-view') ? 'none' : 'block';
+    if (id === 'home-view') { document.getElementById('home-view').style.display = 'block'; }
+    else { document.getElementById(id).classList.add('active'); }
+  }
+
+  function showHome() { setActiveView('home-view'); renderGrid(); }
+  function showDetail(slug) { renderDetail(products.find(x => x.slug === slug)); setActiveView('detail-view'); }
+  function showAdmin() {
+    setActiveView('admin-view');
+    document.getElementById('admin-login-block').style.display = isAdminLoggedIn ? 'none' : 'block';
+    document.getElementById('admin-dash-block').style.display = isAdminLoggedIn ? 'block' : 'none';
+    if (isAdminLoggedIn) showAdminDashboard();
   }
 
   renderCategoryRow();
   renderGrid();
+  updateAccountLabel();
   showHome();
 </script>
 
