@@ -55,6 +55,13 @@
   .card { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; cursor: pointer; transition: border-color 0.15s ease; background: var(--bg); }
   .card:hover { border-color: var(--brand); }
   .card .img-wrap { aspect-ratio: 1/1; background: var(--surface); position: relative; }
+  .img-nav-btn { position: absolute; top: 50%; transform: translateY(-50%); width: 28px; height: 28px; border-radius: 999px; border: none; background: rgba(255,255,255,0.9); color: var(--ink); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 15px; z-index: 2; box-shadow: 0 1px 3px rgba(0,0,0,0.15); opacity: 0; transition: opacity 0.15s ease; }
+  .card:hover .img-nav-btn, .gallery-main:hover .img-nav-btn { opacity: 1; }
+  .img-nav-btn.prev { left: 8px; }
+  .img-nav-btn.next { right: 8px; }
+  .img-dots { position: absolute; bottom: 8px; left: 0; right: 0; display: flex; justify-content: center; gap: 5px; z-index: 2; }
+  .img-dots span { width: 5px; height: 5px; border-radius: 999px; background: rgba(255,255,255,0.6); }
+  .img-dots span.active { background: #fff; }
   .card img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .badge { position: absolute; top: 10px; left: 10px; background: var(--danger-badge); color: white; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 4px; }
   .badge.stock-low { background: var(--accent); }
@@ -93,7 +100,9 @@
   .back-link:hover { color: var(--ink); }
 
   .detail-grid { max-width: 1200px; margin: 0 auto; padding: 24px 24px 80px; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
-  .gallery-main { aspect-ratio: 1/1; background: var(--surface); border-radius: 10px; overflow: hidden; border: 1px solid var(--line); }
+  .gallery-main { aspect-ratio: 1/1; background: var(--surface); border-radius: 10px; overflow: hidden; border: 1px solid var(--line); position: relative; }
+  .gallery-main .img-nav-btn { width: 34px; height: 34px; font-size: 17px; opacity: 1; }
+  .gallery-thumbs div.active { border-color: var(--brand); }
   .gallery-main img { width: 100%; height: 100%; object-fit: cover; }
   .gallery-thumbs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 10px; }
   .gallery-thumbs div { aspect-ratio: 1; background: var(--surface); border-radius: 8px; overflow: hidden; border: 1px solid var(--line); }
@@ -269,7 +278,7 @@
 </head>
 <body>
 
-<div class="utility-bar" id="utility-bar-text">Free shipping from €60</div>
+<div class="utility-bar" id="utility-bar-text">Free shipping from €60 · Designed and sold directly by ALVARENO</div>
 
 <header id="header">
   <div class="header-top">
@@ -493,13 +502,13 @@
   let lang = 'en'; // Standardsprache
 
   const S = {
-    freeShipBar: { en: "Free shipping from €60", de: "Kostenloser Versand ab 60 €" },
+    freeShipBar: { en: "Free shipping from €60 · Designed and sold directly by ALVARENO", de: "Kostenloser Versand ab 60 € · Direkt von ALVARENO produziert und verkauft" },
     searchPlaceholder: { en: "Search products — e.g. travel bag, wool coat, belt", de: "Produkte durchsuchen — z. B. Reisetasche, Wollmantel, Gürtel" },
     signIn: { en: "Sign in", de: "Anmelden" },
     admin: { en: "Admin", de: "Admin" },
     cart: { en: "Cart", de: "Warenkorb" },
     allProducts: { en: "All products", de: "Alle Produkte" },
-    heroTitle: { en: "Products by ALVARENO", de: "Produkte von ALVARENO" },
+    heroTitle: { en: "Products by ALVARENO — designed and made by us, directly", de: "Produkte von ALVARENO — direkt von uns entwickelt und produziert" },
     heroSub: { en: "No middlemen. Every product in this shop comes exclusively from ALVARENO.", de: "Keine Zwischenhändler. Jedes Produkt in diesem Shop stammt ausschließlich von ALVARENO selbst." },
     ourProducts: { en: "Our products", de: "Unsere Produkte" },
     noProducts: { en: "No products found.", de: "Keine Produkte gefunden." },
@@ -713,6 +722,8 @@
   let activeAdminTab = 'products';
   let activeViewId = 'home-view';
   let activeDetailSlug = null;
+  let detailImageIndex = 0;
+  let cardImageIndex = {}; // slug -> current image index shown on the homepage card
   let authMode = 'login';
 
   let users = [];
@@ -860,11 +871,19 @@
     document.getElementById('grid-title').textContent = currentCategory === 'all' ? t('ourProducts') : catLabel(currentCategory);
     const grid = document.getElementById('product-grid');
     if (list.length === 0) { grid.innerHTML = `<p class="empty-note">${t('noProducts')}</p>`; return; }
-    grid.innerHTML = list.map(p => `
+    grid.innerHTML = list.map(p => {
+      const idx = cardImageIndex[p.slug] || 0;
+      const hasMultiple = p.images.length > 1;
+      return `
       <div class="card" onclick="showDetail('${p.slug}')">
-        <div class="img-wrap">
+        <div class="img-wrap" ontouchstart="cardTouchStart(event)" ontouchend="cardTouchEnd(event, '${p.slug}', ${p.images.length})">
           ${stockBadge(p)}
-          <img src="${p.images[0]}" alt="${prodName(p)}" />
+          <img src="${p.images[idx]}" alt="${prodName(p)}" />
+          ${hasMultiple ? `
+            <button class="img-nav-btn prev" onclick="event.stopPropagation(); stepCardImage('${p.slug}', -1, ${p.images.length})">‹</button>
+            <button class="img-nav-btn next" onclick="event.stopPropagation(); stepCardImage('${p.slug}', 1, ${p.images.length})">›</button>
+            <div class="img-dots">${p.images.map((_, i) => `<span class="${i === idx ? 'active' : ''}"></span>`).join('')}</div>
+          ` : ''}
         </div>
         <div class="card-body">
           <div class="cat-tag">${catLabel(p.category)}</div>
@@ -877,7 +896,26 @@
           <button class="add-btn" ${p.stock <= 0 ? 'disabled' : ''} onclick="event.stopPropagation(); addToCart('${p.slug}')">${p.stock <= 0 ? t('outOfStock') : t('addToCart')}</button>
         </div>
       </div>
-    `).join('');
+    `;
+    }).join('');
+  }
+
+  function stepCardImage(slug, delta, count) {
+    const current = cardImageIndex[slug] || 0;
+    cardImageIndex[slug] = (current + delta + count) % count;
+    renderGrid();
+  }
+
+  let cardTouchStartX = null;
+  function cardTouchStart(ev) { cardTouchStartX = ev.touches[0].clientX; }
+  function cardTouchEnd(ev, slug, count) {
+    if (cardTouchStartX === null || count <= 1) return;
+    const dx = ev.changedTouches[0].clientX - cardTouchStartX;
+    cardTouchStartX = null;
+    if (Math.abs(dx) < 30) return; // kein Swipe, eher ein Tap -> normale Kartennavigation greift
+    ev.preventDefault();
+    ev.stopPropagation();
+    stepCardImage(slug, dx < 0 ? 1 : -1, count);
   }
 
   /* ---------------- Produktdetail ---------------- */
@@ -887,8 +925,19 @@
     return `<div class="stock-note ok">${t('stockOk')}</div>`;
   }
 
+  function setDetailImage(i) { detailImageIndex = i; renderDetail(products.find(x => x.slug === activeDetailSlug)); }
+  function stepDetailImage(delta, count) { detailImageIndex = (detailImageIndex + delta + count) % count; renderDetail(products.find(x => x.slug === activeDetailSlug)); }
+  function detailTouchEnd(ev, count) {
+    if (cardTouchStartX === null || count <= 1) return;
+    const dx = ev.changedTouches[0].clientX - cardTouchStartX;
+    cardTouchStartX = null;
+    if (Math.abs(dx) < 30) return;
+    stepDetailImage(dx < 0 ? 1 : -1, count);
+  }
+
   function renderDetail(p) {
     activeDetailSlug = p.slug;
+    if (detailImageIndex >= p.images.length) detailImageIndex = 0;
     const reviewSection = (currentUser && currentUser.verified) ? `
       <div class="review-form">
         <label>${t('yourRating')}</label>
@@ -909,8 +958,14 @@
 
     document.getElementById('detail-content').innerHTML = `
       <div>
-        <div class="gallery-main"><img src="${p.images[0]}" alt="${prodName(p)}" /></div>
-        <div class="gallery-thumbs">${p.images.slice(1).map(src => `<div><img src="${src}" alt="" /></div>`).join('')}</div>
+        <div class="gallery-main" ontouchstart="cardTouchStart(event)" ontouchend="detailTouchEnd(event, ${p.images.length})">
+          <img src="${p.images[detailImageIndex]}" alt="${prodName(p)}" />
+          ${p.images.length > 1 ? `
+            <button class="img-nav-btn prev" onclick="stepDetailImage(-1, ${p.images.length})">‹</button>
+            <button class="img-nav-btn next" onclick="stepDetailImage(1, ${p.images.length})">›</button>
+          ` : ''}
+        </div>
+        <div class="gallery-thumbs">${p.images.map((src, i) => `<div class="${i === detailImageIndex ? 'active' : ''}" onclick="setDetailImage(${i})"><img src="${src}" alt="" /></div>`).join('')}</div>
       </div>
       <div class="detail-info">
         <div class="cat-tag">${catLabel(p.category)}</div>
@@ -1592,7 +1647,7 @@
   }
 
   function showHome() { setActiveView('home-view'); renderGrid(); }
-  function showDetail(slug) { renderDetail(products.find(x => x.slug === slug)); setActiveView('detail-view'); }
+  function showDetail(slug) { detailImageIndex = 0; renderDetail(products.find(x => x.slug === slug)); setActiveView('detail-view'); }
   function showAdmin() {
     setActiveView('admin-view');
     document.getElementById('admin-login-block').style.display = isAdminLoggedIn ? 'none' : 'block';
