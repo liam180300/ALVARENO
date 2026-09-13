@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -23,10 +23,13 @@
   .header-top { max-width: 1200px; margin: 0 auto; padding: 18px 24px 0; display: flex; align-items: center; gap: 24px; }
   .logo { display: flex; align-items: center; gap: 9px; font-weight: 700; font-size: 19px; letter-spacing: -0.01em; color: var(--brand); cursor: pointer; flex-shrink: 0; }
   .logo svg { width: 24px; height: 24px; }
-  .header-actions { margin-left: auto; display: flex; align-items: center; gap: 22px; font-size: 14px; color: var(--ink); }
+  .header-actions { margin-left: auto; display: flex; align-items: center; gap: 20px; font-size: 14px; color: var(--ink); }
   .header-actions .action { display: flex; align-items: center; gap: 6px; cursor: pointer; position: relative; white-space: nowrap; }
   .header-actions svg { width: 20px; height: 20px; }
   .cart-count { background: var(--brand); color: white; font-size: 11px; font-weight: 600; border-radius: 999px; padding: 1px 6px; }
+  .lang-switch { display: flex; gap: 4px; border: 1px solid var(--line); border-radius: 999px; padding: 3px; }
+  .lang-btn { border: none; background: none; padding: 4px 8px; border-radius: 999px; cursor: pointer; font-size: 13px; display: flex; align-items: center; gap: 5px; color: var(--muted); }
+  .lang-btn.active { background: var(--surface); color: var(--ink); font-weight: 600; }
 
   .search-row { max-width: 1200px; margin: 16px auto 0; padding: 0 24px; }
   .search-box { display: flex; align-items: center; gap: 10px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 13px 16px; }
@@ -138,7 +141,6 @@
   .review-locked { max-width: 440px; margin-top: 18px; padding: 16px; background: var(--surface); border-radius: 8px; font-size: 13.5px; color: var(--muted); }
   .review-locked a { color: var(--brand); text-decoration: underline; cursor: pointer; }
 
-  /* Cart */
   .cart-wrap { max-width: 760px; margin: 0 auto; padding: 32px 24px 80px; }
   .cart-wrap h1 { font-size: 22px; margin: 0 0 24px; }
   .cart-row { display: flex; align-items: center; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--line); }
@@ -154,7 +156,6 @@
   .cart-total-row { display: flex; justify-content: space-between; align-items: center; padding: 22px 0 6px; font-size: 17px; font-weight: 700; }
   .cart-empty { color: var(--muted); font-size: 14.5px; padding: 20px 0; }
 
-  /* Checkout */
   .checkout-wrap { max-width: 640px; margin: 0 auto; padding: 32px 24px 80px; }
   .checkout-wrap h1 { font-size: 22px; margin: 0 0 6px; }
   .checkout-wrap .checkout-sub { color: var(--muted); font-size: 14px; margin: 0 0 28px; }
@@ -183,7 +184,6 @@
   .order-confirm p { color: var(--muted); font-size: 14.5px; }
   .order-confirm button { margin-top: 24px; padding: 11px 22px; background: var(--brand); color: white; border: none; border-radius: 7px; font-size: 14px; font-weight: 600; cursor: pointer; }
 
-  /* Auth (Kundenkonto) */
   .auth-wrap { max-width: 420px; margin: 60px auto; padding: 0 24px; }
   .auth-wrap h1 { font-size: 21px; margin: 0 0 6px; }
   .auth-wrap .auth-sub { color: var(--muted); font-size: 14px; margin: 0 0 24px; }
@@ -203,7 +203,6 @@
   .resend-link { font-size: 13px; color: var(--muted); text-align: center; margin-top: 12px; }
   .resend-link a { color: var(--brand); cursor: pointer; text-decoration: underline; }
 
-  /* Admin */
   .admin-login { max-width: 380px; margin: 90px auto; padding: 0 24px; }
   .admin-login h1 { font-size: 21px; margin: 0 0 6px; }
   .admin-login p { color: var(--muted); font-size: 14px; margin: 0 0 22px; }
@@ -214,13 +213,19 @@
   .admin-error { color: var(--danger-badge); font-size: 13px; margin: -10px 0 16px; display: none; }
 
   .admin-dash { max-width: 1100px; margin: 0 auto; padding: 32px 24px 80px; }
-  .admin-dash-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; }
+  .admin-dash-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
   .admin-dash-header h1 { font-size: 22px; margin: 0; }
   .admin-logout { font-size: 13.5px; color: var(--muted); cursor: pointer; }
   .admin-logout:hover { color: var(--ink); }
 
+  .admin-tabs { display: flex; gap: 8px; border-bottom: 1px solid var(--line); margin-bottom: 24px; flex-wrap: wrap; }
+  .admin-tab-btn { border: none; background: none; padding: 10px 16px; font-size: 14px; cursor: pointer; color: var(--muted); border-bottom: 2px solid transparent; margin-bottom: -1px; }
+  .admin-tab-btn.active { color: var(--brand); border-bottom-color: var(--brand); font-weight: 600; }
+  .admin-tab-panel { display: none; }
+  .admin-tab-panel.active { display: block; }
+
   .admin-panel { border: 1px solid var(--line); border-radius: 10px; padding: 22px; margin-bottom: 28px; }
-  .admin-panel h2 { font-size: 16px; margin: 0 0 16px; display: flex; align-items: center; justify-content: space-between; }
+  .admin-panel h2 { font-size: 16px; margin: 0 0 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
   .admin-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
   .admin-form-grid .full { grid-column: 1 / -1; }
   .admin-form-grid label { display: block; font-size: 12.5px; color: var(--muted); margin-bottom: 5px; }
@@ -251,6 +256,11 @@
   .cat-add-row input { flex: 1; padding: 9px 11px; border: 1px solid var(--line); border-radius: 6px; font-size: 14px; }
   .cat-add-row button { padding: 9px 16px; background: var(--brand); color: white; border: none; border-radius: 6px; font-size: 13.5px; font-weight: 600; cursor: pointer; }
 
+  .orders-toolbar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
+  .orders-toolbar input, .orders-toolbar select { padding: 9px 11px; border: 1px solid var(--line); border-radius: 6px; font-size: 13.5px; }
+  .orders-toolbar input { flex: 1; min-width: 180px; }
+  .orders-count { font-size: 13px; color: var(--muted); margin-bottom: 14px; }
+
   @media (max-width: 760px) {
     .detail-grid { grid-template-columns: 1fr; }
     .admin-form-grid, .checkout-grid { grid-template-columns: 1fr; }
@@ -259,7 +269,7 @@
 </head>
 <body>
 
-<div class="utility-bar">Kostenloser Versand ab 60&nbsp;€</div>
+<div class="utility-bar" id="utility-bar-text">Free shipping from €60 · Designed and sold directly by ALVARENO</div>
 
 <header id="header">
   <div class="header-top">
@@ -271,17 +281,21 @@
       ALVARENO
     </div>
     <div class="header-actions">
+      <div class="lang-switch">
+        <button class="lang-btn" id="lang-btn-en" onclick="setLang('en')">🇬🇧 EN</button>
+        <button class="lang-btn" id="lang-btn-de" onclick="setLang('de')">🇩🇪 DE</button>
+      </div>
       <div class="action" id="account-action" onclick="showAuth('login')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="8" r="3.5"/><path d="M4.5 20c1.5-4 5-6 7.5-6s6 2 7.5 6"/></svg>
-        <span id="account-label">Anmelden</span>
+        <span id="account-label">Sign in</span>
       </div>
       <div class="action" onclick="showAdmin()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09A1.7 1.7 0 0 0 9 19.36a1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.64 15a1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.64 9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.64c.6-.25 1-.84 1-1.55V3a2 2 0 1 1 4 0v.09c0 .71.4 1.3 1 1.55.66.27 1.42.13 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06c-.47.45-.61 1.21-.34 1.87.25.6.84 1 1.55 1H21a2 2 0 1 1 0 4h-.09c-.71 0-1.3.4-1.55 1Z"/></svg>
-        <span>Admin</span>
+        <span id="admin-label">Admin</span>
       </div>
       <div class="action" onclick="showCart()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
-        <span>Warenkorb</span>
+        <span id="cart-label">Cart</span>
         <span class="cart-count" id="cart-count">0</span>
       </div>
     </div>
@@ -290,7 +304,7 @@
   <div class="search-row">
     <div class="search-box">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-      <input id="search-input" type="search" placeholder="Produkte durchsuchen — z. B. Reisetasche, Wollmantel, Gürtel" oninput="handleSearch(this.value)" />
+      <input id="search-input" type="search" oninput="handleSearch(this.value)" />
     </div>
   </div>
 
@@ -301,124 +315,144 @@
   <div class="hero">
     <div class="hero-inner">
       <div>
-        <h1>Produkte von ALVARENO</h1>
-        <p></p>
+        <h1 id="hero-title"></h1>
+        <p id="hero-sub"></p>
       </div>
     </div>
   </div>
   <div class="section">
-    <h2 class="section-title" id="grid-title">Unsere Produkte</h2>
+    <h2 class="section-title" id="grid-title"></h2>
     <div class="grid" id="product-grid"></div>
   </div>
   <div class="trust-strip">
     <div class="trust-inner">
       <div class="trust-item">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 7h13v10H3z"/><path d="M16 10h3l2 3v4h-5"/><circle cx="7.5" cy="18.5" r="1.5"/><circle cx="17.5" cy="18.5" r="1.5"/></svg>
-        <div><strong>Kostenloser Versand</strong><span>ab 60&nbsp;€ Bestellwert</span></div>
+        <div><strong id="trust1-title"></strong><span id="trust1-sub"></span></div>
       </div>
       <div class="trust-item">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6l-8-3Z"/></svg>
-        <div><strong>Sichere Zahlung</strong><span>SSL-verschlüsselt</span></div>
+        <div><strong id="trust2-title"></strong><span id="trust2-sub"></span></div>
       </div>
       <div class="trust-item">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 12a9 9 0 1 0 9-9"/><path d="M3 4v5h5"/></svg>
-        <div><strong>30 Tage Rückgabe</strong><span>Unkompliziert & kostenlos</span></div>
+        <div><strong id="trust3-title"></strong><span id="trust3-sub"></span></div>
       </div>
       <div class="trust-item">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10Z"/></svg>
-        <div><strong>Direkter Kontakt</strong><span>Kein Zwischenhändler</span></div>
+        <div><strong id="trust4-title"></strong><span id="trust4-sub"></span></div>
       </div>
     </div>
   </div>
 </div>
 
 <section class="detail-view" id="detail-view">
-  <div class="back-link" onclick="showHome()">← Zurück zur Übersicht</div>
+  <div class="back-link" id="detail-back" onclick="showHome()"></div>
   <div class="detail-grid" id="detail-content"></div>
 </section>
 
 <section class="cart-view" id="cart-view">
-  <div class="back-link" onclick="showHome()">← Weiter einkaufen</div>
+  <div class="back-link" id="cart-back" onclick="showHome()"></div>
   <div class="cart-wrap" id="cart-wrap"></div>
 </section>
 
 <section class="checkout-view" id="checkout-view">
-  <div class="back-link" id="checkout-back" onclick="showCart()">← Zurück zum Warenkorb</div>
+  <div class="back-link" id="checkout-back" onclick="showCart()"></div>
   <div class="checkout-wrap" id="checkout-form-wrap"></div>
   <div class="checkout-wrap" id="checkout-confirm-wrap" style="display:none;"></div>
 </section>
 
-<!-- Kundenkonto: Login / Registrierung / Verifizierung -->
 <section class="auth-view" id="auth-view">
-  <div class="back-link" onclick="showHome()">← Zurück zum Shop</div>
+  <div class="back-link" id="auth-back" onclick="showHome()"></div>
   <div class="auth-wrap" id="auth-wrap"></div>
 </section>
 
 <section class="admin-view" id="admin-view">
   <div class="admin-login" id="admin-login-block">
-    <h1>Admin-Login</h1>
-    <p>Nur für ALVARENO — Produkte, Kategorien, Nutzer & Bestellungen verwalten.</p>
-    <p class="admin-error" id="admin-error">E-Mail oder Passwort falsch.</p>
-    <label for="admin-email">E-Mail</label>
+    <h1 id="admin-login-title"></h1>
+    <p id="admin-login-sub"></p>
+    <p class="admin-error" id="admin-error"></p>
+    <label id="admin-email-label"></label>
     <input id="admin-email" type="email" placeholder="name@alvareno.de" />
-    <label for="admin-pass">Passwort</label>
+    <label id="admin-pass-label"></label>
     <input id="admin-pass" type="password" placeholder="••••••••" />
-    <button onclick="attemptAdminLogin()">Anmelden</button>
+    <button id="admin-login-btn" onclick="attemptAdminLogin()"></button>
   </div>
 
   <div class="admin-dash" id="admin-dash-block" style="display:none;">
     <div class="admin-dash-header">
-      <h1>Adminbereich</h1>
-      <span class="admin-logout" onclick="showHome()">Zum Shop</span>
+      <h1 id="admin-dash-title"></h1>
+      <span class="admin-logout" id="admin-to-shop" onclick="showHome()"></span>
     </div>
 
-    <div class="admin-panel">
-      <h2 id="product-form-title">Neues Produkt erstellen</h2>
-      <div class="admin-form-grid">
-        <div><label>Produktname</label><input id="new-name" type="text" placeholder="z. B. Lederrucksack" /></div>
-        <div><label>Kategorie</label><select id="new-category"></select></div>
-        <div><label>Preis (€)</label><input id="new-price" type="number" min="0" step="1" placeholder="129" /></div>
-        <div><label>Lagerbestand</label><input id="new-stock" type="number" min="0" step="1" placeholder="10" /></div>
-        <div class="full"><label>Bild-URLs (kommagetrennt, erstes Bild = Hauptbild)</label><input id="new-image" type="text" placeholder="https://bild1.jpg, https://bild2.jpg" /></div>
-        <div class="full"><label>Kurzbeschreibung</label><textarea id="new-desc" placeholder="Ein Satz, der auf der Produktkarte erscheint"></textarea></div>
+    <div class="admin-tabs" id="admin-tabs"></div>
+
+    <div class="admin-tab-panel" id="tab-products">
+      <div class="admin-panel">
+        <h2 id="product-form-title"></h2>
+        <div class="admin-form-grid">
+          <div><label id="lbl-product-name"></label><input id="new-name" type="text" /></div>
+          <div><label id="lbl-category"></label><select id="new-category"></select></div>
+          <div><label id="lbl-price"></label><input id="new-price" type="number" min="0" step="1" /></div>
+          <div><label id="lbl-stock"></label><input id="new-stock" type="number" min="0" step="1" /></div>
+          <div class="full"><label id="lbl-images"></label><input id="new-image" type="text" placeholder="https://img1.jpg, https://img2.jpg" /></div>
+          <div class="full"><label id="lbl-shortdesc"></label><textarea id="new-desc"></textarea></div>
+        </div>
+        <button class="admin-submit" id="product-form-submit" onclick="saveProduct()"></button>
+        <button class="admin-cancel" id="product-form-cancel" style="display:none;" onclick="cancelEditProduct()"></button>
       </div>
-      <button class="admin-submit" id="product-form-submit" onclick="saveProduct()">Produkt erstellen</button>
-      <button class="admin-cancel" id="product-form-cancel" style="display:none;" onclick="cancelEditProduct()">Abbrechen</button>
-    </div>
 
-    <div class="admin-panel">
-      <h2>Kategorien</h2>
-      <div id="category-manage-list"></div>
-      <div class="cat-add-row">
-        <input id="new-cat-name" type="text" placeholder="Neue Kategorie, z. B. Schuhe" />
-        <button onclick="addCategory()">Hinzufügen</button>
+      <div class="admin-panel">
+        <h2 id="all-products-title"></h2>
+        <table class="admin-table">
+          <thead><tr>
+            <th id="th-image"></th><th id="th-name"></th><th id="th-category"></th><th id="th-price"></th><th id="th-stock"></th><th></th>
+          </tr></thead>
+          <tbody id="admin-product-table"></tbody>
+        </table>
       </div>
     </div>
 
-    <div class="admin-panel">
-      <h2>Alle Produkte</h2>
-      <table class="admin-table">
-        <thead><tr><th>Bild</th><th>Name</th><th>Kategorie</th><th>Preis</th><th>Lagerbestand</th><th></th></tr></thead>
-        <tbody id="admin-product-table"></tbody>
-      </table>
+    <div class="admin-tab-panel" id="tab-categories">
+      <div class="admin-panel">
+        <h2 id="categories-title"></h2>
+        <div id="category-manage-list"></div>
+        <div class="cat-add-row">
+          <input id="new-cat-name" type="text" />
+          <button id="add-cat-btn" onclick="addCategory()"></button>
+        </div>
+      </div>
     </div>
 
-    <div class="admin-panel">
-      <h2>Nutzer</h2>
-      <table class="admin-table">
-        <thead><tr><th>Name</th><th>E-Mail</th><th>Telefon</th><th>Verifiziert</th><th></th></tr></thead>
-        <tbody id="admin-users-table"></tbody>
-      </table>
-      <p class="checkout-note" id="admin-users-empty" style="display:none;">Noch keine registrierten Nutzer.</p>
+    <div class="admin-tab-panel" id="tab-users">
+      <div class="admin-panel">
+        <h2 id="users-title"></h2>
+        <table class="admin-table">
+          <thead><tr>
+            <th id="th-name2"></th><th id="th-email"></th><th id="th-phone"></th><th id="th-verified"></th><th></th>
+          </tr></thead>
+          <tbody id="admin-users-table"></tbody>
+        </table>
+        <p class="checkout-note" id="admin-users-empty" style="display:none;"></p>
+      </div>
     </div>
 
-    <div class="admin-panel">
-      <h2>Bestellungen</h2>
-      <table class="admin-table">
-        <thead><tr><th>Datum</th><th>Kunde</th><th>Adresse</th><th>Produkte</th><th>Betrag</th><th>Zahlung</th><th>Status</th></tr></thead>
-        <tbody id="admin-orders-table"></tbody>
-      </table>
-      <p class="checkout-note" id="admin-orders-empty" style="display:none;">Noch keine Bestellungen.</p>
+    <div class="admin-tab-panel" id="tab-orders">
+      <div class="admin-panel">
+        <h2 id="orders-title"></h2>
+        <p class="orders-count" id="orders-count"></p>
+        <div class="orders-toolbar">
+          <input id="orders-search" type="text" oninput="renderOrdersTable()" />
+          <select id="orders-category-filter" onchange="renderOrdersTable()"></select>
+        </div>
+        <table class="admin-table">
+          <thead><tr>
+            <th id="th-date"></th><th id="th-customer"></th><th id="th-address"></th><th id="th-products"></th><th id="th-amount"></th><th id="th-payment"></th><th id="th-status"></th><th></th>
+          </tr></thead>
+          <tbody id="admin-orders-table"></tbody>
+        </table>
+        <p class="checkout-note" id="admin-orders-empty" style="display:none;"></p>
+      </div>
     </div>
   </div>
 </section>
@@ -427,26 +461,26 @@
   <div class="footer-inner">
     <div>
       <h4>ALVARENO</h4>
-      <a>Über uns</a>
-      <a>Kontakt</a>
-      <a onclick="showAdmin()">Admin-Login</a>
+      <a id="f-about"></a>
+      <a id="f-contact"></a>
+      <a onclick="showAdmin()" id="f-admin"></a>
     </div>
     <div>
-      <h4>Kundenservice</h4>
-      <a>Versand & Lieferung</a>
-      <a>Rückgabe</a>
-      <a>Größentabelle</a>
+      <h4 id="f-service-title"></h4>
+      <a id="f-shipping"></a>
+      <a id="f-returns"></a>
+      <a id="f-sizes"></a>
     </div>
     <div>
-      <h4>Rechtliches</h4>
-      <a>Impressum</a>
-      <a>Datenschutz</a>
-      <a>AGB</a>
+      <h4 id="f-legal-title"></h4>
+      <a id="f-imprint"></a>
+      <a id="f-privacy"></a>
+      <a id="f-terms"></a>
     </div>
   </div>
   <div class="footer-bottom">
     <span>© 2026 ALVARENO</span>
-    <span>Alle Produkte werden von ALVARENO selbst entwickelt und produziert</span>
+    <span id="f-tagline"></span>
   </div>
 </footer>
 
@@ -456,51 +490,213 @@
   const ADMIN_PASSWORD = "LIYAN180311!";
   // -------------------------------------------------------------
 
+  let lang = 'en'; // Standardsprache
+
+  const S = {
+    freeShipBar: { en: "Free shipping from €60 · Designed and sold directly by ALVARENO", de: "Kostenloser Versand ab 60 € · Direkt von ALVARENO produziert und verkauft" },
+    searchPlaceholder: { en: "Search products — e.g. travel bag, wool coat, belt", de: "Produkte durchsuchen — z. B. Reisetasche, Wollmantel, Gürtel" },
+    signIn: { en: "Sign in", de: "Anmelden" },
+    admin: { en: "Admin", de: "Admin" },
+    cart: { en: "Cart", de: "Warenkorb" },
+    allProducts: { en: "All products", de: "Alle Produkte" },
+    heroTitle: { en: "Products by ALVARENO — designed and made by us, directly", de: "Produkte von ALVARENO — direkt von uns entwickelt und produziert" },
+    heroSub: { en: "No middlemen. Every product in this shop comes exclusively from ALVARENO.", de: "Keine Zwischenhändler. Jedes Produkt in diesem Shop stammt ausschließlich von ALVARENO selbst." },
+    ourProducts: { en: "Our products", de: "Unsere Produkte" },
+    noProducts: { en: "No products found.", de: "Keine Produkte gefunden." },
+    trust1t: { en: "Free shipping", de: "Kostenloser Versand" }, trust1s: { en: "from €60 order value", de: "ab 60 € Bestellwert" },
+    trust2t: { en: "Secure payment", de: "Sichere Zahlung" }, trust2s: { en: "SSL-encrypted", de: "SSL-verschlüsselt" },
+    trust3t: { en: "30-day returns", de: "30 Tage Rückgabe" }, trust3s: { en: "Simple & free", de: "Unkompliziert & kostenlos" },
+    trust4t: { en: "Direct contact", de: "Direkter Kontakt" }, trust4s: { en: "No middlemen", de: "Kein Zwischenhändler" },
+    addToCart: { en: "Add to cart", de: "In den Warenkorb" },
+    outOfStock: { en: "Out of stock", de: "Ausverkauft" },
+    reducedBadge: { en: "Sale", de: "Reduziert" },
+    variant: { en: "Variant", de: "Variante" },
+    buyNow: { en: "Buy now", de: "Jetzt kaufen" },
+    productDetails: { en: "Product details", de: "Produktdetails" },
+    customerReviews: { en: "Customer reviews", de: "Kundenbewertungen" },
+    reviewLocked: { en: "Only signed-in, verified customers can write reviews.", de: "Nur angemeldete und verifizierte Kunden können Bewertungen schreiben." },
+    signInNow: { en: "Sign in", de: "Jetzt anmelden" },
+    createAccount: { en: "create an account", de: "Konto erstellen" },
+    or: { en: "or", de: "oder" },
+    yourRating: { en: "Rating", de: "Bewertung" },
+    yourReview: { en: "Your review", de: "Deine Bewertung" },
+    reviewPlaceholder: { en: "How do you like the product?", de: "Wie gefällt dir das Produkt?" },
+    submitReview: { en: "Submit review", de: "Bewertung abschicken" },
+    reviewTextRequired: { en: "Please add a short review text.", de: "Bitte einen kurzen Text zur Bewertung angeben." },
+    stockOut: { en: "Currently out of stock", de: "Aktuell nicht auf Lager" },
+    stockOk: { en: "In stock", de: "Auf Lager" },
+    backToOverview: { en: "← Back to overview", de: "← Zurück zur Übersicht" },
+    keepShopping: { en: "← Keep shopping", de: "← Weiter einkaufen" },
+    backToCart: { en: "← Back to cart", de: "← Zurück zum Warenkorb" },
+    backToShop: { en: "← Back to shop", de: "← Zurück zum Shop" },
+    cartTitle: { en: "Cart", de: "Warenkorb" },
+    cartEmpty: { en: "Your cart is empty.", de: "Dein Warenkorb ist leer." },
+    perItem: { en: "/ item", de: "/ Stück" },
+    remove: { en: "Remove", de: "Entfernen" },
+    total: { en: "Total", de: "Gesamt" },
+    goToCheckout: { en: "Checkout", de: "Zur Kasse" },
+    checkoutTitle: { en: "Checkout", de: "Zur Kasse" },
+    checkoutSub: { en: "Almost done — just delivery address and payment.", de: "Fast geschafft — noch Lieferadresse und Zahlung." },
+    contactAddress: { en: "Contact & delivery address", de: "Kontakt & Lieferadresse" },
+    firstName: { en: "First name", de: "Vorname" },
+    lastName: { en: "Last name", de: "Nachname" },
+    email: { en: "Email", de: "E-Mail" },
+    street: { en: "Street & house number", de: "Straße & Hausnummer" },
+    zip: { en: "ZIP code", de: "PLZ" },
+    city: { en: "City", de: "Ort" },
+    paymentMethod: { en: "Payment method", de: "Zahlungsart" },
+    cardName: { en: "Name on card", de: "Name auf der Karte" },
+    cardNumber: { en: "Card number", de: "Kartennummer" },
+    expiry: { en: "Expiry (MM/YY)", de: "Gültig bis (MM/JJ)" },
+    cvc: { en: "CVC", de: "CVC" },
+    accountHolder: { en: "Account holder", de: "Kontoinhaber" },
+    iban: { en: "IBAN", de: "IBAN" },
+    redirectNote: { en: "Clicking \"Place order\" would redirect you to the provider to log in and confirm.", de: "Beim Klick auf „Zahlungspflichtig bestellen“ würdest du hier zum jeweiligen Anbieter weitergeleitet, um dort einzuloggen und zu bestätigen." },
+    demoNote: { en: "Demo checkout, no real payment processing. Only the last 4 digits are stored — never the full card/IBAN number.", de: "Demo-Kasse ohne echte Zahlungsabwicklung. Es werden nur die letzten 4 Ziffern gespeichert — nie die vollständige Karten-/IBAN-Nummer." },
+    placeOrder: { en: "Place order", de: "Zahlungspflichtig bestellen" },
+    fillAllFields: { en: "Please fill in all contact and address fields.", de: "Bitte alle Kontakt- und Adressfelder ausfüllen." },
+    validCard: { en: "Please enter a valid card number.", de: "Bitte eine gültige Kartennummer eingeben." },
+    validIban: { en: "Please enter a valid IBAN.", de: "Bitte eine gültige IBAN eingeben." },
+    orderConfirmTitle: { en: "Order placed", de: "Bestellung aufgegeben" },
+    thankYou: { en: "Thanks, {name}! Your order for {amount} has been received.", de: "Danke, {name}! Deine Bestellung über {amount} ist eingegangen." },
+    backToShopBtn: { en: "Back to shop", de: "Zurück zum Shop" },
+    signInTitle: { en: "Sign in", de: "Anmelden" },
+    signInSub: { en: "Sign in to shop and write reviews.", de: "Melde dich an, um einzukaufen und Bewertungen zu schreiben." },
+    wrongCreds: { en: "Wrong email or password.", de: "E-Mail oder Passwort falsch." },
+    password: { en: "Password", de: "Passwort" },
+    noAccount: { en: "No account yet?", de: "Noch kein Konto?" },
+    registerNow: { en: "Register now", de: "Jetzt registrieren" },
+    registerTitle: { en: "Create account", de: "Konto erstellen" },
+    registerSub: { en: "Required for shopping and writing reviews.", de: "Wird für den Einkauf und für Bewertungen benötigt." },
+    fillAllFieldsReg: { en: "Please fill in all fields (password min. 4 characters).", de: "Bitte alle Felder ausfüllen (Passwort mind. 4 Zeichen)." },
+    emailTaken: { en: "An account with this email already exists.", de: "Für diese E-Mail existiert bereits ein Konto." },
+    phone: { en: "Phone number", de: "Telefonnummer" },
+    verifyVia: { en: "Verify via", de: "Verifizierung per" },
+    viaEmail: { en: "Email", de: "E-Mail" },
+    viaSms: { en: "SMS", de: "SMS" },
+    registerBtn: { en: "Register & request code", de: "Registrieren & Code anfordern" },
+    alreadyAccount: { en: "Already have an account?", de: "Schon ein Konto?" },
+    verifyTitle: { en: "Confirm code", de: "Code bestätigen" },
+    verifySub: { en: "In a real environment we'd have sent a 6-digit code via {channel} to {target}.", de: "Wir haben (in einer echten Umgebung) einen 6-stelligen Code per {channel} an {target} geschickt." },
+    demoModeNote: { en: "Demo mode: since no real {channel} delivery is connected here, your code is shown directly:", de: "Demo-Modus: Da hier kein echter {channel}-Versand angebunden ist, steht dein Code direkt hier:" },
+    wrongCode: { en: "Code doesn't match.", de: "Code stimmt nicht." },
+    enterCode: { en: "Enter code", de: "Code eingeben" },
+    confirm: { en: "Confirm", de: "Bestätigen" },
+    noCode: { en: "Didn't get a code?", de: "Keinen Code erhalten?" },
+    resend: { en: "Resend", de: "Erneut senden" },
+    adminLoginTitle: { en: "Admin login", de: "Admin-Login" },
+    adminLoginSub: { en: "For ALVARENO only — manage products, categories, users & orders.", de: "Nur für ALVARENO — Produkte, Kategorien, Nutzer & Bestellungen verwalten." },
+    wrongAdminCreds: { en: "Wrong email or password.", de: "E-Mail oder Passwort falsch." },
+    adminSignIn: { en: "Sign in", de: "Anmelden" },
+    adminDashTitle: { en: "Admin area", de: "Adminbereich" },
+    toShop: { en: "To the shop", de: "Zum Shop" },
+    tabProducts: { en: "Products", de: "Produkte" },
+    tabCategories: { en: "Categories", de: "Kategorien" },
+    tabUsers: { en: "Users", de: "Nutzer" },
+    tabOrders: { en: "Orders", de: "Bestellungen" },
+    newProductTitle: { en: "Create new product", de: "Neues Produkt erstellen" },
+    productName: { en: "Product name", de: "Produktname" },
+    category: { en: "Category", de: "Kategorie" },
+    price: { en: "Price (€)", de: "Preis (€)" },
+    stock: { en: "Stock", de: "Lagerbestand" },
+    imagesLabel: { en: "Image URLs (comma-separated, first = main image)", de: "Bild-URLs (kommagetrennt, erstes Bild = Hauptbild)" },
+    shortDescLabel: { en: "Short description", de: "Kurzbeschreibung" },
+    createProductBtn: { en: "Create product", de: "Produkt erstellen" },
+    saveChanges: { en: "Save changes", de: "Änderungen speichern" },
+    cancel: { en: "Cancel", de: "Abbrechen" },
+    fillNamePriceStock: { en: "Please fill in name, price and stock.", de: "Bitte Name, Preis und Lagerbestand ausfüllen." },
+    editingProduct: { en: "Editing product: {name}", de: "Produkt bearbeiten: {name}" },
+    categoriesTitle: { en: "Categories", de: "Kategorien" },
+    newCategoryPlaceholder: { en: "New category, e.g. Shoes", de: "Neue Kategorie, z. B. Schuhe" },
+    addBtn: { en: "Add", de: "Hinzufügen" },
+    categoryExists: { en: "This category already exists.", de: "Diese Kategorie gibt es schon." },
+    categoryInUse: { en: "This category is still used by products. Please recategorize or delete those products first.", de: "Diese Kategorie wird noch von Produkten verwendet. Bitte zuerst die Produkte umkategorisieren oder löschen." },
+    noCategories: { en: "No categories yet.", de: "Noch keine Kategorien." },
+    allProductsTitle: { en: "All products", de: "Alle Produkte" },
+    thImage: { en: "Image", de: "Bild" }, thName: { en: "Name", de: "Name" }, thCategory: { en: "Category", de: "Kategorie" },
+    thPrice: { en: "Price", de: "Preis" }, thStock: { en: "Stock", de: "Lagerbestand" },
+    edit: { en: "Edit", de: "Bearbeiten" }, deleteBtn: { en: "Delete", de: "Löschen" },
+    confirmDeleteProduct: { en: 'Really delete "{name}"?', de: '"{name}" wirklich löschen?' },
+    usersTitle: { en: "Users", de: "Nutzer" },
+    thEmail: { en: "Email", de: "E-Mail" }, thPhone: { en: "Phone", de: "Telefon" }, thVerified: { en: "Verified", de: "Verifiziert" },
+    yes: { en: "Yes", de: "Ja" }, no: { en: "No", de: "Nein" },
+    verify: { en: "Verify", de: "Verifizieren" }, resetVerify: { en: "Reset", de: "Zurücksetzen" },
+    noUsers: { en: "No registered users yet.", de: "Noch keine registrierten Nutzer." },
+    confirmDeleteUser: { en: 'Really delete user "{name}"?', de: 'Nutzer "{name}" wirklich löschen?' },
+    ordersTitle: { en: "Orders", de: "Bestellungen" },
+    ordersSearchPlaceholder: { en: "Search by customer name...", de: "Suche nach Kundenname..." },
+    allCategories: { en: "All categories", de: "Alle Kategorien" },
+    thDate: { en: "Date", de: "Datum" }, thCustomer: { en: "Customer", de: "Kunde" }, thAddress: { en: "Address", de: "Adresse" },
+    thProducts: { en: "Products", de: "Produkte" }, thAmount: { en: "Amount", de: "Betrag" }, thPayment: { en: "Payment", de: "Zahlung" }, thStatus: { en: "Status", de: "Status" },
+    statusPending: { en: "Open", de: "Offen" }, statusPaid: { en: "Paid", de: "Bezahlt" }, statusShipped: { en: "Shipped", de: "Versendet" }, statusCancelled: { en: "Cancelled", de: "Storniert" },
+    noOrders: { en: "No orders yet.", de: "Noch keine Bestellungen." },
+    ordersCount: { en: "{n} order(s)", de: "{n} Bestellung(en)" },
+    confirmDeleteOrder: { en: "Really delete this order?", de: "Diese Bestellung wirklich löschen?" },
+    fAbout: { en: "About us", de: "Über uns" }, fContact: { en: "Contact", de: "Kontakt" }, fAdmin: { en: "Admin login", de: "Admin-Login" },
+    fServiceTitle: { en: "Customer service", de: "Kundenservice" }, fShipping: { en: "Shipping & delivery", de: "Versand & Lieferung" },
+    fReturns: { en: "Returns", de: "Rückgabe" }, fSizes: { en: "Size chart", de: "Größentabelle" },
+    fLegalTitle: { en: "Legal", de: "Rechtliches" }, fImprint: { en: "Imprint", de: "Impressum" }, fPrivacy: { en: "Privacy policy", de: "Datenschutz" }, fTerms: { en: "Terms", de: "AGB" },
+    fTagline: { en: "All products are designed and produced by ALVARENO themselves", de: "Alle Produkte werden von ALVARENO selbst entwickelt und produziert" }
+  };
+  function t(key) { return (S[key] && S[key][lang]) || key; }
+  function tp(key, params) {
+    let str = t(key);
+    Object.keys(params || {}).forEach(k => { str = str.replace('{' + k + '}', params[k]); });
+    return str;
+  }
+  function reviewsCountText(n) { return lang === 'de' ? `${n} Bewertung${n === 1 ? '' : 'en'}` : `${n} review${n === 1 ? '' : 's'}`; }
+  function stockLeftText(n) { return lang === 'de' ? `Nur noch ${n}` : `Only ${n} left`; }
+  function stockLeftNote(n) { return lang === 'de' ? `Nur noch ${n} Stück auf Lager` : `Only ${n} left in stock`; }
+
   let categories = [
-    { id: 'taschen', label: 'Taschen' },
-    { id: 'bekleidung', label: 'Bekleidung' },
-    { id: 'accessoires', label: 'Accessoires' }
+    { id: 'taschen', label: { en: 'Bags', de: 'Taschen' } },
+    { id: 'bekleidung', label: { en: 'Clothing', de: 'Bekleidung' } },
+    { id: 'accessoires', label: { en: 'Accessories', de: 'Accessoires' } }
   ];
 
   let products = [
     {
-      id: 1, slug: "reisetasche-canvas", name: "Reisetasche Canvas", category: "taschen",
+      id: 1, slug: "reisetasche-canvas", category: "taschen",
+      name: { en: "Canvas Travel Bag", de: "Reisetasche Canvas" },
       price: 189, oldPrice: null, stock: 12, rating: 4.8, reviewCount: 2,
-      shortDescription: "Handgefertigte Reisetasche aus gewachstem Canvas.",
-      description: "Die ALVARENO Reisetasche wird aus schwerem, gewachstem Canvas gefertigt und mit pflanzlich gegerbtem Leder verarbeitet.",
+      shortDescription: { en: "Handmade travel bag made from waxed canvas.", de: "Handgefertigte Reisetasche aus gewachstem Canvas." },
+      description: { en: "The ALVARENO travel bag is made from heavy waxed canvas and finished with vegetable-tanned leather. Designed and produced by ALVARENO for years of daily use.", de: "Die ALVARENO Reisetasche wird aus schwerem, gewachstem Canvas gefertigt und mit pflanzlich gegerbtem Leder verarbeitet." },
       images: ["https://picsum.photos/seed/alvareno-bag-1/700/700","https://picsum.photos/seed/alvareno-bag-2/300/300","https://picsum.photos/seed/alvareno-bag-3/300/300"],
-      variants: ["Schwarz", "Olive", "Cognac"],
+      variants: [{en:"Black",de:"Schwarz"},{en:"Olive",de:"Olive"},{en:"Cognac",de:"Cognac"}],
       reviews: [
-        { author: "M. Brandt", rating: 5, text: "Verarbeitung ist außergewöhnlich gut, spürt man sofort." },
-        { author: "J. Keller", rating: 4, text: "Sehr schönes Material, Riemen dürfte minimal länger sein." }
+        { author: "M. Brandt", rating: 5, text: { en: "The craftsmanship is exceptional, you notice it right away.", de: "Verarbeitung ist außergewöhnlich gut, spürt man sofort." } },
+        { author: "J. Keller", rating: 4, text: { en: "Very nice material, the strap could be a touch longer.", de: "Sehr schönes Material, Riemen dürfte minimal länger sein." } }
       ]
     },
     {
-      id: 2, slug: "wollmantel-camel", name: "Wollmantel Camel", category: "bekleidung",
+      id: 2, slug: "wollmantel-camel", category: "bekleidung",
+      name: { en: "Camel Wool Coat", de: "Wollmantel Camel" },
       price: 340, oldPrice: 390, stock: 4, rating: 4.9, reviewCount: 1,
-      shortDescription: "Zweireihiger Mantel aus reiner Schurwolle.",
-      description: "Klassischer Schnitt, gefertigt aus 100% Schurwolle in einer kleinen Manufaktur.",
+      shortDescription: { en: "Double-breasted coat made from pure new wool.", de: "Zweireihiger Mantel aus reiner Schurwolle." },
+      description: { en: "Classic cut, made from 100% new wool in a small workshop.", de: "Klassischer Schnitt, gefertigt aus 100% Schurwolle in einer kleinen Manufaktur." },
       images: ["https://picsum.photos/seed/alvareno-coat-1/700/700","https://picsum.photos/seed/alvareno-coat-2/300/300"],
-      variants: ["36", "38", "40", "42"],
-      reviews: [{ author: "S. Vogt", rating: 5, text: "Fällt wie erwartet, sehr hochwertiger Stoff." }]
+      variants: [{en:"36",de:"36"},{en:"38",de:"38"},{en:"40",de:"40"},{en:"42",de:"42"}],
+      reviews: [{ author: "S. Vogt", rating: 5, text: { en: "Fits as expected, very high-quality fabric.", de: "Fällt wie erwartet, sehr hochwertiger Stoff." } }]
     },
     {
-      id: 3, slug: "lederguertel-schmal", name: "Ledergürtel schmal", category: "accessoires",
+      id: 3, slug: "lederguertel-schmal", category: "accessoires",
+      name: { en: "Slim Leather Belt", de: "Ledergürtel schmal" },
       price: 79, oldPrice: null, stock: 0, rating: 4.6, reviewCount: 1,
-      shortDescription: "Schmaler Gürtel aus pflanzlich gegerbtem Leder.",
-      description: "Reduziertes Design, robuste Schnalle aus gebürstetem Messing.",
+      shortDescription: { en: "Slim belt made from vegetable-tanned leather.", de: "Schmaler Gürtel aus pflanzlich gegerbtem Leder." },
+      description: { en: "Reduced design, sturdy buckle made from brushed brass.", de: "Reduziertes Design, robuste Schnalle aus gebürstetem Messing." },
       images: ["https://picsum.photos/seed/alvareno-belt-1/700/700","https://picsum.photos/seed/alvareno-belt-2/300/300"],
-      variants: ["Schwarz", "Braun"],
-      reviews: [{ author: "T. Nowak", rating: 4, text: "Gutes Leder, nach ein paar Wochen sehr angenehm getragen." }]
+      variants: [{en:"Black",de:"Schwarz"},{en:"Brown",de:"Braun"}],
+      reviews: [{ author: "T. Nowak", rating: 4, text: { en: "Good leather, feels very comfortable after a few weeks.", de: "Gutes Leder, nach ein paar Wochen sehr angenehm getragen." } }]
     },
     {
-      id: 4, slug: "wollschal-anthrazit", name: "Wollschal Anthrazit", category: "accessoires",
+      id: 4, slug: "wollschal-anthrazit", category: "accessoires",
+      name: { en: "Anthracite Wool Scarf", de: "Wollschal Anthrazit" },
       price: 59, oldPrice: null, stock: 20, rating: 4.7, reviewCount: 1,
-      shortDescription: "Schwerer Schal aus italienischer Merinowolle.",
-      description: "Warm, atmungsaktiv und langlebig — gewebt in Italien, konfektioniert und vertrieben von ALVARENO.",
+      shortDescription: { en: "Heavy scarf made from Italian merino wool.", de: "Schwerer Schal aus italienischer Merinowolle." },
+      description: { en: "Warm, breathable and durable — woven in Italy, finished and sold by ALVARENO.", de: "Warm, atmungsaktiv und langlebig — gewebt in Italien, konfektioniert und vertrieben von ALVARENO." },
       images: ["https://picsum.photos/seed/alvareno-scarf-1/700/700","https://picsum.photos/seed/alvareno-scarf-2/300/300"],
-      variants: ["Anthrazit", "Camel", "Marine"],
-      reviews: [{ author: "L. Hoffmann", rating: 5, text: "Sehr weich, hält auch bei Wind richtig warm." }]
+      variants: [{en:"Anthracite",de:"Anthrazit"},{en:"Camel",de:"Camel"},{en:"Navy",de:"Marine"}],
+      reviews: [{ author: "L. Hoffmann", rating: 5, text: { en: "Very soft, keeps you warm even in the wind.", de: "Sehr weich, hält auch bei Wind richtig warm." } }]
     }
   ];
 
@@ -509,37 +705,136 @@
   let nextId = 5;
   let nextOrderId = 1;
   let orders = [];
-  let cart = []; // [{slug, qty}]
+  let cart = [];
   let checkoutItems = [];
+  let checkoutFromCartFlag = false;
   let editingProductId = null;
   let isAdminLoggedIn = false;
+  let activeAdminTab = 'products';
+  let activeViewId = 'home-view';
+  let activeDetailSlug = null;
+  let authMode = 'login';
 
-  // ---- Kundenkonten ----
-  let users = [];           // {id, firstName, lastName, email, phone, password, verified}
+  let users = [];
   let nextUserId = 1;
-  let currentUser = null;   // eingeloggter, verifizierter Nutzer
-  let pendingUser = null;   // Nutzer, der gerade den Code eingeben muss
+  let currentUser = null;
+  let pendingUser = null;
   let pendingCode = null;
   let pendingChannel = 'email';
-  let afterAuthAction = null; // Funktion, die nach erfolgreichem Login/Verifizierung ausgeführt wird
+  let afterAuthAction = null;
 
   function fmtPrice(p) { return p.toLocaleString('de-DE', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }); }
   function stars(n) { return "★".repeat(Math.round(n)) + "☆".repeat(5 - Math.round(n)); }
-  function catLabel(id) { const c = categories.find(c => c.id === id); return c ? c.label : id; }
+  function catLabel(id) { const c = categories.find(c => c.id === id); return c ? c.label[lang] : id; }
+  function prodName(p) { return p.name[lang]; }
+  function prodShort(p) { return p.shortDescription[lang]; }
+  function prodDesc(p) { return p.description[lang]; }
   function slugify(s) {
     return s.toLowerCase().trim()
       .replace(/[äöü]/g, m => ({ä:'ae',ö:'oe',ü:'ue'}[m]))
       .replace(/ß/g, 'ss')
       .replace(/[^a-z0-9]+/g, '-')
-      .replace(/(^-|-$)/g, '') || 'kategorie';
+      .replace(/(^-|-$)/g, '') || 'category';
   }
   function genCode() { return String(Math.floor(100000 + Math.random() * 900000)); }
 
+  /* ---------------- Sprache ---------------- */
+  function setLang(l) {
+    lang = l;
+    document.getElementById('lang-btn-en').classList.toggle('active', l === 'en');
+    document.getElementById('lang-btn-de').classList.toggle('active', l === 'de');
+    applyStaticText();
+    renderCategoryRow();
+    refreshCurrentView();
+  }
+
+  function applyStaticText() {
+    document.getElementById('utility-bar-text').textContent = t('freeShipBar');
+    document.getElementById('search-input').placeholder = t('searchPlaceholder');
+    document.getElementById('admin-label').textContent = t('admin');
+    document.getElementById('cart-label').textContent = t('cart');
+    document.getElementById('hero-title').textContent = t('heroTitle');
+    document.getElementById('hero-sub').textContent = t('heroSub');
+    document.getElementById('trust1-title').textContent = t('trust1t'); document.getElementById('trust1-sub').textContent = t('trust1s');
+    document.getElementById('trust2-title').textContent = t('trust2t'); document.getElementById('trust2-sub').textContent = t('trust2s');
+    document.getElementById('trust3-title').textContent = t('trust3t'); document.getElementById('trust3-sub').textContent = t('trust3s');
+    document.getElementById('trust4-title').textContent = t('trust4t'); document.getElementById('trust4-sub').textContent = t('trust4s');
+    document.getElementById('detail-back').textContent = t('backToOverview');
+    document.getElementById('cart-back').textContent = t('keepShopping');
+    document.getElementById('auth-back').textContent = t('backToShop');
+    document.getElementById('admin-login-title').textContent = t('adminLoginTitle');
+    document.getElementById('admin-login-sub').textContent = t('adminLoginSub');
+    document.getElementById('admin-error').textContent = t('wrongAdminCreds');
+    document.getElementById('admin-email-label').textContent = t('email');
+    document.getElementById('admin-pass-label').textContent = t('password');
+    document.getElementById('admin-login-btn').textContent = t('adminSignIn');
+    document.getElementById('admin-dash-title').textContent = t('adminDashTitle');
+    document.getElementById('admin-to-shop').textContent = t('toShop');
+    document.getElementById('lbl-product-name').textContent = t('productName');
+    document.getElementById('lbl-category').textContent = t('category');
+    document.getElementById('lbl-price').textContent = t('price');
+    document.getElementById('lbl-stock').textContent = t('stock');
+    document.getElementById('lbl-images').textContent = t('imagesLabel');
+    document.getElementById('lbl-shortdesc').textContent = t('shortDescLabel');
+    document.getElementById('product-form-cancel').textContent = t('cancel');
+    document.getElementById('all-products-title').textContent = t('allProductsTitle');
+    document.getElementById('th-image').textContent = t('thImage');
+    document.getElementById('th-name').textContent = t('thName');
+    document.getElementById('th-category').textContent = t('thCategory');
+    document.getElementById('th-price').textContent = t('thPrice');
+    document.getElementById('th-stock').textContent = t('thStock');
+    document.getElementById('categories-title').textContent = t('categoriesTitle');
+    document.getElementById('new-cat-name').placeholder = t('newCategoryPlaceholder');
+    document.getElementById('add-cat-btn').textContent = t('addBtn');
+    document.getElementById('users-title').textContent = t('usersTitle');
+    document.getElementById('th-name2').textContent = t('thName');
+    document.getElementById('th-email').textContent = t('thEmail');
+    document.getElementById('th-phone').textContent = t('thPhone');
+    document.getElementById('th-verified').textContent = t('thVerified');
+    document.getElementById('admin-users-empty').textContent = t('noUsers');
+    document.getElementById('orders-title').textContent = t('ordersTitle');
+    document.getElementById('orders-search').placeholder = t('ordersSearchPlaceholder');
+    document.getElementById('th-date').textContent = t('thDate');
+    document.getElementById('th-customer').textContent = t('thCustomer');
+    document.getElementById('th-address').textContent = t('thAddress');
+    document.getElementById('th-products').textContent = t('thProducts');
+    document.getElementById('th-amount').textContent = t('thAmount');
+    document.getElementById('th-payment').textContent = t('thPayment');
+    document.getElementById('th-status').textContent = t('thStatus');
+    document.getElementById('admin-orders-empty').textContent = t('noOrders');
+    document.getElementById('f-about').textContent = t('fAbout');
+    document.getElementById('f-contact').textContent = t('fContact');
+    document.getElementById('f-admin').textContent = t('fAdmin');
+    document.getElementById('f-service-title').textContent = t('fServiceTitle');
+    document.getElementById('f-shipping').textContent = t('fShipping');
+    document.getElementById('f-returns').textContent = t('fReturns');
+    document.getElementById('f-sizes').textContent = t('fSizes');
+    document.getElementById('f-legal-title').textContent = t('fLegalTitle');
+    document.getElementById('f-imprint').textContent = t('fImprint');
+    document.getElementById('f-privacy').textContent = t('fPrivacy');
+    document.getElementById('f-terms').textContent = t('fTerms');
+    document.getElementById('f-tagline').textContent = t('fTagline');
+    document.getElementById('product-form-title').textContent = editingProductId ? tp('editingProduct', { name: (products.find(p=>p.id===editingProductId)||{name:{en:'',de:''}}).name[lang] }) : t('newProductTitle');
+    document.getElementById('product-form-submit').textContent = editingProductId ? t('saveChanges') : t('createProductBtn');
+    updateAccountLabel();
+    renderAdminTabs();
+    updateOrdersCategoryFilter();
+  }
+
+  function refreshCurrentView() {
+    if (activeViewId === 'home-view') { renderGrid(); }
+    else if (activeViewId === 'detail-view' && activeDetailSlug) { renderDetail(products.find(x => x.slug === activeDetailSlug)); }
+    else if (activeViewId === 'cart-view') { renderCart(); }
+    else if (activeViewId === 'checkout-view') { startCheckout(checkoutFromCartFlag); }
+    else if (activeViewId === 'auth-view') { showAuth(authMode); }
+    else if (activeViewId === 'admin-view' && isAdminLoggedIn) { showAdminDashboard(); }
+  }
+
   /* ---------------- Navigation / Kategorien ---------------- */
   function renderCategoryRow() {
-    const all = [{ id: 'all', label: 'Alle Produkte' }, ...categories];
+    const all = [{ id: 'all', label: { en: t('allProducts'), de: t('allProducts') } }, ...categories];
     document.getElementById('category-row').innerHTML = all.map(c => `
-      <button class="cat-btn ${currentCategory === c.id ? 'active' : ''}" onclick="filterCategory('${c.id}')">${c.label}</button>
+      <button class="cat-btn ${currentCategory === c.id ? 'active' : ''}" onclick="filterCategory('${c.id}')">${c.id === 'all' ? t('allProducts') : c.label[lang]}</button>
     `).join('');
   }
   function filterCategory(id) { currentCategory = id; renderCategoryRow(); renderGrid(); }
@@ -548,38 +843,38 @@
   function getFilteredProducts() {
     return products.filter(p => {
       const matchesCategory = currentCategory === 'all' || p.category === currentCategory;
-      const matchesSearch = !searchTerm || p.name.toLowerCase().includes(searchTerm) || p.shortDescription.toLowerCase().includes(searchTerm);
+      const matchesSearch = !searchTerm || prodName(p).toLowerCase().includes(searchTerm) || prodShort(p).toLowerCase().includes(searchTerm);
       return matchesCategory && matchesSearch;
     });
   }
 
   function stockBadge(p) {
-    if (p.stock <= 0) return '<span class="badge stock-out">Ausverkauft</span>';
-    if (p.stock <= 5) return `<span class="badge stock-low">Nur noch ${p.stock}</span>`;
-    if (p.oldPrice) return '<span class="badge">Reduziert</span>';
+    if (p.stock <= 0) return `<span class="badge stock-out">${t('outOfStock')}</span>`;
+    if (p.stock <= 5) return `<span class="badge stock-low">${stockLeftText(p.stock)}</span>`;
+    if (p.oldPrice) return `<span class="badge">${t('reducedBadge')}</span>`;
     return '';
   }
 
   function renderGrid() {
     const list = getFilteredProducts();
-    document.getElementById('grid-title').textContent = currentCategory === 'all' ? 'Unsere Produkte' : catLabel(currentCategory);
+    document.getElementById('grid-title').textContent = currentCategory === 'all' ? t('ourProducts') : catLabel(currentCategory);
     const grid = document.getElementById('product-grid');
-    if (list.length === 0) { grid.innerHTML = '<p class="empty-note">Keine Produkte gefunden.</p>'; return; }
+    if (list.length === 0) { grid.innerHTML = `<p class="empty-note">${t('noProducts')}</p>`; return; }
     grid.innerHTML = list.map(p => `
       <div class="card" onclick="showDetail('${p.slug}')">
         <div class="img-wrap">
           ${stockBadge(p)}
-          <img src="${p.images[0]}" alt="${p.name}" />
+          <img src="${p.images[0]}" alt="${prodName(p)}" />
         </div>
         <div class="card-body">
           <div class="cat-tag">${catLabel(p.category)}</div>
-          <h3>${p.name}</h3>
+          <h3>${prodName(p)}</h3>
           <div class="rating"><span class="stars">${stars(p.rating)}</span> ${p.rating.toFixed(1)} (${p.reviewCount})</div>
           <div class="price-row">
             <span class="price">${fmtPrice(p.price)}</span>
             ${p.oldPrice ? `<span class="price-old">${fmtPrice(p.oldPrice)}</span>` : ''}
           </div>
-          <button class="add-btn" ${p.stock <= 0 ? 'disabled' : ''} onclick="event.stopPropagation(); addToCart('${p.slug}')">${p.stock <= 0 ? 'Ausverkauft' : 'In den Warenkorb'}</button>
+          <button class="add-btn" ${p.stock <= 0 ? 'disabled' : ''} onclick="event.stopPropagation(); addToCart('${p.slug}')">${p.stock <= 0 ? t('outOfStock') : t('addToCart')}</button>
         </div>
       </div>
     `).join('');
@@ -587,64 +882,65 @@
 
   /* ---------------- Produktdetail ---------------- */
   function stockNote(p) {
-    if (p.stock <= 0) return '<div class="stock-note out">Aktuell nicht auf Lager</div>';
-    if (p.stock <= 5) return `<div class="stock-note low">Nur noch ${p.stock} Stück auf Lager</div>`;
-    return '<div class="stock-note ok">Auf Lager</div>';
+    if (p.stock <= 0) return `<div class="stock-note out">${t('stockOut')}</div>`;
+    if (p.stock <= 5) return `<div class="stock-note low">${stockLeftNote(p.stock)}</div>`;
+    return `<div class="stock-note ok">${t('stockOk')}</div>`;
   }
 
   function renderDetail(p) {
+    activeDetailSlug = p.slug;
     const reviewSection = (currentUser && currentUser.verified) ? `
       <div class="review-form">
-        <label>Bewertung</label>
+        <label>${t('yourRating')}</label>
         <select id="review-rating">
-          <option value="5">5 Sterne – Sehr gut</option>
-          <option value="4">4 Sterne – Gut</option>
-          <option value="3">3 Sterne – Okay</option>
-          <option value="2">2 Sterne – Nicht so gut</option>
-          <option value="1">1 Stern – Schlecht</option>
+          <option value="5">5 ★</option>
+          <option value="4">4 ★</option>
+          <option value="3">3 ★</option>
+          <option value="2">2 ★</option>
+          <option value="1">1 ★</option>
         </select>
-        <label>Deine Bewertung</label>
-        <textarea id="review-text" placeholder="Wie gefällt dir das Produkt?"></textarea>
-        <button onclick="submitReview('${p.slug}')">Bewertung abschicken</button>
+        <label>${t('yourReview')}</label>
+        <textarea id="review-text" placeholder="${t('reviewPlaceholder')}"></textarea>
+        <button onclick="submitReview('${p.slug}')">${t('submitReview')}</button>
       </div>
     ` : `
-      <div class="review-locked">Nur angemeldete und verifizierte Kunden können Bewertungen schreiben. <a onclick="showAuth('login')">Jetzt anmelden</a> oder <a onclick="showAuth('register')">Konto erstellen</a>.</div>
+      <div class="review-locked">${t('reviewLocked')} <a onclick="showAuth('login')">${t('signInNow')}</a> ${t('or')} <a onclick="showAuth('register')">${t('createAccount')}</a>.</div>
     `;
 
     document.getElementById('detail-content').innerHTML = `
       <div>
-        <div class="gallery-main"><img src="${p.images[0]}" alt="${p.name}" /></div>
+        <div class="gallery-main"><img src="${p.images[0]}" alt="${prodName(p)}" /></div>
         <div class="gallery-thumbs">${p.images.slice(1).map(src => `<div><img src="${src}" alt="" /></div>`).join('')}</div>
       </div>
       <div class="detail-info">
         <div class="cat-tag">${catLabel(p.category)}</div>
-        <h1>${p.name}</h1>
-        <div class="rating"><span class="stars">${stars(p.rating)}</span> ${p.rating.toFixed(1)} · ${p.reviewCount} Bewertungen</div>
+        <h1>${prodName(p)}</h1>
+        <div class="rating"><span class="stars">${stars(p.rating)}</span> ${p.rating.toFixed(1)} · ${reviewsCountText(p.reviewCount)}</div>
         <div class="detail-price-row">
           <span class="detail-price">${fmtPrice(p.price)}</span>
           ${p.oldPrice ? `<span class="price-old">${fmtPrice(p.oldPrice)}</span>` : ''}
         </div>
         ${stockNote(p)}
-        <p class="detail-desc">${p.shortDescription}</p>
+        <p class="detail-desc">${prodShort(p)}</p>
         <fieldset class="variants">
-          <legend>Variante</legend>
-          <div class="variant-options">${p.variants.map((v, i) => `<label><input type="radio" name="variant" ${i === 0 ? 'checked' : ''} />${v}</label>`).join('')}</div>
+          <legend>${t('variant')}</legend>
+          <div class="variant-options">${p.variants.map((v, i) => `<label><input type="radio" name="variant" ${i === 0 ? 'checked' : ''} />${v[lang]}</label>`).join('')}</div>
         </fieldset>
         <div class="actions">
-          <button class="btn-outline" ${p.stock <= 0 ? 'disabled' : ''} onclick="addToCart('${p.slug}')">In den Warenkorb</button>
-          <button class="btn-solid" ${p.stock <= 0 ? 'disabled' : ''} onclick="buyNow('${p.slug}')">Jetzt kaufen</button>
+          <button class="btn-outline" ${p.stock <= 0 ? 'disabled' : ''} onclick="addToCart('${p.slug}')">${t('addToCart')}</button>
+          <button class="btn-solid" ${p.stock <= 0 ? 'disabled' : ''} onclick="buyNow('${p.slug}')">${t('buyNow')}</button>
         </div>
         <div class="section-block">
-          <h2>Produktdetails</h2>
-          <p class="detail-desc">${p.description}</p>
+          <h2>${t('productDetails')}</h2>
+          <p class="detail-desc">${prodDesc(p)}</p>
         </div>
         <div class="section-block">
-          <h2>Kundenbewertungen</h2>
+          <h2>${t('customerReviews')}</h2>
           <div id="review-list">
             ${p.reviews.map(r => `
               <div class="review">
                 <div class="review-head"><span class="stars">${stars(r.rating)}</span><span class="author">${r.author}</span></div>
-                <p>${r.text}</p>
+                <p>${r.text[lang]}</p>
               </div>
             `).join('')}
           </div>
@@ -659,8 +955,8 @@
     const p = products.find(x => x.slug === slug);
     const rating = parseInt(document.getElementById('review-rating').value, 10);
     const text = document.getElementById('review-text').value.trim();
-    if (!text) { alert('Bitte einen kurzen Text zur Bewertung angeben.'); return; }
-    p.reviews.push({ author: currentUser.firstName + ' ' + currentUser.lastName.charAt(0) + '.', rating, text });
+    if (!text) { alert(t('reviewTextRequired')); return; }
+    p.reviews.push({ author: currentUser.firstName + ' ' + currentUser.lastName.charAt(0) + '.', rating, text: { en: text, de: text } });
     p.rating = p.reviews.reduce((s, r) => s + r.rating, 0) / p.reviews.length;
     p.reviewCount = p.reviews.length;
     renderDetail(p);
@@ -695,7 +991,7 @@
   function renderCart() {
     const wrap = document.getElementById('cart-wrap');
     if (cart.length === 0) {
-      wrap.innerHTML = '<h1>Warenkorb</h1><p class="cart-empty">Dein Warenkorb ist leer.</p>';
+      wrap.innerHTML = `<h1>${t('cartTitle')}</h1><p class="cart-empty">${t('cartEmpty')}</p>`;
       return;
     }
     let total = 0;
@@ -706,10 +1002,10 @@
       total += lineTotal;
       return `
         <div class="cart-row">
-          <img src="${p.images[0]}" alt="${p.name}" />
+          <img src="${p.images[0]}" alt="${prodName(p)}" />
           <div class="info">
-            <div class="name">${p.name}</div>
-            <div class="unit-price">${fmtPrice(p.price)} / Stück</div>
+            <div class="name">${prodName(p)}</div>
+            <div class="unit-price">${fmtPrice(p.price)} ${t('perItem')}</div>
           </div>
           <div class="cart-qty">
             <button onclick="changeCartQty('${p.slug}', -1)">−</button>
@@ -717,15 +1013,15 @@
             <button onclick="changeCartQty('${p.slug}', 1)">+</button>
           </div>
           <div class="line-total">${fmtPrice(lineTotal)}</div>
-          <span class="cart-remove" onclick="removeFromCart('${p.slug}')">Entfernen</span>
+          <span class="cart-remove" onclick="removeFromCart('${p.slug}')">${t('remove')}</span>
         </div>
       `;
     }).join('');
     wrap.innerHTML = `
-      <h1>Warenkorb</h1>
+      <h1>${t('cartTitle')}</h1>
       ${rows}
-      <div class="cart-total-row"><span>Gesamt</span><span>${fmtPrice(total)}</span></div>
-      <button class="checkout-submit" onclick="checkoutFromCart()">Zur Kasse</button>
+      <div class="cart-total-row"><span>${t('total')}</span><span>${fmtPrice(total)}</span></div>
+      <button class="checkout-submit" onclick="checkoutFromCart()">${t('goToCheckout')}</button>
     `;
   }
 
@@ -745,7 +1041,9 @@
   }
 
   function startCheckout(fromCart) {
+    checkoutFromCartFlag = fromCart;
     setActiveView('checkout-view');
+    document.getElementById('checkout-back').textContent = fromCart ? t('backToCart') : t('backToOverview');
     document.getElementById('checkout-back').onclick = fromCart ? showCart : showHome;
     document.getElementById('checkout-confirm-wrap').style.display = 'none';
     document.getElementById('checkout-form-wrap').style.display = 'block';
@@ -758,57 +1056,57 @@
       total += lineTotal;
       return `
         <div class="checkout-summary-row">
-          <img src="${p.images[0]}" alt="${p.name}" />
-          <span class="name">${p.name}</span><span class="qty">× ${item.qty}</span>
+          <img src="${p.images[0]}" alt="${prodName(p)}" />
+          <span class="name">${prodName(p)}</span><span class="qty">× ${item.qty}</span>
           <span class="price">${fmtPrice(lineTotal)}</span>
         </div>
       `;
     }).join('');
 
     document.getElementById('checkout-form-wrap').innerHTML = `
-      <h1>Zur Kasse</h1>
-      <p class="checkout-sub">Fast geschafft — noch Lieferadresse und Zahlung.</p>
+      <h1>${t('checkoutTitle')}</h1>
+      <p class="checkout-sub">${t('checkoutSub')}</p>
       ${rows}
-      <div class="checkout-total"><span>Gesamt</span><span>${fmtPrice(total)}</span></div>
+      <div class="checkout-total"><span>${t('total')}</span><span>${fmtPrice(total)}</span></div>
 
       <div class="checkout-fieldgroup">
-        <h2>Kontakt & Lieferadresse</h2>
+        <h2>${t('contactAddress')}</h2>
         <div class="checkout-grid">
-          <div><label>Vorname</label><input id="co-first" type="text" value="${currentUser ? currentUser.firstName : ''}" /></div>
-          <div><label>Nachname</label><input id="co-last" type="text" value="${currentUser ? currentUser.lastName : ''}" /></div>
-          <div class="full"><label>E-Mail</label><input id="co-email" type="email" value="${currentUser ? currentUser.email : ''}" /></div>
-          <div class="full"><label>Straße & Hausnummer</label><input id="co-street" type="text" /></div>
-          <div><label>PLZ</label><input id="co-zip" type="text" /></div>
-          <div><label>Ort</label><input id="co-city" type="text" /></div>
+          <div><label>${t('firstName')}</label><input id="co-first" type="text" value="${currentUser ? currentUser.firstName : ''}" /></div>
+          <div><label>${t('lastName')}</label><input id="co-last" type="text" value="${currentUser ? currentUser.lastName : ''}" /></div>
+          <div class="full"><label>${t('email')}</label><input id="co-email" type="email" value="${currentUser ? currentUser.email : ''}" /></div>
+          <div class="full"><label>${t('street')}</label><input id="co-street" type="text" /></div>
+          <div><label>${t('zip')}</label><input id="co-zip" type="text" /></div>
+          <div><label>${t('city')}</label><input id="co-city" type="text" /></div>
         </div>
       </div>
 
       <div class="checkout-fieldgroup">
-        <h2>Zahlungsart</h2>
+        <h2>${t('paymentMethod')}</h2>
         <div class="payment-toggle">
-          <label><input type="radio" name="pay-method" value="card" checked onchange="togglePaymentFields()" /> Kreditkarte</label>
-          <label><input type="radio" name="pay-method" value="sepa" onchange="togglePaymentFields()" /> SEPA-Lastschrift</label>
+          <label><input type="radio" name="pay-method" value="card" checked onchange="togglePaymentFields()" /> ${lang==='de'?'Kreditkarte':'Credit card'}</label>
+          <label><input type="radio" name="pay-method" value="sepa" onchange="togglePaymentFields()" /> ${lang==='de'?'SEPA-Lastschrift':'SEPA direct debit'}</label>
           <label><input type="radio" name="pay-method" value="paypal" onchange="togglePaymentFields()" /> PayPal</label>
         </div>
         <div class="payment-toggle">
-          <label><input type="radio" name="pay-method" value="klarna" onchange="togglePaymentFields()" /> Klarna (Rechnung/Raten)</label>
+          <label><input type="radio" name="pay-method" value="klarna" onchange="togglePaymentFields()" /> Klarna</label>
           <label><input type="radio" name="pay-method" value="applegoogle" onchange="togglePaymentFields()" /> Apple Pay / Google Pay</label>
         </div>
         <div id="pay-card-fields" class="checkout-grid">
-          <div class="full"><label>Name auf der Karte</label><input id="co-card-name" type="text" /></div>
-          <div class="full"><label>Kartennummer</label><input id="co-card-number" type="text" inputmode="numeric" placeholder="1234 5678 9012 3456" /></div>
-          <div><label>Gültig bis (MM/JJ)</label><input id="co-card-expiry" type="text" placeholder="MM/JJ" /></div>
-          <div><label>CVC</label><input id="co-card-cvc" type="text" inputmode="numeric" placeholder="123" /></div>
+          <div class="full"><label>${t('cardName')}</label><input id="co-card-name" type="text" /></div>
+          <div class="full"><label>${t('cardNumber')}</label><input id="co-card-number" type="text" inputmode="numeric" placeholder="1234 5678 9012 3456" /></div>
+          <div><label>${t('expiry')}</label><input id="co-card-expiry" type="text" placeholder="MM/YY" /></div>
+          <div><label>${t('cvc')}</label><input id="co-card-cvc" type="text" inputmode="numeric" placeholder="123" /></div>
         </div>
         <div id="pay-sepa-fields" class="checkout-grid" style="display:none;">
-          <div class="full"><label>Kontoinhaber</label><input id="co-iban-name" type="text" /></div>
-          <div class="full"><label>IBAN</label><input id="co-iban" type="text" placeholder="DE00 0000 0000 0000 0000 00" /></div>
+          <div class="full"><label>${t('accountHolder')}</label><input id="co-iban-name" type="text" /></div>
+          <div class="full"><label>${t('iban')}</label><input id="co-iban" type="text" placeholder="DE00 0000 0000 0000 0000 00" /></div>
         </div>
-        <div id="pay-redirect-note" class="checkout-note" style="display:none;">Beim Klick auf „Zahlungspflichtig bestellen" würdest du hier zum jeweiligen Anbieter weitergeleitet, um dort einzuloggen und zu bestätigen.</div>
-        <p class="checkout-note">Demo-Kasse ohne echte Zahlungsabwicklung. Es werden nur die letzten 4 Ziffern gespeichert — nie die vollständige Karten-/IBAN-Nummer.</p>
+        <div id="pay-redirect-note" class="checkout-note" style="display:none;">${t('redirectNote')}</div>
+        <p class="checkout-note">${t('demoNote')}</p>
       </div>
 
-      <button class="checkout-submit" onclick="submitOrder(${fromCart})">Zahlungspflichtig bestellen</button>
+      <button class="checkout-submit" onclick="submitOrder(${fromCart})">${t('placeOrder')}</button>
     `;
   }
 
@@ -828,16 +1126,16 @@
     const city = document.getElementById('co-city').value.trim();
     const method = document.querySelector('input[name="pay-method"]:checked').value;
 
-    if (!first || !last || !email || !street || !zip || !city) { alert('Bitte alle Kontakt- und Adressfelder ausfüllen.'); return; }
+    if (!first || !last || !email || !street || !zip || !city) { alert(t('fillAllFields')); return; }
 
     let paymentLabel;
     if (method === 'card') {
       const number = document.getElementById('co-card-number').value.replace(/\s+/g, '');
-      if (number.length < 12) { alert('Bitte eine gültige Kartennummer eingeben.'); return; }
-      paymentLabel = 'Kreditkarte •••• ' + number.slice(-4);
+      if (number.length < 12) { alert(t('validCard')); return; }
+      paymentLabel = 'Card •••• ' + number.slice(-4);
     } else if (method === 'sepa') {
       const iban = document.getElementById('co-iban').value.replace(/\s+/g, '');
-      if (iban.length < 8) { alert('Bitte eine gültige IBAN eingeben.'); return; }
+      if (iban.length < 8) { alert(t('validIban')); return; }
       paymentLabel = 'SEPA •••• ' + iban.slice(-4);
     } else if (method === 'paypal') {
       paymentLabel = 'PayPal';
@@ -848,21 +1146,21 @@
     }
 
     let total = 0;
-    const productNames = [];
+    const items = [];
     checkoutItems.forEach(item => {
       const p = products.find(x => x.slug === item.slug);
       if (p.stock > 0) p.stock = Math.max(0, p.stock - item.qty);
       total += p.price * item.qty;
-      productNames.push(`${p.name} ×${item.qty}`);
+      items.push({ slug: p.slug, name: prodName(p), category: p.category, qty: item.qty, price: p.price });
     });
 
     orders.push({
       id: nextOrderId++,
-      date: new Date().toLocaleDateString('de-DE'),
+      date: new Date().toLocaleDateString('en-GB'),
       customer: `${first} ${last}`,
       email,
       address: `${street}, ${zip} ${city}`,
-      productSummary: productNames.join(', '),
+      items,
       amount: total,
       payment: paymentLabel,
       status: 'pending'
@@ -876,15 +1174,16 @@
     confirmWrap.style.display = 'block';
     confirmWrap.innerHTML = `
       <div class="order-confirm">
-        <h1>Bestellung aufgegeben</h1>
-        <p>Danke, ${first}! Deine Bestellung über ${fmtPrice(total)} ist eingegangen.</p>
-        <button onclick="showHome()">Zurück zum Shop</button>
+        <h1>${t('orderConfirmTitle')}</h1>
+        <p>${tp('thankYou', { name: first, amount: fmtPrice(total) })}</p>
+        <button onclick="showHome()">${t('backToShopBtn')}</button>
       </div>
     `;
   }
 
-  /* ---------------- Kundenkonto: Login / Registrierung / Verifizierung ---------------- */
+  /* ---------------- Kundenkonto ---------------- */
   function showAuth(mode) {
+    authMode = mode;
     setActiveView('auth-view');
     if (mode === 'login') renderLoginForm();
     else if (mode === 'register') renderRegisterForm();
@@ -893,15 +1192,15 @@
 
   function renderLoginForm() {
     document.getElementById('auth-wrap').innerHTML = `
-      <h1>Anmelden</h1>
-      <p class="auth-sub">Melde dich an, um einzukaufen und Bewertungen zu schreiben.</p>
-      <p class="auth-error" id="auth-error">E-Mail oder Passwort falsch.</p>
-      <label>E-Mail</label>
+      <h1>${t('signInTitle')}</h1>
+      <p class="auth-sub">${t('signInSub')}</p>
+      <p class="auth-error" id="auth-error">${t('wrongCreds')}</p>
+      <label>${t('email')}</label>
       <input id="login-email" type="email" />
-      <label>Passwort</label>
+      <label>${t('password')}</label>
       <input id="login-password" type="password" />
-      <button class="primary" onclick="attemptLogin()">Anmelden</button>
-      <div class="auth-switch">Noch kein Konto? <a onclick="showAuth('register')">Jetzt registrieren</a></div>
+      <button class="primary" onclick="attemptLogin()">${t('signIn')}</button>
+      <div class="auth-switch">${t('noAccount')} <a onclick="showAuth('register')">${t('registerNow')}</a></div>
     `;
   }
 
@@ -911,9 +1210,7 @@
     const user = users.find(u => u.email.toLowerCase() === email && u.password === password);
     if (!user) { document.getElementById('auth-error').style.display = 'block'; return; }
     if (!user.verified) {
-      pendingUser = user;
-      pendingChannel = 'email';
-      pendingCode = genCode();
+      pendingUser = user; pendingChannel = 'email'; pendingCode = genCode();
       showAuth('verify');
       return;
     }
@@ -925,26 +1222,21 @@
 
   function renderRegisterForm() {
     document.getElementById('auth-wrap').innerHTML = `
-      <h1>Konto erstellen</h1>
-      <p class="auth-sub">Wird für den Einkauf und für Bewertungen benötigt.</p>
-      <p class="auth-error" id="auth-error">Bitte alle Felder korrekt ausfüllen.</p>
-      <label>Vorname</label>
-      <input id="reg-first" type="text" />
-      <label>Nachname</label>
-      <input id="reg-last" type="text" />
-      <label>E-Mail</label>
-      <input id="reg-email" type="email" />
-      <label>Telefonnummer</label>
-      <input id="reg-phone" type="tel" placeholder="+49 151 23456789" />
-      <label>Passwort</label>
-      <input id="reg-password" type="password" />
-      <label>Verifizierung per</label>
+      <h1>${t('registerTitle')}</h1>
+      <p class="auth-sub">${t('registerSub')}</p>
+      <p class="auth-error" id="auth-error">${t('fillAllFieldsReg')}</p>
+      <label>${t('firstName')}</label><input id="reg-first" type="text" />
+      <label>${t('lastName')}</label><input id="reg-last" type="text" />
+      <label>${t('email')}</label><input id="reg-email" type="email" />
+      <label>${t('phone')}</label><input id="reg-phone" type="tel" placeholder="+49 151 23456789" />
+      <label>${t('password')}</label><input id="reg-password" type="password" />
+      <label>${t('verifyVia')}</label>
       <div class="verify-toggle">
-        <label><input type="radio" name="verify-channel" value="email" checked /> E-Mail</label>
-        <label><input type="radio" name="verify-channel" value="phone" /> SMS</label>
+        <label><input type="radio" name="verify-channel" value="email" checked /> ${t('viaEmail')}</label>
+        <label><input type="radio" name="verify-channel" value="phone" /> ${t('viaSms')}</label>
       </div>
-      <button class="primary" onclick="attemptRegister()">Registrieren & Code anfordern</button>
-      <div class="auth-switch">Schon ein Konto? <a onclick="showAuth('login')">Anmelden</a></div>
+      <button class="primary" onclick="attemptRegister()">${t('registerBtn')}</button>
+      <div class="auth-switch">${t('alreadyAccount')} <a onclick="showAuth('login')">${t('signIn')}</a></div>
     `;
   }
 
@@ -957,39 +1249,37 @@
     const channel = document.querySelector('input[name="verify-channel"]:checked').value;
 
     if (!firstName || !lastName || !email || !phone || password.length < 4) {
-      document.getElementById('auth-error').textContent = 'Bitte alle Felder ausfüllen (Passwort mind. 4 Zeichen).';
+      document.getElementById('auth-error').textContent = t('fillAllFieldsReg');
       document.getElementById('auth-error').style.display = 'block';
       return;
     }
     if (users.some(u => u.email.toLowerCase() === email.toLowerCase())) {
-      document.getElementById('auth-error').textContent = 'Für diese E-Mail existiert bereits ein Konto.';
+      document.getElementById('auth-error').textContent = t('emailTaken');
       document.getElementById('auth-error').style.display = 'block';
       return;
     }
 
     const user = { id: nextUserId++, firstName, lastName, email, phone, password, verified: false };
     users.push(user);
-    pendingUser = user;
-    pendingChannel = channel;
-    pendingCode = genCode();
+    pendingUser = user; pendingChannel = channel; pendingCode = genCode();
     showAuth('verify');
   }
 
   function renderVerifyForm() {
     const target = pendingChannel === 'phone' ? pendingUser.phone : pendingUser.email;
-    const channelLabel = pendingChannel === 'phone' ? 'SMS' : 'E-Mail';
+    const channelLabel = pendingChannel === 'phone' ? t('viaSms') : t('viaEmail');
     document.getElementById('auth-wrap').innerHTML = `
-      <h1>Code bestätigen</h1>
-      <p class="auth-sub">Wir haben (in einer echten Umgebung) einen 6-stelligen Code per ${channelLabel} an ${target} geschickt.</p>
+      <h1>${t('verifyTitle')}</h1>
+      <p class="auth-sub">${tp('verifySub', { channel: channelLabel, target })}</p>
       <div class="demo-code-box">
-        Demo-Modus: Da hier kein echter ${channelLabel}-Versand angebunden ist, steht dein Code direkt hier:
+        ${tp('demoModeNote', { channel: channelLabel })}
         <strong>${pendingCode}</strong>
       </div>
-      <p class="auth-error" id="auth-error">Code stimmt nicht.</p>
-      <label>Code eingeben</label>
+      <p class="auth-error" id="auth-error">${t('wrongCode')}</p>
+      <label>${t('enterCode')}</label>
       <input id="verify-code-input" type="text" inputmode="numeric" maxlength="6" placeholder="000000" />
-      <button class="primary" onclick="confirmVerifyCode()">Bestätigen</button>
-      <div class="resend-link">Keinen Code erhalten? <a onclick="resendCode()">Erneut senden</a></div>
+      <button class="primary" onclick="confirmVerifyCode()">${t('confirm')}</button>
+      <div class="resend-link">${t('noCode')} <a onclick="resendCode()">${t('resend')}</a></div>
     `;
   }
 
@@ -1000,30 +1290,20 @@
     if (entered !== pendingCode) { document.getElementById('auth-error').style.display = 'block'; return; }
     pendingUser.verified = true;
     currentUser = pendingUser;
-    pendingUser = null;
-    pendingCode = null;
+    pendingUser = null; pendingCode = null;
     updateAccountLabel();
     if (isAdminLoggedIn) renderUsersTable();
     const action = afterAuthAction; afterAuthAction = null;
     if (action) action(); else showHome();
   }
 
-  function logoutUser() {
-    currentUser = null;
-    updateAccountLabel();
-    showHome();
-  }
+  function logoutUser() { currentUser = null; updateAccountLabel(); showHome(); }
 
   function updateAccountLabel() {
     const action = document.getElementById('account-action');
     const label = document.getElementById('account-label');
-    if (currentUser) {
-      label.textContent = currentUser.firstName;
-      action.onclick = logoutUser;
-    } else {
-      label.textContent = 'Anmelden';
-      action.onclick = () => showAuth('login');
-    }
+    if (currentUser) { label.textContent = currentUser.firstName; action.onclick = logoutUser; }
+    else { label.textContent = t('signIn'); action.onclick = () => showAuth('login'); }
   }
 
   /* ---------------- Admin ---------------- */
@@ -1042,24 +1322,45 @@
   function showAdminDashboard() {
     document.getElementById('admin-login-block').style.display = 'none';
     document.getElementById('admin-dash-block').style.display = 'block';
+    renderAdminTabs();
     renderCategorySelect();
     renderCategoryManageList();
     renderAdminTable();
     renderUsersTable();
+    updateOrdersCategoryFilter();
     renderOrdersTable();
+    switchAdminTab(activeAdminTab);
+  }
+
+  function renderAdminTabs() {
+    const tabs = [
+      { id: 'products', label: t('tabProducts') },
+      { id: 'categories', label: t('tabCategories') },
+      { id: 'users', label: t('tabUsers') },
+      { id: 'orders', label: t('tabOrders') }
+    ];
+    document.getElementById('admin-tabs').innerHTML = tabs.map(tb => `
+      <button class="admin-tab-btn ${activeAdminTab === tb.id ? 'active' : ''}" onclick="switchAdminTab('${tb.id}')">${tb.label}</button>
+    `).join('');
+  }
+
+  function switchAdminTab(id) {
+    activeAdminTab = id;
+    renderAdminTabs();
+    ['products','categories','users','orders'].forEach(x => document.getElementById('tab-' + x).classList.toggle('active', x === id));
   }
 
   function renderCategorySelect() {
-    document.getElementById('new-category').innerHTML = categories.map(c => `<option value="${c.id}">${c.label}</option>`).join('');
+    document.getElementById('new-category').innerHTML = categories.map(c => `<option value="${c.id}">${c.label[lang]}</option>`).join('');
   }
 
   function renderCategoryManageList() {
     document.getElementById('category-manage-list').innerHTML = categories.map(c => `
       <div class="cat-manage-row">
-        <span>${c.label}</span>
-        <button class="delete-btn" onclick="deleteCategory('${c.id}')">Löschen</button>
+        <span>${c.label[lang]}</span>
+        <button class="delete-btn" onclick="deleteCategory('${c.id}')">${t('deleteBtn')}</button>
       </div>
-    `).join('') || '<p class="checkout-note">Noch keine Kategorien.</p>';
+    `).join('') || `<p class="checkout-note">${t('noCategories')}</p>`;
   }
 
   function addCategory() {
@@ -1067,37 +1368,36 @@
     const name = input.value.trim();
     if (!name) return;
     const id = slugify(name);
-    if (categories.some(c => c.id === id)) { alert('Diese Kategorie gibt es schon.'); return; }
-    categories.push({ id, label: name });
+    if (categories.some(c => c.id === id)) { alert(t('categoryExists')); return; }
+    categories.push({ id, label: { en: name, de: name } });
     input.value = '';
     renderCategoryManageList();
     renderCategorySelect();
     renderCategoryRow();
+    updateOrdersCategoryFilter();
   }
 
   function deleteCategory(id) {
-    if (products.some(p => p.category === id)) {
-      alert('Diese Kategorie wird noch von Produkten verwendet. Bitte zuerst die Produkte umkategorisieren oder löschen.');
-      return;
-    }
+    if (products.some(p => p.category === id)) { alert(t('categoryInUse')); return; }
     categories = categories.filter(c => c.id !== id);
     if (currentCategory === id) currentCategory = 'all';
     renderCategoryManageList();
     renderCategorySelect();
     renderCategoryRow();
+    updateOrdersCategoryFilter();
   }
 
   function renderAdminTable() {
     document.getElementById('admin-product-table').innerHTML = products.map(p => `
       <tr>
         <td><img src="${p.images[0]}" alt="" /></td>
-        <td>${p.name}</td>
+        <td>${prodName(p)}</td>
         <td>${catLabel(p.category)}</td>
         <td>${fmtPrice(p.price)}</td>
         <td><input class="stock-input" type="number" min="0" value="${p.stock}" onchange="updateStock(${p.id}, this.value)" /></td>
         <td class="row-actions">
-          <button class="edit-btn" onclick="editProduct(${p.id})">Bearbeiten</button>
-          <button class="delete-btn" onclick="deleteProduct(${p.id})">Löschen</button>
+          <button class="edit-btn" onclick="editProduct(${p.id})">${t('edit')}</button>
+          <button class="delete-btn" onclick="deleteProduct(${p.id})">${t('deleteBtn')}</button>
         </td>
       </tr>
     `).join('');
@@ -1110,7 +1410,7 @@
 
   function deleteProduct(id) {
     const p = products.find(x => x.id === id);
-    if (!confirm(`"${p.name}" wirklich löschen?`)) return;
+    if (!confirm(tp('confirmDeleteProduct', { name: prodName(p) }))) return;
     products = products.filter(x => x.id !== id);
     if (editingProductId === id) cancelEditProduct();
     renderAdminTable();
@@ -1119,27 +1419,27 @@
   function editProduct(id) {
     const p = products.find(x => x.id === id);
     editingProductId = id;
-    document.getElementById('product-form-title').textContent = 'Produkt bearbeiten: ' + p.name;
-    document.getElementById('new-name').value = p.name;
+    document.getElementById('product-form-title').textContent = tp('editingProduct', { name: prodName(p) });
+    document.getElementById('new-name').value = prodName(p);
     document.getElementById('new-category').value = p.category;
     document.getElementById('new-price').value = p.price;
     document.getElementById('new-stock').value = p.stock;
     document.getElementById('new-image').value = p.images.join(', ');
-    document.getElementById('new-desc').value = p.shortDescription;
-    document.getElementById('product-form-submit').textContent = 'Änderungen speichern';
+    document.getElementById('new-desc').value = prodShort(p);
+    document.getElementById('product-form-submit').textContent = t('saveChanges');
     document.getElementById('product-form-cancel').style.display = 'inline-block';
     document.getElementById('product-form-title').scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
   function cancelEditProduct() {
     editingProductId = null;
-    document.getElementById('product-form-title').textContent = 'Neues Produkt erstellen';
+    document.getElementById('product-form-title').textContent = t('newProductTitle');
     document.getElementById('new-name').value = '';
     document.getElementById('new-price').value = '';
     document.getElementById('new-stock').value = '';
     document.getElementById('new-image').value = '';
     document.getElementById('new-desc').value = '';
-    document.getElementById('product-form-submit').textContent = 'Produkt erstellen';
+    document.getElementById('product-form-submit').textContent = t('createProductBtn');
     document.getElementById('product-form-cancel').style.display = 'none';
   }
 
@@ -1152,21 +1452,22 @@
     const images = imagesRaw ? imagesRaw.split(',').map(s => s.trim()).filter(Boolean) : ['https://picsum.photos/seed/alvareno-new/700/700'];
     const desc = document.getElementById('new-desc').value.trim();
 
-    if (!name || isNaN(price) || isNaN(stock)) { alert('Bitte Name, Preis und Lagerbestand ausfüllen.'); return; }
+    if (!name || isNaN(price) || isNaN(stock)) { alert(t('fillNamePriceStock')); return; }
 
     if (editingProductId) {
       const p = products.find(x => x.id === editingProductId);
-      p.name = name; p.category = category; p.price = price; p.stock = stock;
-      p.images = images; p.shortDescription = desc || p.shortDescription;
+      p.name[lang] = name; p.category = category; p.price = price; p.stock = stock;
+      p.images = images; if (desc) p.shortDescription[lang] = desc;
       cancelEditProduct();
     } else {
       products.push({
         id: nextId++,
         slug: slugify(name) + '-' + Date.now(),
-        name, category, price, oldPrice: null, stock,
+        category, price, oldPrice: null, stock,
         rating: 0, reviewCount: 0,
-        shortDescription: desc || name,
-        description: desc || name,
+        name: { en: name, de: name },
+        shortDescription: { en: desc || name, de: desc || name },
+        description: { en: desc || name, de: desc || name },
         images, variants: [], reviews: []
       });
     }
@@ -1189,10 +1490,10 @@
         <td><input class="table-input" value="${u.email}" onchange="updateUserField(${u.id}, 'email', this.value)" /></td>
         <td><input class="table-input" value="${u.phone}" onchange="updateUserField(${u.id}, 'phone', this.value)" /></td>
         <td>
-          <span class="verified-pill ${u.verified ? 'yes' : 'no'}">${u.verified ? 'Ja' : 'Nein'}</span>
-          <button class="edit-btn" style="margin-top:6px;" onclick="toggleUserVerified(${u.id})">${u.verified ? 'Zurücksetzen' : 'Verifizieren'}</button>
+          <span class="verified-pill ${u.verified ? 'yes' : 'no'}">${u.verified ? t('yes') : t('no')}</span>
+          <button class="edit-btn" style="margin-top:6px;" onclick="toggleUserVerified(${u.id})">${u.verified ? t('resetVerify') : t('verify')}</button>
         </td>
-        <td><button class="delete-btn" onclick="deleteUser(${u.id})">Löschen</button></td>
+        <td><button class="delete-btn" onclick="deleteUser(${u.id})">${t('deleteBtn')}</button></td>
       </tr>
     `).join('');
   }
@@ -1211,33 +1512,56 @@
 
   function deleteUser(id) {
     const u = users.find(x => x.id === id);
-    if (!confirm(`Nutzer "${u.firstName} ${u.lastName}" wirklich löschen?`)) return;
+    if (!confirm(tp('confirmDeleteUser', { name: u.firstName + ' ' + u.lastName }))) return;
     users = users.filter(x => x.id !== id);
     if (currentUser && currentUser.id === id) { currentUser = null; updateAccountLabel(); }
     renderUsersTable();
   }
 
+  function updateOrdersCategoryFilter() {
+    const select = document.getElementById('orders-category-filter');
+    if (!select) return;
+    const current = select.value || 'all';
+    select.innerHTML = `<option value="all">${t('allCategories')}</option>` + categories.map(c => `<option value="${c.id}">${c.label[lang]}</option>`).join('');
+    select.value = current;
+  }
+
   function renderOrdersTable() {
     const tbody = document.getElementById('admin-orders-table');
     const empty = document.getElementById('admin-orders-empty');
-    if (orders.length === 0) { tbody.innerHTML = ''; empty.style.display = 'block'; return; }
+    const searchVal = (document.getElementById('orders-search').value || '').trim().toLowerCase();
+    const catVal = document.getElementById('orders-category-filter').value || 'all';
+
+    const filtered = orders.filter(o => {
+      const matchesName = !searchVal || o.customer.toLowerCase().includes(searchVal);
+      const matchesCategory = catVal === 'all' || o.items.some(it => it.category === catVal);
+      return matchesName && matchesCategory;
+    });
+
+    document.getElementById('orders-count').textContent = tp('ordersCount', { n: filtered.length }) + (filtered.length !== orders.length ? ` / ${orders.length}` : '');
+
+    if (filtered.length === 0) { tbody.innerHTML = ''; empty.style.display = 'block'; return; }
     empty.style.display = 'none';
-    tbody.innerHTML = orders.map(o => `
+
+    const statusLabel = (s) => ({ pending: t('statusPending'), paid: t('statusPaid'), shipped: t('statusShipped'), cancelled: t('statusCancelled') }[s]);
+
+    tbody.innerHTML = filtered.map(o => `
       <tr>
         <td>${o.date}</td>
         <td>${o.customer}<br><span class="checkout-note">${o.email}</span></td>
         <td>${o.address}</td>
-        <td>${o.productSummary}</td>
+        <td>${o.items.map(it => `${it.name} ×${it.qty}`).join(', ')}</td>
         <td>${fmtPrice(o.amount)}</td>
         <td>${o.payment}</td>
         <td>
           <select class="status-select" onchange="updateOrderStatus(${o.id}, this.value)">
-            <option value="pending" ${o.status === 'pending' ? 'selected' : ''}>Offen</option>
-            <option value="paid" ${o.status === 'paid' ? 'selected' : ''}>Bezahlt</option>
-            <option value="shipped" ${o.status === 'shipped' ? 'selected' : ''}>Versendet</option>
-            <option value="cancelled" ${o.status === 'cancelled' ? 'selected' : ''}>Storniert</option>
+            <option value="pending" ${o.status === 'pending' ? 'selected' : ''}>${t('statusPending')}</option>
+            <option value="paid" ${o.status === 'paid' ? 'selected' : ''}>${t('statusPaid')}</option>
+            <option value="shipped" ${o.status === 'shipped' ? 'selected' : ''}>${t('statusShipped')}</option>
+            <option value="cancelled" ${o.status === 'cancelled' ? 'selected' : ''}>${t('statusCancelled')}</option>
           </select>
         </td>
+        <td><button class="delete-btn" onclick="deleteOrder(${o.id})">${t('deleteBtn')}</button></td>
       </tr>
     `).join('');
   }
@@ -1247,8 +1571,15 @@
     o.status = status;
   }
 
+  function deleteOrder(id) {
+    if (!confirm(t('confirmDeleteOrder'))) return;
+    orders = orders.filter(x => x.id !== id);
+    renderOrdersTable();
+  }
+
   /* ---------------- Ansichten wechseln ---------------- */
   function setActiveView(id) {
+    activeViewId = id;
     document.getElementById('home-view').style.display = 'none';
     document.getElementById('detail-view').classList.remove('active');
     document.getElementById('cart-view').classList.remove('active');
@@ -1269,6 +1600,7 @@
     if (isAdminLoggedIn) showAdminDashboard();
   }
 
+  setLang('en');
   renderCategoryRow();
   renderGrid();
   updateAccountLabel();
