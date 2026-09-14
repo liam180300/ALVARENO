@@ -278,7 +278,7 @@
 </head>
 <body>
 
-<div class="utility-bar" id="utility-bar-text">Free shipping from €100</div>
+<div class="utility-bar" id="utility-bar-text">Free shipping from €100 shopping cart value</div>
 
 <header id="header">
   <div class="header-top">
@@ -502,7 +502,7 @@
   let lang = 'en'; // Standardsprache
 
   const S = {
-    freeShipBar: { en: "Free shipping from €100", de: "Kostenloser Versand ab 100 €" },
+    freeShipBar: { en: "Free shipping from €100 cart value", de: "Kostenloser Versand ab 100 € warenkorb wert" },
     searchPlaceholder: { en: "Search products — e.g. travel bag, wool coat, belt", de: "Produkte durchsuchen — z. B. Reisetasche, Wollmantel, Gürtel" },
     signIn: { en: "Sign in", de: "Anmelden" },
     admin: { en: "Admin", de: "Admin" },
@@ -645,7 +645,7 @@
     fServiceTitle: { en: "Customer service", de: "Kundenservice" }, fShipping: { en: "Shipping & delivery", de: "Versand & Lieferung" },
     fReturns: { en: "Returns", de: "Rückgabe" }, fSizes: { en: "Size chart", de: "Größentabelle" },
     fLegalTitle: { en: "Legal", de: "Rechtliches" }, fImprint: { en: "Imprint", de: "Impressum" }, fPrivacy: { en: "Privacy policy", de: "Datenschutz" }, fTerms: { en: "Terms", de: "AGB" },
-    fTagline: { en: "All products are designed and produced by ALVARENO themselves", de: "Alle Produkte werden von ALVARENO selbst entwickelt und produziert" }
+    fTagline: { en: " ", de: " " }
   };
   function t(key) { return (S[key] && S[key][lang]) || key; }
   function tp(key, params) {
